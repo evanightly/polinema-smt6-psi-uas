@@ -52,8 +52,6 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Contributors
 
-For any inquiries or support, please contact our contributors:
-
 - [Galur Arasy Lumintang (Programmer)](mailto:adamhenderson3x3@gmail.com)
 -   [M. Ariesta Naeva Arya Dhuta (QA Tester)](mailto:mochamadmunif71@gmail.com)
 -   [Ibnu Tsalis Assalam (System Analyst)](mailto:ibnutsalisassalam@gmail.com)

@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .input {
+        @apply rounded-lg py-6;
+    }
+
+    .btn {
+        @apply rounded-lg py-6 text-base;
+    }
+
+    .btn-primary {
+        @apply bg-primary;
+    }
+}
+
+html {
+    @apply scroll-smooth;
+}
+
+/* Custom scrollbar */
+
+::-webkit-scrollbar {
+    @apply w-2 h-2;
+}
+
+/* &::-webkit-scrollbar-track {
+    background: #f0f0f0;
+} */
+
+::-webkit-scrollbar-thumb {
+    @apply bg-content1 rounded-full w-2;
+}

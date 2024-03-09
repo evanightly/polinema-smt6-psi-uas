@@ -1,6 +1,4 @@
 <script>
-    import UserImage from '../../Assets/Images/user.jpg';
-
     import { Link } from '@inertiajs/svelte';
     import DashboardDarkModeToggler from './DashboardDarkModeToggler.svelte';
     import DashboardNotification from './DashboardNotification.svelte';

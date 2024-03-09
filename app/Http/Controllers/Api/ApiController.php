@@ -19,7 +19,7 @@ class ApiController extends BaseController {
      * @param int $paginate, default 5
      * @return AnonymousResourceCollection
      */
-    public function apiPaginateResponse(string $modelClass, string $resourceClass, $paginate = 5): AnonymousResourceCollection {
+    public function apiPaginateResponse($modelClass,  $resourceClass, $paginate = 5) {
         $modelInstance = app($modelClass);
         if (!class_exists($resourceClass)) {
             throw new InvalidArgumentException("Resource class {$resourceClass} does not exist.");

@@ -30,15 +30,15 @@
 
     .dashboard.sidebar-state:checked ~ .sidebar .menu-item span,
     .dashboard.sidebar-state:checked ~ .sidebar .sidebar-title span {
-        @apply lg:hidden text-center;
+        @apply md:hidden text-center;
     }
 
     .dashboard.sidebar-state:checked ~ .sidebar .menu-title {
-        @apply lg:text-center;
+        @apply md:text-center;
     }
 
     .dashboard.sidebar-state:checked ~ .sidebar .menu-item {
-        @apply lg:justify-center;
+        @apply md:justify-center;
     }
 
     .dashboard.sidebar-state:checked ~ .dashboard.sidebar {

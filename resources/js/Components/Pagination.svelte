@@ -4,8 +4,6 @@
 
     $: links = data.meta?.links ?? 0;
 
-    $: console.log(data);
-
     function isNumber(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
@@ -16,7 +14,10 @@
         {#each links as link}
             {#if link.url}
                 {#if isNumber(link.label)}
-                    <button class="btn {link.active ? 'btn-active' : ''}" on:click={() => handleChangeUrl(link.url)}>
+                    <button
+                        class="btn {link.active ? 'btn-active' : ''}"
+                        on:click={() => handleChangeUrl(link.url)}
+                    >
                         {link.label}
                         <span class="sr-only">
                             Page {link.label}

@@ -3,6 +3,7 @@
     import DashboardLayout from '../../Layouts/DashboardLayout.svelte';
     import Pagination from '../../Components/Pagination.svelte';
     import { derived, writable } from 'svelte/store';
+    import loading from '../../Stores/loadingOverlayStore';
 
     const url = writable(`/api/products?page=1`);
     let productData = {};
@@ -10,8 +11,10 @@
     const fetchData = derived(
         url,
         ($url, set) => {
+            loading.start('Loading...');
             axios.get($url).then(({ data }) => {
                 set(data);
+                loading.stop();
             });
 
             // return () => {
@@ -47,27 +50,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {#if productData.data}
-                        {#each productData.data as product, index (product.id)}
-                            <tr>
-                                <th>{index + productData.firstItem}</th>
-                                <td>{product.name}</td>
-                                <th>
-                                    <img
-                                        src={product.image}
-                                        alt={product.name}
-                                        class="h-24"
-                                    />
-                                </th>
-                                <td>{product.price}</td>
-                                <td>{product.stock}</td>
-                            </tr>
-                        {:else}
-                            <tr>
-                                <td>No Data</td>
-                            </tr>
-                        {/each}
-                    {/if}
+                    {#each productData?.data ?? [] as product, index (product.id)}
+                        <tr>
+                            <th>{index + productData.firstItem}</th>
+                            <td>{product.name}</td>
+                            <th>
+                                <img
+                                    src={product.image}
+                                    alt={product.name}
+                                    class="h-24"
+                                />
+                            </th>
+                            <td>{product.price}</td>
+                            <td>{product.stock}</td>
+                        </tr>
+                    {:else}
+                        <tr>
+                            <td>No Data</td>
+                        </tr>
+                    {/each}
                 </tbody>
             </table>
         </div>

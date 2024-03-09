@@ -19,13 +19,6 @@ class ApiProductController extends ApiController {
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create() {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreProductRequest $request) {
@@ -36,13 +29,6 @@ class ApiProductController extends ApiController {
      * Display the specified resource.
      */
     public function show(Product $product) {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Product $product) {
         //
     }
 

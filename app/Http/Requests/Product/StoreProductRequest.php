@@ -19,7 +19,14 @@ class StoreProductRequest extends FormRequest {
      */
     public function rules(): array {
         return [
-            //
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string', 'max:255'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png', 'max:2048'],
+            'price' => ['required', 'numeric'],
+            'stock' => ['required', 'numeric'],
+            'restock_threshold' => ['required', 'numeric'],
+            'min_stock' => ['required', 'numeric'],
+            'max_stock' => ['required', 'numeric'],
         ];
     }
 }

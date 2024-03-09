@@ -19,7 +19,7 @@
             <i class="ri-restaurant-fill"></i>
             <span>E-Canteen</span>
         </div>
-        <div class="absolute top-1/2 right-[-7%] -translate-y-1/2">
+        <div class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2">
             <label
                 for="sidebar-mobile-fixed"
                 class="btn btn-primary btn-circle font-bold"

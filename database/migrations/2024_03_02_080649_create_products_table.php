@@ -17,6 +17,8 @@ return new class extends Migration {
             $table->string('price');
             $table->string('stock');
             $table->string('restock_threshold');
+            $table->string('min_stock');
+            $table->string('max_stock');
             $table->timestamps();
         });
     }

@@ -1,10 +1,16 @@
 <script>
-    import DashboardSidebar from "../Components/DashboardSidebar.svelte";
+    import DashboardNavbar from "./Partials/DashboardNavbar.svelte";
+    import DashboardSidebar from "./Partials/DashboardSidebar.svelte";
 </script>
 
-<div class="flex bg-red-400 w-screen max-h-screen">
+<div class="flex w-screen max-h-screen">
     <DashboardSidebar />
-    <div class="flex flex-1 overflow-y-auto">
-        <slot />
+    <div class="flex flex-1 flex-col">
+        <DashboardNavbar />
+        <div class="overflow-y-auto">
+            <div class="px-12">
+                <slot />
+            </div>
+        </div>
     </div>
 </div>

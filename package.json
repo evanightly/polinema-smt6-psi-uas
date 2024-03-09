@@ -16,9 +16,11 @@
     "dependencies": {
         "@inertiajs/svelte": "^1.0.15",
         "@sveltejs/vite-plugin-svelte": "^3.0.2",
+        "jquery": "^3.7.1",
         "remixicon": "^4.2.0",
         "rippleui": "^1.12.1",
         "spinkit": "^2.0.1",
-        "svelte": "^4.2.12"
+        "svelte": "^4.2.12",
+        "svelte-persisted-store": "^0.9.1"
     }
 }

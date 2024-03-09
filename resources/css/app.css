@@ -8,11 +8,11 @@
     }
 
     .btn {
-        @apply rounded-lg py-6 text-base;
+        @apply rounded-lg;
     }
 
     .btn-primary {
-        @apply bg-primary;
+        @apply bg-primary text-black;
     }
 
     /* Might buggy */

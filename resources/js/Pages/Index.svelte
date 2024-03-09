@@ -3,5 +3,5 @@
 </script>
 
 <DashboardLayout>
-    <div class="h-[1000rem]">okok</div>
+    <div class="h-[1000rem]">Dashboard</div>
 </DashboardLayout>

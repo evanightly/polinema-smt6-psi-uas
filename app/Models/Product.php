@@ -15,6 +15,8 @@ class Product extends Model {
         'price',
         'stock',
         'restock_threshold',
+        'min_stock',
+        'max_stock'
     ];
 
     public function transactions() {

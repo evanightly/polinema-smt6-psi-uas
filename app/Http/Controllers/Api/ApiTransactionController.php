@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\Product;
-use App\Http\Requests\Product\StoreProductRequest;
-use App\Http\Requests\Product\UpdateProductRequest;
+use App\Models\Transaction;
+use App\Http\Requests\Transaction\StoreTransactionRequest;
+use App\Http\Requests\Transaction\UpdateTransactionRequest;
 
-class ProductController extends Controller {
+class ApiTransactionController extends ApiController {
     /**
      * Display a listing of the resource.
      */
@@ -24,35 +24,35 @@ class ProductController extends Controller {
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductRequest $request) {
+    public function store(StoreTransactionRequest $request) {
         //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Product $product) {
+    public function show(Transaction $transaction) {
         //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product) {
+    public function edit(Transaction $transaction) {
         //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductRequest $request, Product $product) {
+    public function update(UpdateTransactionRequest $request, Transaction $transaction) {
         //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product) {
+    public function destroy(Transaction $transaction) {
         //
     }
 }

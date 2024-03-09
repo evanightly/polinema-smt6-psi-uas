@@ -1,10 +1,12 @@
 <script>
+    let isSidebarMobileFixed = false;
 </script>
 
 <input
     type="checkbox"
     id="sidebar-mobile-fixed"
     class="dashboard sidebar-state"
+    bind:checked={isSidebarMobileFixed}
 />
 <!-- <aside
     class="dashboard sidebar sidebar-fixed-left sidebar-mobile h-full justify-start max-sm:fixed max-sm:-translate-x-full"
@@ -20,14 +22,18 @@
         <div class="absolute top-1/2 right-[-7%] -translate-y-1/2">
             <label
                 for="sidebar-mobile-fixed"
-                class="btn btn-primary btn-circle text-content1 font-bold"
+                class="btn btn-primary btn-circle font-bold"
             >
-                <i class="ri-arrow-right-s-line"></i>
+                {#if isSidebarMobileFixed}
+                    <i class="ri-arrow-right-s-line"></i>
+                {:else}
+                    <i class="ri-arrow-left-s-line"></i>
+                {/if}
             </label>
         </div>
     </section>
-    <section class="sidebar-content">
-        <nav class="menu rounded-md h-full">
+    <section class="sidebar-content flex flex-1">
+        <nav class="menu flex-1 rounded-md justify-between">
             <section class="menu-section px-4">
                 <span class="menu-title">Main menu</span>
                 <ul class="menu-items">
@@ -35,8 +41,6 @@
                         <i class="ri-home-4-line"></i>
                         <span>Dashboard</span>
                     </li>
-
-                    <!-- staff, supplier, product, transactions (no dropdown) -->
                     <li class="menu-item">
                         <i class="ri-user-line"></i>
                         <span>Staff</span>
@@ -58,7 +62,6 @@
             <div class="divider mt-auto"></div>
             <section class="menu-section px-4">
                 <span class="menu-title">Settings</span>
-                <!-- menu: profile and settings (no dropdowns) -->
                 <ul class="menu-items">
                     <li class="menu-item">
                         <i class="ri-user-line"></i>

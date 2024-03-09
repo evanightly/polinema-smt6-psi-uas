@@ -18,6 +18,8 @@ Route::inertia('/', 'Index');
 
 Route::inertia('/login', 'Login');
 
+Route::inertia('/product', 'Product/Index');
+
 Route::get('/hello', function () {
     return ('WOY');
 });

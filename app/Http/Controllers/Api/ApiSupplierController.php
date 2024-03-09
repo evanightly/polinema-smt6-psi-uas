@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Supplier;
 use App\Http\Requests\Supplier\StoreSupplierRequest;
 use App\Http\Requests\Supplier\UpdateSupplierRequest;
 
-class SupplierController extends Controller {
+class ApiSupplierController extends ApiController {
     /**
      * Display a listing of the resource.
      */

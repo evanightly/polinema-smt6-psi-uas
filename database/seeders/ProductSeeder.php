@@ -13,10 +13,5 @@ class ProductSeeder extends Seeder {
      */
     public function run(): void {
         Product::factory(10)->create();
-
-        $products = Product::all();
-        $products->each(function ($product) {
-            $product->suppliers()->attach(rand(1, 3));
-        });
     }
 }

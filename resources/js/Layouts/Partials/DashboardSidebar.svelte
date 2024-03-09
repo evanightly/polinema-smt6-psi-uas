@@ -1,4 +1,6 @@
 <script>
+    import { Link } from '@inertiajs/svelte';
+
     let isSidebarMobileFixed = false;
 </script>
 
@@ -37,26 +39,26 @@
             <section class="menu-section px-4">
                 <span class="menu-title">Main menu</span>
                 <ul class="menu-items">
-                    <li class="menu-item">
+                    <Link href="/" class="menu-item">
                         <i class="ri-home-4-line"></i>
                         <span>Dashboard</span>
-                    </li>
-                    <li class="menu-item">
-                        <i class="ri-user-line"></i>
+                    </Link>
+                    <Link href="/staffs" class="menu-item">
+                        <i class="ri-user-2-line"></i>
                         <span>Staff</span>
-                    </li>
-                    <li class="menu-item">
+                    </Link>
+                    <Link href="/suppliers" class="menu-item">
                         <i class="ri-truck-line"></i>
                         <span>Suppliers</span>
-                    </li>
-                    <li class="menu-item">
+                    </Link>
+                    <Link href="/products" class="menu-item">
                         <i class="ri-archive-2-line"></i>
                         <span>Products</span>
-                    </li>
-                    <li class="menu-item">
+                    </Link>
+                    <Link href="/transactions" class="menu-item">
                         <i class="ri-shake-hands-line"></i>
                         <span>Transactions</span>
-                    </li>
+                    </Link>
                 </ul>
             </section>
             <div class="divider mt-auto"></div>

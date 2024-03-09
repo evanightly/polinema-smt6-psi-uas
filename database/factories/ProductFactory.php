@@ -15,14 +15,15 @@ class ProductFactory extends Factory {
      */
     public function definition(): array {
         return [
-            'name' => $this->faker->firstNameFemale(),
-            'description' => $this->faker->text(200),
+            'name' => $this->faker->name(),
+            'description' => $this->faker->text(),
             'image' => $this->faker->imageUrl(),
-            'price' => $this->faker->randomFloat(2, 10, 1000),
+            'price' => $this->faker->randomFloat(2, 1, 100),
             'stock' => $this->faker->randomNumber(2),
-            'restock_threshold' => '50', // this is a string of a percentage
+            'restock_threshold' => $this->faker->randomNumber(2),
             'min_stock' => $this->faker->randomNumber(2),
             'max_stock' => $this->faker->randomNumber(2),
+            'supplier_id' => $this->faker->numberBetween(1, 10)
         ];
     }
 }

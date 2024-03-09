@@ -2,7 +2,14 @@
     import MainLayout from './MainLayout.svelte';
     import DashboardNavbar from './Partials/DashboardNavbar.svelte';
     import DashboardSidebar from './Partials/DashboardSidebar.svelte';
+
+    export let title = 'Dashboard';
 </script>
+
+<svelte:head>
+    <title>{title} - E-Canteen</title>
+    <meta name="description" content="Dashboard" />
+</svelte:head>
 
 <MainLayout>
     <div class="flex w-screen max-h-screen">

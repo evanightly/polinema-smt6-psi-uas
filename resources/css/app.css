@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 @layer components {
-    .input {
-        @apply rounded-lg py-6;
-    }
-
-    .btn {
+    .input,
+    .select,
+    .btn,
+    .input-file,
+    .textarea {
         @apply rounded-lg;
     }
 

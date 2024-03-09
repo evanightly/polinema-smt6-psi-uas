@@ -16,14 +16,15 @@ class Product extends Model {
         'stock',
         'restock_threshold',
         'min_stock',
-        'max_stock'
+        'max_stock',
+        'supplier_id'
     ];
 
     public function transactions() {
         return $this->belongsToMany(Transaction::class)->withPivot('quantity');
     }
 
-    public function suppliers() {
-        return $this->belongsToMany(Supplier::class);
+    public function supplier() {
+        return $this->belongsTo(Supplier::class);
     }
 }

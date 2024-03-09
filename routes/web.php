@@ -18,7 +18,9 @@ Route::inertia('/', 'Index');
 
 Route::inertia('/login', 'Login');
 
-Route::inertia('/product', 'Product/Index');
+Route::inertia('/products', 'Product/Index');
+
+Route::inertia('/products/create', 'Product/Create');
 
 Route::get('/hello', function () {
     return ('WOY');

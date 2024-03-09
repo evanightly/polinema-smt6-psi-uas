@@ -19,9 +19,10 @@ class ProductResource extends JsonResource {
             'image' => $this->image,
             'price' => $this->price,
             'stock' => $this->stock,
-            'restock_threshold' => $this->restock,
+            'restock_threshold' => $this->restock_threshold,
             'min_stock' => $this->min_stock,
             'max_stock' => $this->max_stock,
+            'supplier' => new SupplierResource($this->whenLoaded('supplier')),
         ];
     }
 }

@@ -12,7 +12,7 @@ class ApiProductController extends ApiController {
      * Display a listing of the resource.
      */
     public function index() {
-        return $this->apiPaginateResponse(Product::class, ProductResource::class);
+        return $this->apiPaginateResponse(Product::with('supplier'), ProductResource::class);
         // $products = Product::paginate(5);
         // return $products->withQueryString()->links();
         // return ProductResource::collection($products);

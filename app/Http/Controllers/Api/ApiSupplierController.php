@@ -5,13 +5,25 @@ namespace App\Http\Controllers\Api;
 use App\Models\Supplier;
 use App\Http\Requests\Supplier\StoreSupplierRequest;
 use App\Http\Requests\Supplier\UpdateSupplierRequest;
+use App\Http\Resources\SupplierResource;
+use Illuminate\Http\Request;
 
 class ApiSupplierController extends ApiController {
     /**
      * Display a listing of the resource.
      */
-    public function index() {
-        //
+    public function index(Request $request) {
+        $query = Supplier::query();
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $query->where('name', 'like', '%' . $search . '%')
+                ->orWhere('address', 'like', '%' . $search . '%')
+                ->orWhere('email', 'like', '%' . $search . '%')
+                ->orWhere('phone', 'like', '%' . $search . '%')
+                ->orWhere('note', 'like', '%' . $search . '%');
+        }
+
+        return $this->apiPaginateResponse($query, SupplierResource::class);
     }
 
     /**

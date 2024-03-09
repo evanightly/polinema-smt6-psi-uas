@@ -1,42 +1,51 @@
 <script>
-    import axios from 'axios';
+    import { createFetchDataStore } from '../../Stores/fetchDataStore';
     import DashboardLayout from '../../Layouts/DashboardLayout.svelte';
     import Pagination from '../../Components/Pagination.svelte';
-    import { derived, writable } from 'svelte/store';
-    import loading from '../../Stores/loadingOverlayStore';
+    import { Link } from '@inertiajs/svelte';
 
-    const url = writable(`/api/products?page=1`);
+    let productDataStore = createFetchDataStore(`/api/products?page=1`);
     let productData = {};
 
-    const fetchData = derived(
-        url,
-        ($url, set) => {
-            loading.start('Loading...');
-            axios.get($url).then(({ data }) => {
-                set(data);
-                loading.stop();
-            });
+    $: productData = $productDataStore;
 
-            // return () => {
-            //     // Cancel any pending fetches as the component is unmounting
-            //     // (or navigating to a new page)
-            //     axios.cancel();
-            // };
-        },
-        {},
-    );
-
-    $: productData = $fetchData;
-
-    const handleChangeUrl = newUrl => {
-        url.set(newUrl);
-    };
+    const handleChangeUrl = newUrl => productDataStore.setUrl(newUrl);
 </script>
 
-<DashboardLayout>
+<DashboardLayout title="Products">
     <div class="flex flex-col gap-5 mt-5">
         <div class="flex justify-between">
-            <button class="btn btn-primary">Add Product</button>
+            <Link href="/products/create" class="btn btn-primary gap-2">
+                <i class="ri-add-large-line"></i>
+                <span>Add Product</span>
+            </Link>
+
+            <div class="flex gap-3 items-center">
+                <div class="relative">
+                    <input
+                        type="text"
+                        class="input input-bordered"
+                        placeholder="Search"
+                    />
+                    <div class="absolute top-1/2 right-3 -translate-y-1/2">
+                        <i class="ri-search-line"></i>
+                    </div>
+                </div>
+
+                <button class="btn btn-outline gap-2">
+                    <i class="ri-sort-desc"></i>
+                    <span> Sort </span>
+                </button>
+
+                <button class="btn btn-outline gap-2">
+                    <i class="ri-equalizer-2-line"></i>
+                    <span> Filter </span>
+                </button>
+
+                <button class="btn btn-outline gap-2">
+                    <i class="ri-table-view"></i>
+                </button>
+            </div>
         </div>
         <div class="flex w-full overflow-x-auto">
             <table class="table-hover table">
@@ -47,6 +56,10 @@
                         <th>Image</th>
                         <th>Price (Rp)</th>
                         <th>Stock</th>
+                        <th>Restock Threshold (%)</th>
+                        <th>Min Stock</th>
+                        <th>Max Stock</th>
+                        <th>Supplier</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,6 +76,10 @@
                             </th>
                             <td>{product.price}</td>
                             <td>{product.stock}</td>
+                            <td>{product.restock_threshold}</td>
+                            <td>{product.min_stock}</td>
+                            <td>{product.max_stock}</td>
+                            <td>{product.supplier.name}</td>
                         </tr>
                     {:else}
                         <tr>

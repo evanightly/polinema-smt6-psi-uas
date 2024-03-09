@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -14,18 +15,17 @@ class ApiController extends BaseController {
     /**
      * Custom paginate response designed to work with api resources.
      *
-     * @param string $modelClass
+     * @param Builder $modelClass
      * @param string $resourceClass
      * @param int $paginate, default 5
      * @return AnonymousResourceCollection
      */
-    public function apiPaginateResponse($modelClass,  $resourceClass, $paginate = 5) {
-        $modelInstance = app($modelClass);
+    public function apiPaginateResponse($model, $resourceClass, $paginate = 5) {
         if (!class_exists($resourceClass)) {
             throw new InvalidArgumentException("Resource class {$resourceClass} does not exist.");
         }
 
-        $items = $modelInstance->paginate($paginate);
+        $items = $model->paginate($paginate);
 
         return $resourceClass::collection($items)->additional([
             'firstItem' => $items->firstItem(),

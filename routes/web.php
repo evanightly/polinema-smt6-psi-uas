@@ -14,7 +14,7 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', fn () => 'Catalog Page/Landing Page');
+Route::inertia('/', 'Index');
 
 Route::inertia('/login', 'Login');
 

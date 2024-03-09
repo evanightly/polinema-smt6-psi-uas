@@ -4,10 +4,10 @@ export default {
     theme: {
         extend: {
             colors: {
-                primary: "#004181",
-                secondary: "#D04848",
-                tertiary: "#E8630A",
-                quaternary: "#FCD900",
+                primary: "#FCD900",
+                secondary: "#E8630A",
+                tertiary: "#D04848",
+                quaternary: "#004181",
             },
             fontFamily: {
                 sans: ["Lato"],

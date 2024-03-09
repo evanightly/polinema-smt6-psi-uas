@@ -14,6 +14,36 @@
     .btn-primary {
         @apply bg-primary;
     }
+
+    /* Might buggy */
+    .btn.btn-circle {
+        @apply rounded-full p-0;
+    }
+
+    .sidebar {
+        @apply transition-all duration-500 ease-in-out;
+    }
+
+    .menu-item {
+        @apply text-base;
+    }
+
+    .dashboard.sidebar-state:checked ~ .sidebar .menu-item span,
+    .dashboard.sidebar-state:checked ~ .sidebar .sidebar-title span {
+        @apply lg:hidden text-center;
+    }
+
+    .dashboard.sidebar-state:checked ~ .sidebar .menu-title {
+        @apply lg:text-center;
+    }
+
+    .dashboard.sidebar-state:checked ~ .sidebar .menu-item {
+        @apply lg:justify-center;
+    }
+
+    .dashboard.sidebar-state:checked ~ .dashboard.sidebar {
+        @apply w-fit;
+    }
 }
 
 html {

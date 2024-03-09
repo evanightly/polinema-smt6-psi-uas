@@ -12,7 +12,7 @@ class ApiProductController extends ApiController {
      * Display a listing of the resource.
      */
     public function index() {
-        return $this->apiPaginateResponse(Product::with('supplier'), ProductResource::class);
+        return $this->apiPaginateResponse(Product::with('supplier')->latest(), ProductResource::class);
         // $products = Product::paginate(5);
         // return $products->withQueryString()->links();
         // return ProductResource::collection($products);
@@ -22,7 +22,13 @@ class ApiProductController extends ApiController {
      * Store a newly created resource in storage.
      */
     public function store(StoreProductRequest $request) {
-        //
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images/products', 'public');
+            $request->merge(['image_path' => $imagePath]);
+        }
+
+        return new ProductResource(Product::create($request->all()));
     }
 
     /**

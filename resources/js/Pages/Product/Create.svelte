@@ -70,7 +70,7 @@
 <DashboardLayout title="Add Product">
     <div class="flex flex-col gap-5 mt-5">
         <form on:submit|preventDefault={handleSubmit}>
-            <div class="divider">Product Information</div>
+            <div class="divider my-5">Product Information</div>
 
             <div class="form-group">
                 <div class="form-field">
@@ -106,47 +106,15 @@
                         <label class="label" for="image">Product Image</label>
                         <input
                             type="file"
-                            class="input-file w-full"
+                            class="input-file max-w-full"
                             id="image"
                             on:change={handleFileChange}
                         />
                     </div>
-                    <div class="form-group flex flex-1">
-                        <label class="label" for="supplier">Supplier</label>
-                        <div
-                            class="flex flex-col w-fit rounded-lg border-2 border-gray-6"
-                        >
-                            <input
-                                type="text"
-                                class="input border-none border-b"
-                                placeholder="Search Supplier"
-                                bind:value={searchSupplier}
-                            />
-
-                            <div class="divider">
-                                <span>
-                                    Found: {supplierTotal} (Showed: {showedSupplierTotal})
-                                </span>
-                            </div>
-
-                            <select
-                                class="select border-none"
-                                id="supplier"
-                                bind:value={newProductData.supplier_id}
-                                required
-                            >
-                                {#each supplierData?.data ?? [] as supplier (supplier.id)}
-                                    <option value={supplier.id}>
-                                        {supplier.name}
-                                    </option>
-                                {/each}
-                            </select>
-                        </div>
-                    </div>
                 </div>
             </div>
 
-            <div class="divider">Stock Management</div>
+            <div class="divider my-5">Stock Management</div>
 
             <div class="form-group grid grid-cols-1 lg:grid-cols-2">
                 <div class="form-field">
@@ -172,7 +140,19 @@
                     />
                 </div>
                 <div class="form-field">
-                    <label class="label" for="min_stock">Min Stock</label>
+                    <label class="label" for="min_stock">
+                        Min Stock
+
+                        <span
+                            class="tooltip tooltip-right"
+                            data-tooltip="This will take precedence over restock threshold"
+                        >
+                            <button type="button">
+                                <i class="ri-question-mark"></i>
+                            </button>
+                        </span>
+                    </label>
+
                     <input
                         type="number"
                         class="input input-bordered input-block"
@@ -190,6 +170,39 @@
                         bind:value={newProductData.max_stock}
                         required
                     />
+                </div>
+            </div>
+
+            <div class="divider my-5">Supplier</div>
+
+            <div class="form-group flex flex-1">
+                <label class="label" for="supplier">Supplier</label>
+                <div class="flex flex-col rounded-lg border-2 border-gray-6">
+                    <input
+                        type="text"
+                        class="input input-block border-none border-b"
+                        placeholder="Search Supplier"
+                        bind:value={searchSupplier}
+                    />
+
+                    <div class="divider">
+                        <span>
+                            Found: {supplierTotal} (Showed: {showedSupplierTotal})
+                        </span>
+                    </div>
+
+                    <select
+                        class="select select-block border-none"
+                        id="supplier"
+                        bind:value={newProductData.supplier_id}
+                        required
+                    >
+                        {#each supplierData?.data ?? [] as supplier (supplier.id)}
+                            <option value={supplier.id}>
+                                {supplier.name}
+                            </option>
+                        {/each}
+                    </select>
                 </div>
             </div>
 

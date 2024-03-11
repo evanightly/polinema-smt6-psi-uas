@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +18,7 @@ Route::inertia('/', 'Index');
 
 Route::inertia('/login', 'Login');
 
-Route::inertia('/products', 'Product/Index');
-
-Route::inertia('/products/create', 'Product/Create');
+Route::resource('products', ProductController::class);
 
 Route::get('/hello', function () {
     return ('WOY');

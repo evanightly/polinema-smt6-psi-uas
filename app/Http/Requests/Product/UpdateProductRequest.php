@@ -21,12 +21,13 @@ class UpdateProductRequest extends FormRequest {
         return [
             'name' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string', 'max:255'],
-            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg'],
             'price' => ['required', 'numeric'],
             'stock' => ['required', 'numeric'],
             'restock_threshold' => ['required', 'numeric'],
             'min_stock' => ['required', 'numeric'],
             'max_stock' => ['required', 'numeric'],
+            'supplier_id' => ['required', 'numeric'],
         ];
     }
 }

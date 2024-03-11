@@ -23,6 +23,8 @@ class ProductResource extends JsonResource {
             'min_stock' => $this->min_stock,
             'max_stock' => $this->max_stock,
             'supplier' => new SupplierResource($this->whenLoaded('supplier')),
+            'transactions' => TransactionResource::collection($this->whenLoaded('transactions')),
+            'isRemovable' => $this->canBeDeleted(),
         ];
     }
 }

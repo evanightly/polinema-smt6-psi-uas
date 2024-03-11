@@ -7,16 +7,18 @@
     function isNumber(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
+
+    $: console.log(links);
 </script>
 
 <div class="pagination pagination-rounded w-full max-w-xs overflow-auto">
     {#if links}
-        {#each links as link}
+        {#each links ?? [] as link}
             {#if link.url}
                 {#if isNumber(link.label)}
                     <button
                         class="btn {link.active ? 'btn-active' : ''}"
-                        on:click={() => handleChangeUrl(link.url)}
+                        on:click={() => handleChangeUrl(link.label)}
                     >
                         {link.label}
                         <span class="sr-only">

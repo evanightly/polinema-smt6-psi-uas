@@ -17,7 +17,7 @@
         <div class="flex flex-1 flex-col">
             <DashboardNavbar />
             <div class="overflow-y-auto">
-                <div class="px-12">
+                <div class="px-12 py-6">
                     <slot />
                 </div>
             </div>

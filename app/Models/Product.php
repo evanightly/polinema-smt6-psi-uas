@@ -35,4 +35,8 @@ class Product extends Model {
         }
         return $this->image_path ? asset('storage/' . $this->image_path) : null;
     }
+
+    public function canBeDeleted() {
+        return $this->transactions()->doesntExist();
+    }
 }

@@ -5,6 +5,7 @@
     import DashboardLayout from '../../Layouts/DashboardLayout.svelte';
     import loading from '../../Stores/loadingOverlayStore';
     import { router } from '@inertiajs/svelte';
+    import { showConfirmDialog, showSuccessDialog } from '../../Helpers/showDialog';
 
     let imageFile;
     let supplierData = {};
@@ -44,48 +45,39 @@
     let newProductData = defaultNewProductData;
 
     async function handleSubmit() {
-        loading.start('Saving product');
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, save it!',
-            showLoaderOnConfirm: true,
-            preConfirm: async () => {
-                const formData = new FormData();
-                Object.entries(newProductData).forEach(([key, value]) => {
-                    formData.append(key, value);
-                });
-                if (imageFile) {
-                    formData.append('image', imageFile);
-                }
+        const result = await showConfirmDialog('Are you sure?', "You won't be able to revert this!");
 
-                await axios.post('/api/products', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                    onUploadProgress: progressEvent => {
-                        console.log(progressEvent);
-                    },
-                });
-            },
-            allowOutsideClick: () => !Swal.isLoading(),
-        }).then(async result => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: 'Saved!',
-                    text: 'Your product has been saved.',
-                    icon: 'success',
-                });
+        console.log(result);
 
-                loading.stop();
+        if (result.isConfirmed) {
+            loading.start('Saving product');
 
-                router.visit('/products');
+            const formData = new FormData();
+            Object.entries(newProductData).forEach(([key, value]) => {
+                formData.append(key, value);
+            });
+            if (imageFile) {
+                formData.append('image', imageFile);
             }
-        });
+
+            const url = '/api/products';
+            const options = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                // onUploadProgress: progressEvent => {
+                //     console.log(progressEvent);
+                // },
+            };
+
+            await axios.post(url, formData, options);
+
+            loading.stop();
+
+            showSuccessDialog('Product has been added');
+
+            router.visit('/products');
+        }
     }
 </script>
 
@@ -227,7 +219,7 @@
                 </div>
             </div>
 
-            <button class="btn btn-primary w-fit">Add Product</button>
+            <button type="submit" class="btn btn-primary w-fit">Add Product</button>
         </form>
     </div>
 </DashboardLayout>

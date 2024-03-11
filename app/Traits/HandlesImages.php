@@ -32,7 +32,7 @@ trait HandlesImages {
      *
      * @param string $imagePath The path of the image to be deleted, relative to 'public/storage'.
      */
-    protected function handleImageDeletion(string $imagePath): void {
+    protected function handleImageDeletion(?string $imagePath): void {
         if ($imagePath) {
             $this->storage->delete('public/' . $imagePath);
         }

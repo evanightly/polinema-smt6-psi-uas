@@ -15,6 +15,14 @@
         @apply bg-primary text-black;
     }
 
+    .btn-edit {
+        @apply bg-edit text-white;
+    }
+
+    .btn-delete {
+        @apply bg-delete text-white;
+    }
+
     /* Might buggy */
     .btn.btn-circle {
         @apply rounded-full p-0;
@@ -43,6 +51,10 @@
 
     .dashboard.sidebar-state:checked ~ .dashboard.sidebar {
         @apply w-fit;
+    }
+
+    .card {
+        @apply max-w-80;
     }
 }
 

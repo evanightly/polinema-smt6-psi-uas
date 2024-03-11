@@ -3,6 +3,8 @@
     import { debounce } from 'lodash';
     import axios from 'axios';
     import DashboardLayout from '../../Layouts/DashboardLayout.svelte';
+    import loading from '../../Stores/loadingOverlayStore';
+    import { router } from '@inertiajs/svelte';
 
     let imageFile;
     let supplierData = {};
@@ -15,9 +17,7 @@
     }
 
     async function fetchSuppliers() {
-        const { data: response } = await axios.get(
-            `/api/suppliers?search=${searchSupplier}`,
-        );
+        const { data: response } = await axios.get(`/api/suppliers?search=${searchSupplier}`);
         supplierData = response;
     }
 
@@ -44,6 +44,7 @@
     let newProductData = defaultNewProductData;
 
     async function handleSubmit() {
+        loading.start('Saving product');
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -79,6 +80,10 @@
                     text: 'Your product has been saved.',
                     icon: 'success',
                 });
+
+                loading.stop();
+
+                router.visit('/products');
             }
         });
     }
@@ -86,13 +91,8 @@
 
 <DashboardLayout title="Add Product">
     <div class="flex flex-col gap-5">
-        <form
-            on:submit|preventDefault={handleSubmit}
-            class="flex flex-col gap-5"
-        >
-            <div
-                class="rounded-lg bg-backgroundSecondary p-8 gap-5 flex flex-col"
-            >
+        <form on:submit|preventDefault={handleSubmit} class="flex flex-col gap-5">
+            <div class="rounded-lg bg-backgroundSecondary p-8 gap-5 flex flex-col">
                 <div class="text-xl">Product Information</div>
 
                 <div class="form-group">
@@ -117,9 +117,7 @@
                         />
                     </div>
                     <div class="form-field">
-                        <label class="label" for="description"
-                            >Description</label
-                        >
+                        <label class="label" for="description">Description</label>
                         <textarea
                             class="textarea textarea-bordered textarea-block"
                             id="description"
@@ -128,23 +126,14 @@
                     </div>
                     <div class="flex flex-col sm:flex-row gap-5">
                         <div class="form-field flex flex-1">
-                            <label class="label" for="image"
-                                >Product Image</label
-                            >
-                            <input
-                                type="file"
-                                class="input-file max-w-full"
-                                id="image"
-                                on:change={handleFileChange}
-                            />
+                            <label class="label" for="image">Product Image</label>
+                            <input type="file" class="input-file max-w-full" id="image" on:change={handleFileChange} />
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div
-                class="rounded-lg bg-backgroundSecondary p-8 gap-5 flex flex-col"
-            >
+            <div class="rounded-lg bg-backgroundSecondary p-8 gap-5 flex flex-col">
                 <div class="text-xl">Stock Management</div>
 
                 <div class="form-group grid grid-cols-1 lg:grid-cols-2">
@@ -159,9 +148,7 @@
                         />
                     </div>
                     <div class="form-field">
-                        <label class="label" for="restock_threshold">
-                            Restock Threshold (%)
-                        </label>
+                        <label class="label" for="restock_threshold"> Restock Threshold (%) </label>
                         <input
                             type="number"
                             class="input input-bordered input-block"
@@ -205,16 +192,12 @@
                 </div>
             </div>
 
-            <div
-                class="rounded-lg bg-backgroundSecondary p-8 gap-5 flex flex-col"
-            >
+            <div class="rounded-lg bg-backgroundSecondary p-8 gap-5 flex flex-col">
                 <div class="text-xl">Supplier</div>
 
                 <div class="form-group flex flex-1">
                     <label class="label" for="supplier">Supplier</label>
-                    <div
-                        class="flex flex-col rounded-lg border-2 border-gray-6"
-                    >
+                    <div class="flex flex-col rounded-lg border-2 border-gray-6">
                         <input
                             type="text"
                             class="input input-block border-none border-b"

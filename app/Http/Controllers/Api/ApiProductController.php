@@ -6,31 +6,31 @@ use App\Models\Product;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
+use App\Repositories\ProductRepository;
+use App\Services\ProductService;
 
 class ApiProductController extends ApiController {
-    /**
-     * Display a listing of the resource.
-     */
+
+    private $productService;
+    private $productRepository;
+
+    public function __construct(ProductService $productService, ProductRepository $productRepository) {
+        $this->productService = $productService;
+        $this->productRepository = $productRepository;
+    }
+
     public function index() {
-        return $this->apiPaginateResponse(Product::with(['supplier', 'transactions'])->latest(), ProductResource::class);
-        // $products = Product::paginate(5);
-        // return $products->withQueryString()->links();
-        // return ProductResource::collection($products);
+        $options = request()->query('options', []);
+        $products = $this->productRepository->get($options);
+        return $this->apiPaginateResponse($products, ProductResource::class);
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreProductRequest $request) {
-
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images/products', 'public');
-            $request->merge(['image_path' => $imagePath]);
-        }
-
-        return new ProductResource(Product::create($request->all()));
+        $product = $this->productService->createProduct($request->validated(), $request->file('image'));
+        return new ProductResource($product);
     }
 
     /**
@@ -44,29 +44,15 @@ class ApiProductController extends ApiController {
      * Update the specified resource in storage.
      */
     public function update(UpdateProductRequest $request, Product $product) {
-        // check the image first, if it exists, delete it from storage, then store it again
-        if ($request->hasFile('image')) {
-            if ($product->image_path) {
-                Storage::disk('local')->delete('public/' . $product->image_path);
-            }
-            $imagePath = $request->file('image')->store('images/products', 'public');
-            $request->merge(['image_path' => $imagePath]);
-        }
-        $product->update($request->all());
-        return new ProductResource($product->load(['supplier', 'transactions']));
+        $product = $this->productService->updateProduct($product, $request->validated(), $request->file('image'));
+        return new ProductResource($product);
     }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Product $product) {
-        if (!$product->canBeDeleted()) {
-            return response()->json(['message' => 'Product cannot be deleted because it has transactions.'], 400);
-        }
-        if ($product->image_path) {
-            Storage::disk('local')->delete('public/' . $product->image_path);
-        }
-        Product::destroy($product->id);
+        $this->productService->deleteProduct($product);
         return response()->noContent();
     }
 }

@@ -2,7 +2,7 @@ import { derived, writable } from 'svelte/store';
 import axios from 'axios';
 import loading from './loadingOverlayStore';
 
-export function createFetchDataStore(initialUrl) {
+export function fetchDataStore(initialUrl) {
     const url = writable(initialUrl);
 
     const fetchData = async url => {

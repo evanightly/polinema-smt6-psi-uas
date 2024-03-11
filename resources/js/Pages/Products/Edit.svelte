@@ -5,6 +5,7 @@
     import DashboardLayout from '../../Layouts/DashboardLayout.svelte';
     import formDataLogger from '../../Helpers/formDataLogger';
     import { router } from '@inertiajs/svelte';
+    import loading from '../../Stores/loadingOverlayStore';
 
     export let product;
     console.log(product);
@@ -64,6 +65,7 @@
     async function handleSubmit() {
         const result = await showConfirmation();
         if (result.isConfirmed) {
+            loading.start('Updating product');
             const formData = new FormData();
 
             Object.entries(newProductData).forEach(([key, value]) => {
@@ -92,6 +94,7 @@
                     confirmButtonColor: '#3085d6',
                     confirmButtonText: 'Okay',
                 });
+                loading.stop();
                 router.visit('/products');
             }
         }

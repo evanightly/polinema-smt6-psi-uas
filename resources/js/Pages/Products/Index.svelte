@@ -1,15 +1,44 @@
 <script>
     import DashboardLayout from '../../Layouts/DashboardLayout.svelte';
-    import { Link, inertia } from '@inertiajs/svelte';
+    import Pagination from '../../Components/Pagination.svelte';
+    import DataViewProductCards from './DataViewModes/DataViewProductCards.svelte';
+    import DataViewProductTable from './DataViewModes/DataViewProductTable.svelte';
+
     import loading from '../../Stores/loadingOverlayStore';
+    import { toggleViewMode, dataViewMode } from '../../Stores/dataViewModeStore';
+
+    import { Link } from '@inertiajs/svelte';
     import { debounce } from 'lodash';
-    let filters = {};
+    import {
+        showConfirmDialog,
+        showErrorDialog,
+        showSuccessDialog,
+        showDeclinedDialog,
+    } from '../../Helpers/showDialog';
+
+    const DEBOUNCE_TIME = 300;
+    const DEFAULT_FILTERS = {
+        options: {
+            filters: {
+                search: '',
+            },
+            sortBy: 'updated_at',
+            sortDirection: 'desc',
+        },
+        page: 1,
+    };
+    const SORT_OPTIONS = {
+        sortBy: 'updated_at',
+        sortDirection: 'desc',
+    };
+
+    let filters = { ...DEFAULT_FILTERS };
     let page = 1;
     let productData;
     let previousSearch = '';
     let search = '';
-    import { toggleViewMode, dataViewMode } from '../../Stores/dataViewModeStore';
-    const debouncedFetchProducts = debounce(fetchProducts, 300);
+
+    const debouncedFetchProducts = debounce(fetchProducts, DEBOUNCE_TIME);
 
     $: {
         if (search && search !== previousSearch) {
@@ -23,9 +52,7 @@
                 filters: {
                     search,
                 },
-                // Hardcoded for now
-                sortBy: 'updated_at',
-                sortDirection: 'desc',
+                ...SORT_OPTIONS,
             },
             page,
         };
@@ -34,50 +61,30 @@
 
     async function fetchProducts() {
         loading.start('Fetching products');
-        const response = await axios.get('/api/products', {
-            params: filters,
-        });
+        const url = '/api/products';
+        const options = { params: filters };
+        const response = await axios.get(url, options);
         loading.stop();
         productData = response.data;
-    }
-
-    async function showConfirmDelete() {
-        return await Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!',
-        });
     }
 
     function handleChangeUrl(newUrl) {
         page = newUrl;
     }
 
-    function isNumber(n) {
-        return !isNaN(parseFloat(n)) && isFinite(n);
-    }
-
     async function deleteProduct(id) {
-        const result = await showConfirmDelete();
+        const result = await showConfirmDialog();
 
         if (!result.isConfirmed) {
-            return Swal.fire('Changes are not saved', '', 'info');
+            return showDeclinedDialog();
         } else {
             try {
                 await axios.delete(`/api/products/${id}`);
                 fetchProducts();
-                Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+                showSuccessDialog({ title: 'Success!', text: 'Product has been deleted' });
             } catch (error) {
                 console.log(error);
-                Swal.fire({
-                    title: 'Error!',
-                    text: error.response.data.message,
-                    icon: 'error',
-                });
+                showErrorDialog();
             } finally {
                 loading.stop();
             }
@@ -122,116 +129,11 @@
         </div>
 
         {#if $dataViewMode === 'table'}
-            <div class="flex w-full overflow-x-auto">
-                <table class="table-hover table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Title</th>
-                            <th>Image</th>
-                            <th>Price (Rp)</th>
-                            <th>Stock</th>
-                            <th>Restock Threshold (%)</th>
-                            <th>Min Stock</th>
-                            <th>Max Stock</th>
-                            <th>Supplier</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {#each productData?.data ?? [] as product, index (product.id)}
-                            <tr class="group">
-                                <th>{index + productData.firstItem}</th>
-                                <td>
-                                    <div class="flex flex-col relative">
-                                        <span>{product.name}</span>
-                                        <div class="flex absolute top-8 left-0 w-full h-full -translate-y-1/2 gap-2">
-                                            <a
-                                                use:inertia
-                                                href={`/products/${product.id}/edit`}
-                                                class="text-edit group-hover:opacity-100 opacity-0 transition-opacity duration-200"
-                                            >
-                                                <span>Edit</span>
-                                            </a>
-                                            {#if product.isRemovable}
-                                                <button
-                                                    on:click={() => deleteProduct(product.id)}
-                                                    class="text-delete group-hover:opacity-100 opacity-0 transition-opacity duration-200"
-                                                >
-                                                    Delete
-                                                </button>
-                                            {/if}
-                                        </div>
-                                    </div>
-                                </td>
-                                <th>
-                                    <img src={product.image} alt={product.name} class="h-24" />
-                                </th>
-                                <td>{product.price}</td>
-                                <td>{product.stock}</td>
-                                <td>{product.restock_threshold}</td>
-                                <td>{product.min_stock}</td>
-                                <td>{product.max_stock}</td>
-                                <td>{product.supplier.name}</td>
-                            </tr>
-                        {:else}
-                            <tr>
-                                <td>No Data</td>
-                            </tr>
-                        {/each}
-                    </tbody>
-                </table>
-            </div>
+            <DataViewProductTable {productData} {deleteProduct} />
         {:else}
-            <div class="flex w-full overflow-x-auto flex-wrap gap-5">
-                {#each productData?.data ?? [] as product, index (product.id)}
-                    <div class="card card-image-cover">
-                        <img src={product.image} alt={product.name} />
-                        <div class="card-body">
-                            <h2 class="card-header">{product.name}</h2>
-                            <p class="text-content2">{product.description}</p>
-                            <div class="card-footer">
-                                <div class="flex flex-1 flex-col gap-4">
-                                    <div class="flex justify-between">
-                                        <span class="text-primary font-bold">Rp {product.price}</span>
-                                        <span class="text-primary font-bold">
-                                            <i class="ri-archive-line"></i>{product.stock}
-                                        </span>
-                                    </div>
-
-                                    <div class="flex gap-3">
-                                        <Link href={`/products/${product.id}/edit`} class="btn btn-edit">Edit</Link>
-                                        {#if product.isRemovable}
-                                            <button class="btn btn-delete" on:click={() => deleteProduct(product.id)}>
-                                                Delete
-                                            </button>
-                                        {/if}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {:else}
-                    <p>No Data Available</p>
-                {/each}
-            </div>
+            <DataViewProductCards {productData} {deleteProduct} />
         {/if}
 
-        <div class="pagination pagination-rounded w-full max-w-xs overflow-auto">
-            {#each productData?.meta?.links ?? [] as link}
-                {#if link.url}
-                    {#if isNumber(link.label)}
-                        <button
-                            class="btn {link.active ? 'btn-active' : ''}"
-                            on:click={() => handleChangeUrl(link.label)}
-                        >
-                            {link.label}
-                            <span class="sr-only">
-                                Page {link.label}
-                            </span>
-                        </button>
-                    {/if}
-                {/if}
-            {/each}
-        </div>
+        <Pagination links={productData?.meta?.links} {handleChangeUrl} />
     </div>
 </DashboardLayout>

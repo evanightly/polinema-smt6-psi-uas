@@ -1,32 +1,22 @@
 <script>
-    export let data = {};
+    export let links = [];
     export let handleChangeUrl = () => {};
+    import validateNumber from '../Helpers/validateNumber';
 
-    $: links = data.meta?.links ?? 0;
-
-    function isNumber(n) {
-        return !isNaN(parseFloat(n)) && isFinite(n);
-    }
-
-    $: console.log(links);
+    $: buttonClass = link => {
+        return link.active ? 'btn btn-active' : 'btn';
+    };
 </script>
 
 <div class="pagination pagination-rounded w-full max-w-xs overflow-auto">
-    {#if links}
-        {#each links ?? [] as link}
-            {#if link.url}
-                {#if isNumber(link.label)}
-                    <button
-                        class="btn {link.active ? 'btn-active' : ''}"
-                        on:click={() => handleChangeUrl(link.label)}
-                    >
-                        {link.label}
-                        <span class="sr-only">
-                            Page {link.label}
-                        </span>
-                    </button>
-                {/if}
-            {/if}
-        {/each}
-    {/if}
+    {#each links as link}
+        {#if link.url && validateNumber(link.label)}
+            <button class={buttonClass(link)} on:click={() => handleChangeUrl(link.label)}>
+                {link.label}
+                <span class="sr-only">
+                    Page {link.label}
+                </span>
+            </button>
+        {/if}
+    {/each}
 </div>

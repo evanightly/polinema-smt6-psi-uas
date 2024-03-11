@@ -1,32 +1,21 @@
 <script>
     import { Link } from '@inertiajs/svelte';
-
-    let isSidebarMobileFixed = false;
+    import { isSidebarMobileFixed } from '../../Stores/sidebarStore.js';
 </script>
 
-<input
-    type="checkbox"
-    id="sidebar-mobile-fixed"
-    class="dashboard sidebar-state"
-    bind:checked={isSidebarMobileFixed}
-/>
+<input type="checkbox" id="sidebar-mobile-fixed" class="dashboard sidebar-state" bind:checked={$isSidebarMobileFixed} />
 <!-- <aside
     class="dashboard sidebar sidebar-fixed-left sidebar-mobile h-full justify-start max-sm:fixed max-sm:-translate-x-full"
 > -->
-<aside
-    class="dashboard sidebar min-h-screen sidebar-mobile h-full justify-start max-sm:fixed max-sm:-translate-x-full"
->
+<aside class="dashboard sidebar min-h-screen sidebar-mobile h-full justify-start max-sm:fixed max-sm:-translate-x-full">
     <section class="sidebar-title items-center p-4 relative">
         <div class="flex gap-2 text-primary text-xl px-4">
             <i class="ri-restaurant-fill"></i>
             <span>E-Canteen</span>
         </div>
         <div class="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/2">
-            <label
-                for="sidebar-mobile-fixed"
-                class="btn btn-primary btn-circle font-bold"
-            >
-                {#if isSidebarMobileFixed}
+            <label for="sidebar-mobile-fixed" class="btn btn-primary btn-circle font-bold">
+                {#if $isSidebarMobileFixed}
                     <i class="ri-arrow-right-s-line"></i>
                 {:else}
                     <i class="ri-arrow-left-s-line"></i>

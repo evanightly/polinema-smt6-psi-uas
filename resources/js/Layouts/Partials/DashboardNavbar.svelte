@@ -2,6 +2,12 @@
     import { Link } from '@inertiajs/svelte';
     import DashboardDarkModeToggler from './DashboardDarkModeToggler.svelte';
     import DashboardNotification from './DashboardNotification.svelte';
+
+    const handleLogout = () => {
+        axios.post('/logout').then(() => {
+            window.location.href = '/login';
+        });
+    };
 </script>
 
 <div class="navbar px-12 py-6">
@@ -19,10 +25,7 @@
         <div class="divider divider-vertical h-10"></div>
         <div class="dropdown-container">
             <div class="dropdown">
-                <button
-                    class="btn btn-ghost flex cursor-pointer px-0 gap-3"
-                    tabindex="0"
-                >
+                <button class="btn btn-ghost flex cursor-pointer px-0 gap-3" tabindex="0">
                     <img
                         src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
                         alt="avatar"
@@ -31,15 +34,9 @@
                     <i class="ri-arrow-down-s-line"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-bottom-left">
-                    <Link
-                        href="/account_settings"
-                        class="dropdown-item text-sm"
-                    >
-                        Account settings
-                    </Link>
-                    <Link href="/post_settings" class="dropdown-item text-sm">
-                        Settings
-                    </Link>
+                    <Link href="/account_settings" class="dropdown-item text-sm">Account settings</Link>
+                    <Link href="/post_settings" class="dropdown-item text-sm">Settings</Link>
+                    <button class="dropdown-item text-sm" on:click={handleLogout}>Logout</button>
                 </div>
             </div>
         </div>

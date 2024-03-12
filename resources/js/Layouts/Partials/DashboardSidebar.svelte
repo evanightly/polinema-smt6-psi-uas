@@ -1,6 +1,13 @@
 <script>
     import { Link } from '@inertiajs/svelte';
     import { isSidebarMobileFixed } from '../../Stores/sidebarStore.js';
+    import axios from 'axios';
+
+    const handleLogout = () => {
+        axios.post('/logout').then(() => {
+            window.location.href = '/login';
+        });
+    };
 </script>
 
 <input type="checkbox" id="sidebar-mobile-fixed" class="dashboard sidebar-state" bind:checked={$isSidebarMobileFixed} />
@@ -66,6 +73,10 @@
                         <i class="ri-settings-3-line"></i>
                         <span>Settings</span>
                     </li>
+                    <button class="menu-item" on:click={handleLogout}>
+                        <i class="ri-door-line"></i>
+                        <span>Logout</span>
+                    </button>
                 </ul>
             </section>
         </nav>

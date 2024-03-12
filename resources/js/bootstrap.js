@@ -1,9 +1,3 @@
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
-
 import Swal from 'sweetalert2';
 window.Swal = Swal;
 
@@ -15,12 +9,7 @@ const formatErrorMessages = error => {
 
     const errorHtml = Object.values(error.response.data.errors)
         .map(errorArray =>
-            errorArray
-                .map(
-                    error =>
-                        `<div class="bg-error text-white rounded p-2">${error}</div>`,
-                )
-                .join(''),
+            errorArray.map(error => `<div class="bg-error text-white rounded p-2">${error}</div>`).join(''),
         )
         .join('');
 
@@ -45,10 +34,7 @@ const handleAxiosError = error => {
             confirmButtonText: 'On it!',
         };
 
-        if (
-            error.response.data.errors &&
-            Object.keys(error.response.data.errors).length > 0
-        ) {
+        if (error.response.data.errors && Object.keys(error.response.data.errors).length > 0) {
             defaultAlertOptions.html = formatErrorMessages(error);
         }
 
@@ -69,10 +55,7 @@ const handleAxiosError = error => {
             },
         };
 
-        if (
-            error.response.data.errors &&
-            Object.keys(error.response.data.errors).length > 0
-        ) {
+        if (error.response.data.errors && Object.keys(error.response.data.errors).length > 0) {
             defaultSwalOptions.customClass = 'swal2-error-list';
             defaultSwalOptions.html = formatErrorMessages(error);
         }
@@ -81,6 +64,12 @@ const handleAxiosError = error => {
     }
     return Promise.reject(error);
 };
+
+/**
+ * We'll load the axios HTTP library which allows us to easily issue requests
+ * to our Laravel back-end. This library automatically handles sending the
+ * CSRF token as a header based on the value of the "XSRF" token cookie.
+ */
 
 window.axios.interceptors.response.use(response => response, handleAxiosError);
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

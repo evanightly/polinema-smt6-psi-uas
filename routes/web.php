@@ -18,23 +18,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::inertia('/', 'Index');
 
-Route::inertia('/login', 'Login');
+Route::middleware('auth')->group(function () {
+    Route::inertia('/', 'Index');
 
-Route::inertia('/register', 'Register');
+    Route::resource('roles', RoleController::class);
 
-Route::resource('roles', RoleController::class);
+    Route::resource('users', UserController::class);
 
-Route::resource('users', UserController::class);
+    Route::resource('suppliers', SupplierController::class);
 
-Route::resource('suppliers', SupplierController::class);
+    Route::resource('products', ProductController::class);
 
-Route::resource('products', ProductController::class);
+    Route::resource('transactions', TransactionController::class);
 
-Route::resource('transactions', TransactionController::class);
-
-
+    Route::post('/logout', function () {
+        auth()->logout();
+    })->name('logout');
+});
 
 Route::get('/hello', function () {
     return ('WOY');

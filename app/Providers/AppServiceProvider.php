@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use Inertia\Inertia;
+use Laravel\Fortify\Fortify;
 
 class AppServiceProvider extends ServiceProvider {
     /**
@@ -20,5 +22,9 @@ class AppServiceProvider extends ServiceProvider {
     public function boot(): void {
         JsonResource::withoutWrapping();
         // Paginator::useTailwind();
+
+        Fortify::loginView(function () {
+            return Inertia::render('Auth/Login');
+        });
     }
 }

@@ -61,5 +61,15 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Dev Note
 
--   Implement authentication and authorization
+### Security
+
+-   Refactor handle logout function in navbar and sidebar component
+-   Fix 429 errors that happened after 1 wrong credential supplied
+-   Implement register and authentication with google
+-   Implement verify email, forgot password
+-   Implement authorization
+-   Move logout function to use macro
+
+### Data Management
+
 -   Refactor data fetching to use svelte stores

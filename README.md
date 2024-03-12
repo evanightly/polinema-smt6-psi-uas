@@ -52,9 +52,14 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Contributors
 
-- [Galur Arasy Lumintang (Programmer)](mailto:adamhenderson3x3@gmail.com)
+-   [Galur Arasy Lumintang (Programmer)](mailto:adamhenderson3x3@gmail.com)
 -   [M. Ariesta Naeva Arya Dhuta (QA Tester)](mailto:mochamadmunif71@gmail.com)
 -   [Ibnu Tsalis Assalam (System Analyst)](mailto:ibnutsalisassalam@gmail.com)
 -   [Rini Novitasari (UI/UX Designer)](mailto:rininovitasarin27@gmail.com)
 -   [Anas Wirayudha (UI/UX Designer)](mailto:anaswirayudha01@gmail.com)
 -   [M. Helmi Permana Agung (Project Manager)](mailto:helmiagung2468@gmail.com)
+
+## Dev Note
+
+-   Implement authentication and authorization
+-   Refactor data fetching to use svelte stores

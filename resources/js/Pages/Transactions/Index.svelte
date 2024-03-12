@@ -58,7 +58,7 @@
 <GenericDataView
     fetchItems={fetchUsers}
     deleteItem={deleteUser}
-    title="User"
+    title="Transaction"
     createUrl="transactions/create"
     showCards={false}
 >

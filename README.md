@@ -73,3 +73,13 @@ This project is licensed under the [MIT License](LICENSE).
 ### Data Management
 
 -   Refactor data fetching to use svelte stores
+
+### Business Process
+
+-   Install websocket and the requirements
+-   Listen when product stock changes
+    -   Calculate stock with the restock threshold
+    -   Example: `restock && stock <= min_stock`
+-   Notify user
+    -   Send a page which contain message to supplier
+    -   or better, use whatsapp api to automate processes

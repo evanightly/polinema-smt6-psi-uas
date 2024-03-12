@@ -61,6 +61,10 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Dev Note
 
+### User Interface
+
+-   Implement Masonry library for card layouting
+
 ### Security
 
 -   Refactor handle logout function in navbar and sidebar component

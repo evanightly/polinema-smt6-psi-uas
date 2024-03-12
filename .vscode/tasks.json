@@ -1,0 +1,95 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "serve",
+            "type": "shell",
+            "command": "php artisan serve",
+            "presentation": {
+                "group": "groupA"
+            }
+        },
+        {
+            "label": "npm run dev",
+            "type": "shell",
+            "command": "npm run dev",
+            "presentation": {
+                "group": "groupA"
+            }
+        },
+        {
+            "label": "install composer dependencies",
+            "type": "shell",
+            "command": "composer install",
+            "presentation": {
+                "group": "groupB"
+            }
+        },
+        {
+            "label": "install npm dependencies",
+            "type": "shell",
+            "command": "npm install",
+            "presentation": {
+                "group": "groupB"
+            }
+        },
+        // {
+        //     "label": "run dump-server",
+        //     "type": "shell",
+        //     "command": "php artisan dump-server --format=html > dump.html",
+        //     "presentation": {
+        //         "group": "groupB"
+        //     }
+        // },
+        // {
+        //     "label": "watch log",
+        //     "type": "shell",
+        //     "command": "Get-Content storage\\logs\\laravel.log -Wait",
+        //     "presentation": {
+        //         "group": "groupB"
+        //     }
+        // },
+        // {
+        //     "label": "run websocket",
+        //     "type": "shell",
+        //     "command": "php artisan websockets:serve",
+        //     "presentation": {
+        //         "group": "groupB"
+        //     }
+        // },
+        // {
+        //     "label": "install latest chrome driver",
+        //     "type": "shell",
+        //     "command": "php artisan dusk:chrome-driver",
+        //     "presentation": {
+        //         "group": "groupB"
+        //     }
+        // },
+        {
+            "label": "Dev",
+            "problemMatcher": [],
+            // "dependsOn": [
+            //     "serve",
+            //     "npm run dev",
+            //     "run dump-server",
+            //     "watch log",
+            //     "run websocket",
+            //     "install latest chrome driver"
+            // ]
+            "dependsOn": [
+                "serve",
+                "npm run dev"
+                // "run websocket",
+                // "install latest chrome driver"
+            ]
+        },
+        {
+            "label": "Initialize App",
+            "problemMatcher": [],
+            "dependsOn": ["install composer dependencies", "install npm dependencies"]
+        }
+    ]
+}

@@ -14,11 +14,13 @@ class TransactionResource extends JsonResource {
     public function toArray(Request $request): array {
         return [
             'id' => $this->id,
+            'user' => new UserResource($this->whenLoaded('user')),
             'product_id' => $this->product_id,
-            'quantity' => $this->quantity,
-            'product' => new ProductResource($this->whenLoaded('product')),
-            'transaction_type' => $this->transaction_type,
+            'buyer_name' => $this->buyer_name,
+            'products' => ProductResource::collection($this->whenLoaded('products')),
+            'price_total' => $this->price_total,
             'transaction_date' => $this->transaction_date,
+            'formatted_transaction_date' => $this->formatted_transaction_date,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

@@ -1,8 +1,7 @@
 <script>
     import { debounce } from 'lodash';
     import GenericDataView from '../../Layouts/GenericDataView.svelte';
-    import DataViewProductTable from './DataViews/DataViewProductTable.svelte';
-    import DataViewProductCards from './DataViews/DataViewProductCards.svelte';
+    import DataViewRoleTable from './DataViews/DataViewRoleTable.svelte';
 
     const DEBOUNCE_TIME = 300;
     const DEFAULT_FILTERS = {
@@ -23,7 +22,7 @@
     let previousSearch = '';
     let search = '';
 
-    const debouncedFetchProducts = debounce(fetchProducts, DEBOUNCE_TIME);
+    const debouncedFetchRoles = debounce(fetchRoles, DEBOUNCE_TIME);
 
     $: {
         if (search && search !== previousSearch) {
@@ -42,32 +41,30 @@
             page,
         };
 
-        debouncedFetchProducts();
+        debouncedFetchRoles();
     }
 
-    async function fetchProducts(options) {
-        const url = '/api/products';
+    async function fetchRoles(options) {
+        const url = '/api/roles';
         const { data: response } = await axios.get(url, options);
         return response;
     }
 
-    async function deleteProduct(id) {
-        await axios.delete(`/api/products/${id}`);
+    async function deleteRole(id) {
+        await axios.delete(`/api/roles/${id}`);
     }
 </script>
 
 <GenericDataView
-    fetchItems={fetchProducts}
-    deleteItem={deleteProduct}
-    title="Product"
-    createUrl="products/create"
-    showCards={true}
+    fetchItems={fetchRoles}
+    deleteItem={deleteRole}
+    title="Role"
+    createUrl="roles/create"
+    showCards={false}
 >
-    <div slot="tableView" let:itemsData={productData} let:handleDeleteItem>
-        <DataViewProductTable itemsData={productData} {handleDeleteItem} />
+    <div slot="tableView" let:itemsData={rolesData} let:handleDeleteItem>
+        <DataViewRoleTable {rolesData} {handleDeleteItem} />
     </div>
 
-    <div slot="cardsView" let:itemsData={productData} let:handleDeleteItem>
-        <DataViewProductCards itemsData={productData} {handleDeleteItem} />
-    </div>
+    <div slot="cardsView" let:itemsData={rolesData} let:handleDeleteItem></div>
 </GenericDataView>

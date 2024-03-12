@@ -1,8 +1,7 @@
 <script>
     import { debounce } from 'lodash';
     import GenericDataView from '../../Layouts/GenericDataView.svelte';
-    import DataViewProductTable from './DataViews/DataViewProductTable.svelte';
-    import DataViewProductCards from './DataViews/DataViewProductCards.svelte';
+    import DataViewUserTable from './DataViews/DataViewUserTable.svelte';
 
     const DEBOUNCE_TIME = 300;
     const DEFAULT_FILTERS = {
@@ -23,7 +22,7 @@
     let previousSearch = '';
     let search = '';
 
-    const debouncedFetchProducts = debounce(fetchProducts, DEBOUNCE_TIME);
+    const debouncedFetchUsers = debounce(fetchUsers, DEBOUNCE_TIME);
 
     $: {
         if (search && search !== previousSearch) {
@@ -42,32 +41,30 @@
             page,
         };
 
-        debouncedFetchProducts();
+        debouncedFetchUsers();
     }
 
-    async function fetchProducts(options) {
-        const url = '/api/products';
+    async function fetchUsers(options) {
+        const url = '/api/users';
         const { data: response } = await axios.get(url, options);
         return response;
     }
 
-    async function deleteProduct(id) {
-        await axios.delete(`/api/products/${id}`);
+    async function deleteUser(id) {
+        await axios.delete(`/api/users/${id}`);
     }
 </script>
 
 <GenericDataView
-    fetchItems={fetchProducts}
-    deleteItem={deleteProduct}
-    title="Product"
-    createUrl="products/create"
-    showCards={true}
+    fetchItems={fetchUsers}
+    deleteItem={deleteUser}
+    title="User"
+    createUrl="users/create"
+    showCards={false}
 >
-    <div slot="tableView" let:itemsData={productData} let:handleDeleteItem>
-        <DataViewProductTable itemsData={productData} {handleDeleteItem} />
+    <div slot="tableView" let:itemsData={usersData} let:handleDeleteItem>
+        <DataViewUserTable {usersData} {handleDeleteItem} />
     </div>
 
-    <div slot="cardsView" let:itemsData={productData} let:handleDeleteItem>
-        <DataViewProductCards itemsData={productData} {handleDeleteItem} />
-    </div>
+    <div slot="cardsView" let:itemsData={usersData} let:handleDeleteItem></div>
 </GenericDataView>

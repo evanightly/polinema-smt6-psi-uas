@@ -2,13 +2,13 @@
 
 namespace App\Repositories;
 
-use App\Models\Product;
+use App\Models\Supplier;
 use Illuminate\Database\Eloquent\Builder;
 
-class ProductRepository extends Repository {
+class SupplierRepository extends Repository {
 
     public function get(array $options = [], array $searchFields = [], array $relations = []): Builder {
-        $query = Product::query();
+        $query = Supplier::query();
 
         // Eager load relations if any
         if (!empty($relations)) {
@@ -28,16 +28,16 @@ class ProductRepository extends Repository {
         return $query;
     }
 
-    public function create(array $data): Product {
-        return Product::create($data);
+    public function create(array $data): Supplier {
+        return Supplier::create($data);
     }
 
-    public function update(Product $product, array $data): Product {
-        $product->update($data);
-        return $product->refresh();
+    public function update(Supplier $supplier, array $data): Supplier {
+        $supplier->update($data);
+        return $supplier->refresh();
     }
 
-    public function delete(Product $product): void {
-        $product->delete();
+    public function delete(Supplier $supplier): void {
+        $supplier->delete();
     }
 }

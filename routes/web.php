@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +22,19 @@ Route::inertia('/', 'Index');
 
 Route::inertia('/login', 'Login');
 
+Route::inertia('/register', 'Register');
+
+Route::resource('roles', RoleController::class);
+
+Route::resource('users', UserController::class);
+
+Route::resource('suppliers', SupplierController::class);
+
 Route::resource('products', ProductController::class);
+
+Route::resource('transactions', TransactionController::class);
+
+
 
 Route::get('/hello', function () {
     return ('WOY');

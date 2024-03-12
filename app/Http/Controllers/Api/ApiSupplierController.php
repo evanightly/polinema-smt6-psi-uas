@@ -6,24 +6,28 @@ use App\Models\Supplier;
 use App\Http\Requests\Supplier\StoreSupplierRequest;
 use App\Http\Requests\Supplier\UpdateSupplierRequest;
 use App\Http\Resources\SupplierResource;
+use App\Repositories\SupplierRepository;
+use App\Services\SupplierService;
 use Illuminate\Http\Request;
 
 class ApiSupplierController extends ApiController {
+
+    private $supplierService;
+    private $supplierRepository;
+
+    public function __construct(SupplierService $supplierService, SupplierRepository $supplierRepository) {
+        $this->supplierService = $supplierService;
+        $this->supplierRepository = $supplierRepository;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request) {
-        $query = Supplier::query();
-        if ($request->has('search')) {
-            $search = $request->get('search');
-            $query->where('name', 'like', '%' . $search . '%')
-                ->orWhere('address', 'like', '%' . $search . '%')
-                ->orWhere('email', 'like', '%' . $search . '%')
-                ->orWhere('phone', 'like', '%' . $search . '%')
-                ->orWhere('note', 'like', '%' . $search . '%');
-        }
-
-        return $this->apiPaginateResponse($query, SupplierResource::class);
+        $options = $request->query('options', []);
+        $searchFields = ['name'];
+        $suppliers = $this->supplierRepository->get($options, $searchFields);
+        return $this->apiPaginateResponse($suppliers, SupplierResource::class);
     }
 
     /**

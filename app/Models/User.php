@@ -18,7 +18,7 @@ class User extends Authenticatable {
      */
     protected $fillable = [
         'name',
-        'image',
+        'image_path',
         'email',
         'password',
     ];
@@ -45,5 +45,13 @@ class User extends Authenticatable {
 
     public function roles() {
         return $this->belongsToMany(Role::class);
+    }
+
+    public function getImageAttribute() {
+        // check if image starts with http
+        if (strpos($this->image_path, 'http') === 0) {
+            return $this->image_path;
+        }
+        return $this->image_path ? asset('storage/' . $this->image_path) : null;
     }
 }

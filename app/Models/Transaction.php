@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,11 +16,16 @@ class Transaction extends Model {
         'transaction_date',
     ];
 
-    public function staff() {
+    // This is staff that is responsible for the transaction
+    public function user() {
         return $this->belongsTo(User::class);
     }
 
     public function products() {
         return $this->belongsToMany(Product::class)->withPivot('quantity');
+    }
+
+    public function getFormattedTransactionDateAttribute() {
+        return Carbon::parse($this->transaction_date)->format('l, F j, Y');
     }
 }

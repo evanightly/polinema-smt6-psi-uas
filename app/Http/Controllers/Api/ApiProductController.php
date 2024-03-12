@@ -21,7 +21,9 @@ class ApiProductController extends ApiController {
 
     public function index() {
         $options = request()->query('options', []);
-        $products = $this->productRepository->get($options);
+        $searchFields = ['name'];
+        $relations = ['supplier'];
+        $products = $this->productRepository->get($options, $searchFields, $relations);
         return $this->apiPaginateResponse($products, ProductResource::class);
     }
 

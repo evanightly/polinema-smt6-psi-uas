@@ -5,13 +5,28 @@ namespace App\Http\Controllers\Api;
 use App\Models\Role;
 use App\Http\Requests\Role\StoreRoleRequest;
 use App\Http\Requests\Role\UpdateRoleRequest;
+use App\Http\Resources\RoleResource;
+use App\Repositories\RoleRepository;
+use App\Services\RoleService;
 
 class ApiRoleController extends ApiController {
+
+    private $roleService;
+    private $roleRepository;
+
+    public function __construct(RoleService $roleService, RoleRepository $roleRepository) {
+        $this->roleService = $roleService;
+        $this->roleRepository = $roleRepository;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index() {
-        //
+        $options = request()->query('options', []);
+        $searchFields = ['name'];
+        $roles = $this->roleRepository->get($options, $searchFields);
+        return $this->apiPaginateResponse($roles, RoleResource::class);
     }
 
     /**

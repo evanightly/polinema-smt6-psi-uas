@@ -5,13 +5,29 @@ namespace App\Http\Controllers\Api;
 use App\Models\Transaction;
 use App\Http\Requests\Transaction\StoreTransactionRequest;
 use App\Http\Requests\Transaction\UpdateTransactionRequest;
+use App\Http\Resources\TransactionResource;
+use App\Repositories\TransactionRepository;
+use App\Services\TransactionService;
 
 class ApiTransactionController extends ApiController {
+
+    private $transactionService;
+    private $transactionRepository;
+
+    public function __construct(TransactionService $transactionService, TransactionRepository $transactionRepository) {
+        $this->transactionService = $transactionService;
+        $this->transactionRepository = $transactionRepository;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index() {
-        //
+        $options = request()->query('options', []);
+        $searchFields = ['buyer_name'];
+        $relations = ['products', 'user'];
+        $transactions = $this->transactionRepository->get($options, $searchFields, $relations);
+        return $this->apiPaginateResponse($transactions, TransactionResource::class);
     }
 
     /**

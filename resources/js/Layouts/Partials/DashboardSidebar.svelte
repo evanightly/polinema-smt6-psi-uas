@@ -32,7 +32,11 @@
                         <i class="ri-home-4-line"></i>
                         <span>Dashboard</span>
                     </Link>
-                    <Link href="/staffs" class="menu-item">
+                    <Link href="/roles" class="menu-item">
+                        <i class="ri-shield-keyhole-line"></i>
+                        <span>Roles</span>
+                    </Link>
+                    <Link href="/users" class="menu-item">
                         <i class="ri-user-2-line"></i>
                         <span>Staff</span>
                     </Link>

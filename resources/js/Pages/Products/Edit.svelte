@@ -8,7 +8,6 @@
     import loading from '../../Stores/loadingOverlayStore';
 
     export let product;
-    console.log(product);
 
     let imageFile;
     let supplierData = {};
@@ -227,7 +226,6 @@
                             class="select select-block border-none"
                             id="supplier"
                             bind:value={newProductData.supplier_id}
-                            required
                         >
                             {#each supplierData?.data ?? [] as supplier (supplier.id)}
                                 <option value={supplier.id}>

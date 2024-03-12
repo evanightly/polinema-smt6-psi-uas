@@ -1,7 +1,8 @@
 <script>
     import { Link } from '@inertiajs/svelte';
     import { isSidebarMobileFixed } from '../../Stores/sidebarStore.js';
-    import axios from 'axios';
+    import { page } from '@inertiajs/svelte';
+    import DashboardSidebarMenuItem from './Components/DashboardSidebarMenuItem.svelte';
 
     const handleLogout = () => {
         axios.post('/logout').then(() => {
@@ -35,30 +36,12 @@
             <section class="menu-section px-4">
                 <span class="menu-title">Main menu</span>
                 <ul class="menu-items">
-                    <Link href="/" class="menu-item">
-                        <i class="ri-home-4-line"></i>
-                        <span>Dashboard</span>
-                    </Link>
-                    <Link href="/roles" class="menu-item">
-                        <i class="ri-shield-keyhole-line"></i>
-                        <span>Roles</span>
-                    </Link>
-                    <Link href="/users" class="menu-item">
-                        <i class="ri-user-2-line"></i>
-                        <span>Staff</span>
-                    </Link>
-                    <Link href="/suppliers" class="menu-item">
-                        <i class="ri-truck-line"></i>
-                        <span>Suppliers</span>
-                    </Link>
-                    <Link href="/products" class="menu-item">
-                        <i class="ri-archive-2-line"></i>
-                        <span>Products</span>
-                    </Link>
-                    <Link href="/transactions" class="menu-item">
-                        <i class="ri-shake-hands-line"></i>
-                        <span>Transactions</span>
-                    </Link>
+                    <DashboardSidebarMenuItem href="/" icon="ri-home-4-line" label="Dashboard" />
+                    <DashboardSidebarMenuItem href="/roles" icon="ri-shield-keyhole-line" label="Roles" />
+                    <DashboardSidebarMenuItem href="/users" icon="ri-user-2-line" label="Staff" />
+                    <DashboardSidebarMenuItem href="/suppliers" icon="ri-truck-line" label="Suppliers" />
+                    <DashboardSidebarMenuItem href="/products" icon="ri-archive-2-line" label="Products" />
+                    <DashboardSidebarMenuItem href="/transactions" icon="ri-shake-hands-line" label="Transactions" />
                 </ul>
             </section>
             <div class="divider mt-auto"></div>

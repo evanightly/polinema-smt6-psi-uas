@@ -1,4 +1,3 @@
-// supplierStore.js
 import { writable } from 'svelte/store';
 import axios from 'axios';
 import { debounce } from 'lodash';

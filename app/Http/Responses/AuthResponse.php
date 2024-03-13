@@ -8,8 +8,9 @@ use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
 
 class AuthResponse implements LoginResponseContract, RegisterResponseContract {
     public function toResponse($request) {
+        $apiToken = $request->user()->createToken('api_token')->plainTextToken;
         return $request->wantsJson()
-            ? new JsonResponse('', 204)
+            ? new JsonResponse(['api_token' => $apiToken], 201)
             : inertia('Index');
     }
 }

@@ -11,7 +11,7 @@
             <tr>
                 <th>#</th>
                 <th>Name</th>
-                <th>Description</th>
+                <th>User Total</th>
             </tr>
         </thead>
         <tbody>
@@ -40,7 +40,7 @@
                             </div>
                         </div>
                     </td>
-                    <td>{role.description}</td>
+                    <td>{role.users_total}</td>
                 </tr>
             {:else}
                 <tr>

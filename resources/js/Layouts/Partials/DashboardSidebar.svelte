@@ -9,6 +9,12 @@
             window.location.href = '/login';
         });
     };
+
+    let isStaff = $page.props.isStaff;
+    let isManager = $page.props.isManager;
+    let isSuperAdmin = $page.props.isSuperAdmin;
+
+    const hasAnyRole = (...roles) => roles.some(role => $page.props[role]);
 </script>
 
 <input type="checkbox" id="sidebar-mobile-fixed" class="dashboard sidebar-state" bind:checked={$isSidebarMobileFixed} />
@@ -37,11 +43,23 @@
                 <span class="menu-title">Main menu</span>
                 <ul class="menu-items">
                     <DashboardSidebarMenuItem href="/" icon="ri-home-4-line" label="Dashboard" />
-                    <DashboardSidebarMenuItem href="/roles" icon="ri-shield-keyhole-line" label="Roles" />
-                    <DashboardSidebarMenuItem href="/users" icon="ri-user-2-line" label="Staff" />
-                    <DashboardSidebarMenuItem href="/suppliers" icon="ri-truck-line" label="Suppliers" />
-                    <DashboardSidebarMenuItem href="/products" icon="ri-archive-2-line" label="Products" />
-                    <DashboardSidebarMenuItem href="/transactions" icon="ri-shake-hands-line" label="Transactions" />
+                    {#if hasAnyRole('isStaff', 'isSuperAdmin', 'isManager')}
+                        <DashboardSidebarMenuItem href="/suppliers" icon="ri-truck-line" label="Suppliers" />
+                    {/if}
+
+                    {#if hasAnyRole('isSuperAdmin', 'isManager')}
+                        <DashboardSidebarMenuItem href="/roles" icon="ri-shield-keyhole-line" label="Roles" />
+                        <DashboardSidebarMenuItem href="/users" icon="ri-user-2-line" label="Staff" />
+                    {/if}
+
+                    {#if hasAnyRole('isSuperAdmin', 'isStaff')}
+                        <DashboardSidebarMenuItem href="/products" icon="ri-archive-2-line" label="Products" />
+                        <DashboardSidebarMenuItem
+                            href="/transactions"
+                            icon="ri-shake-hands-line"
+                            label="Transactions"
+                        />
+                    {/if}
                 </ul>
             </section>
             <div class="divider mt-auto"></div>

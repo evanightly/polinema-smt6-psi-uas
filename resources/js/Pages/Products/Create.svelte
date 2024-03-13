@@ -74,7 +74,7 @@
 
             loading.stop();
 
-            showSuccessDialog('Product has been added');
+            await showSuccessDialog('Product has been added');
 
             router.visit('/products');
         }

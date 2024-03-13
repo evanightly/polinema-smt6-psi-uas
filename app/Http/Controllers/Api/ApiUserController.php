@@ -23,7 +23,7 @@ class ApiUserController extends ApiController {
      */
     public function index() {
         $options = request()->query('options', []);
-        $searchFields = ['name', 'roles'];
+        $searchFields = ['name'];
         $users = $this->userRepository->get($options, $searchFields);
         return $this->apiPaginateResponse($users, UserResource::class);
     }

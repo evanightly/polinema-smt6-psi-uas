@@ -8,27 +8,24 @@
     let email = '';
     let password = '';
 
-    function handleSubmit() {
+    async function handleSubmit() {
         loading.start('Logging in...');
-        axios
-            .post('/login', { email, password })
-            .then(response => {
-                // inertia.get('page').props.flashMessage = response.data.message;
-                router.visit('/products');
-            })
-            .catch(error => {
-                console.log(error.response.data);
-            })
-            .finally(() => {
-                loading.stop();
-            });
+        try {
+            const response = await axios.post('/login', { email, password });
+            sessionStorage.setItem('api_token', response.data.api_token);
+            // inertia.get('page').props.flashMessage = response.data.message;
+            router.visit('/');
+            loading.stop();
+        } catch (error) {
+            console.log(error.response.data);
+        }
     }
 </script>
 
 <MainLayout title="Login">
     <div class="flex max-h-screen">
-        <img class="hidden lg:block max-w-fit object-cover object-center" src={LoginSideImage} alt="Left Side" />
-        <section class="login-form flex flex-col flex-1 items-center justify-center gap-9 p-36 lg:px-24">
+        <img class="hidden lg:flex flex-1 object-cover object-center" src={LoginSideImage} alt="Left Side" />
+        <section class="login-form flex flex-1 flex-col items-center justify-center gap-9 p-36 lg:px-24">
             <span class="text-3xl font-bold text-primary gap-2 inline-flex">
                 <i class="ri-restaurant-fill"></i>
                 <p>E-Canteen</p>

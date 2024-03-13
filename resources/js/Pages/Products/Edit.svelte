@@ -6,6 +6,7 @@
     import formDataLogger from '../../Helpers/formDataLogger';
     import { router } from '@inertiajs/svelte';
     import loading from '../../Stores/loadingOverlayStore';
+    import { showConfirmDialog, showSuccessDialog } from '../../Helpers/showDialog';
 
     export let product;
 
@@ -47,22 +48,8 @@
 
     let newProductData = defaultNewProductData;
 
-    async function showConfirmation() {
-        return await Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, save it!',
-            showLoaderOnConfirm: true,
-            allowOutsideClick: () => !Swal.isLoading(),
-        });
-    }
-
     async function handleSubmit() {
-        const result = await showConfirmation();
+        const result = await showConfirmDialog();
         if (result.isConfirmed) {
             loading.start('Updating product');
             const formData = new FormData();
@@ -71,7 +58,7 @@
                 formData.append(key, value);
             });
 
-            formDataLogger(formData);
+            // formDataLogger(formData);
             if (imageFile) {
                 formData.append('image', imageFile);
             }
@@ -86,13 +73,7 @@
             });
 
             if (response.status === 200) {
-                Swal.fire({
-                    title: 'Success!',
-                    text: 'Product has been updated.',
-                    icon: 'success',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'Okay',
-                });
+                await showSuccessDialog({ title: 'Product updated' });
                 loading.stop();
                 router.visit('/products');
             }

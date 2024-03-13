@@ -7,6 +7,9 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
 use Laravel\Fortify\Fortify;
+use App\Http\Responses\AuthResponse;
+use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
+use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
 
 class AppServiceProvider extends ServiceProvider {
     /**
@@ -29,5 +32,8 @@ class AppServiceProvider extends ServiceProvider {
         Fortify::registerView(function () {
             return Inertia::render('Auth/Register');
         });
+
+        $this->app->singleton(LoginResponseContract::class, AuthResponse::class);
+        $this->app->singleton(RegisterResponseContract::class, AuthResponse::class);
     }
 }

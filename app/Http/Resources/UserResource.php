@@ -18,7 +18,7 @@ class UserResource extends JsonResource {
             'image' => $this->image,
             'email' => $this->email,
             'isVerified' => $this->email_verified_at !== null,
-            'roles' => RoleResource::collection($this->whenLoaded('roles')),
+            'canBeDeleted' => $this->canBeDeleted(),
         ];
     }
 }

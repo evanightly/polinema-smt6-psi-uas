@@ -33,7 +33,7 @@
                                 >
                                     <span>Edit</span>
                                 </a>
-                                {#if supplier.isRemovable}
+                                {#if supplier.canBeDeleted}
                                     <button
                                         on:click={() => handleDeleteItem(supplier.id)}
                                         class="text-delete group-hover:opacity-100 opacity-0 transition-opacity duration-200"
@@ -48,7 +48,7 @@
                     <td>{supplier.email}</td>
                     <td>{supplier.phone}</td>
                     <td>{supplier.note}</td>
-                    <td>{supplier.product_total}</td>
+                    <td>{supplier.products_total}</td>
                 </tr>
             {:else}
                 <tr>

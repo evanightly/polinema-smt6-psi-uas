@@ -35,7 +35,7 @@
                                 >
                                     <span>Edit</span>
                                 </a>
-                                {#if product.isRemovable}
+                                {#if product.canBeDeleted}
                                     <button
                                         on:click={() => handleDeleteItem(product.id)}
                                         class="text-delete group-hover:opacity-100 opacity-0 transition-opacity duration-200"

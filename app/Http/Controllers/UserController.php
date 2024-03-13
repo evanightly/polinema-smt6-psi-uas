@@ -9,8 +9,12 @@ class UserController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function index() {
-        return inertia('Users/Index');
+    public function index(Request $request) {
+        $isAllowed = $request->user()->hasAnyRole(['SuperAdmin', 'Manager']);
+
+        return inertia('Users/Index', [
+            'isAllowed' => $isAllowed,
+        ]);
     }
 
     /**

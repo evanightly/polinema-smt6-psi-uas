@@ -21,20 +21,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
     Route::inertia('/', 'Index');
-
-    Route::resource('roles', RoleController::class);
-
-    Route::resource('users', UserController::class);
-
-    Route::resource('suppliers', SupplierController::class);
-
-    Route::resource('products', ProductController::class);
-
-    Route::resource('transactions', TransactionController::class);
-
-    Route::post('/logout', function () {
-        auth()->logout();
-    })->name('logout');
+    Route::resource('roles', RoleController::class)->middleware('role:SuperAdmin|Manager');
+    Route::resource('users', UserController::class)->middleware('role:SuperAdmin|Manager');
+    Route::resource('suppliers', SupplierController::class)->middleware('role:SuperAdmin|Staff|Manager');
+    Route::resource('products', ProductController::class)->middleware('role:SuperAdmin|Staff');
+    Route::resource('transactions', TransactionController::class)->middleware('role:SuperAdmin|Staff');
+    Route::post('/logout', fn () => auth()->logout())->name('logout');
 });
 
 Route::get('/hello', function () {

@@ -8,13 +8,18 @@
             window.location.href = '/login';
         });
     };
+
+    export let navbarTitle = '';
+    export let showDataTitle = true;
 </script>
 
 <div class="navbar px-12 py-6">
     <div class="navbar-start">
         <div class="flex flex-col gap-5">
-            <p class="text-base">Dashboard/Produk</p>
-            <p class="text-xl font-bold">Data Produk</p>
+            <p class="text-base">Dashboard/{navbarTitle}</p>
+            {#if showDataTitle}
+                <p class="text-xl font-bold">Data {navbarTitle}</p>
+            {/if}
         </div>
     </div>
     <div class="navbar-end h-fit">

@@ -37,8 +37,13 @@
     const refreshItems = async () => {
         loading.start('Fetching items');
         const options = { params: filters };
-        itemsData = await fetchItems(options);
-        loading.stop();
+        try {
+            itemsData = await fetchItems(options);
+        } catch (error) {
+            // Errors are already handled in interceptors
+        } finally {
+            loading.stop();
+        }
     };
 
     const debouncedFetchItems = debounce(async () => {

@@ -24,7 +24,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::name('api.')->group(function () {
-    Route::apiResource('roles', ApiRoleController::class);
     Route::apiResource('users', ApiUserController::class);
     Route::apiResource('suppliers', ApiSupplierController::class);
     Route::apiResource('products', ApiProductController::class);

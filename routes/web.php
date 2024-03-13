@@ -22,8 +22,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function () {
     Route::inertia('/', 'Index');
 
-    Route::resource('roles', RoleController::class);
-
     Route::resource('users', UserController::class);
 
     Route::resource('suppliers', SupplierController::class);

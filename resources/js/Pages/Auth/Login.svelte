@@ -8,20 +8,17 @@
     let email = '';
     let password = '';
 
-    function handleSubmit() {
+    async function handleSubmit() {
         loading.start('Logging in...');
-        axios
-            .post('/login', { email, password })
-            .then(response => {
-                // inertia.get('page').props.flashMessage = response.data.message;
-                router.visit('/products');
-            })
-            .catch(error => {
-                console.log(error.response.data);
-            })
-            .finally(() => {
-                loading.stop();
-            });
+        try {
+            const response = await axios.post('/login', { email, password });
+            sessionStorage.setItem('api_token', response.data.api_token);
+            // inertia.get('page').props.flashMessage = response.data.message;
+            router.visit('/products');
+            loading.stop();
+        } catch (error) {
+            console.log(error.response.data);
+        }
     }
 </script>
 

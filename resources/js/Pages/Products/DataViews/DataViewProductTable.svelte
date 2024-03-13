@@ -54,7 +54,7 @@
                     <td>{product.restock_threshold}</td>
                     <td>{product.min_stock}</td>
                     <td>{product.max_stock}</td>
-                    <td>{product.supplier.name}</td>
+                    <td>{product.supplier?.name}</td>
                 </tr>
             {:else}
                 <tr>

@@ -6,12 +6,7 @@
     export let title = 'Dashboard';
 </script>
 
-<svelte:head>
-    <title>{title} - E-Canteen</title>
-    <meta name="description" content="Dashboard" />
-</svelte:head>
-
-<MainLayout>
+<MainLayout {title}>
     <div class="flex w-screen max-h-screen">
         <DashboardSidebar />
         <div class="flex flex-1 flex-col">

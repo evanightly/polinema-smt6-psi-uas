@@ -67,7 +67,12 @@ This project is licensed under the [MIT License](LICENSE).
 
 ### Security
 
+#### Frontend
+
 -   Refactor handle logout function in navbar and sidebar component
+
+#### Backend
+
 -   Fix 429 errors that happened after 1 wrong credential supplied
 -   Implement register and authentication with google
 -   Implement verify email, forgot password
@@ -80,6 +85,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 ### Business Process
 
+-   Create POS Page
 -   Install websocket and the requirements
 -   Listen when product stock changes
     -   Calculate stock with the restock threshold

@@ -3,31 +3,32 @@
     import LoginSideImage from '../../Assets/Images/login-side-image.png';
     import MainLayout from '../../Layouts/MainLayout.svelte';
     import { inertia, router } from '@inertiajs/svelte';
+    import loading from '../../Stores/loadingOverlayStore';
 
     let email = '';
     let password = '';
 
     function handleSubmit() {
+        loading.start('Logging in...');
         axios
             .post('/login', { email, password })
             .then(response => {
-                console.log(response.data);
+                // inertia.get('page').props.flashMessage = response.data.message;
                 router.visit('/products');
             })
             .catch(error => {
                 console.log(error.response.data);
+            })
+            .finally(() => {
+                loading.stop();
             });
     }
 </script>
 
-<svelte:head>
-    <title>Login - E-Canteen</title>
-</svelte:head>
-<MainLayout>
-    <div class="flex">
-        <img class="hidden lg:block" src={LoginSideImage} alt="Left Side" />
-
-        <section class="login-form flex flex-col flex-1 items-center justify-center gap-9 p-36 lg:p-80">
+<MainLayout title="Login">
+    <div class="flex max-h-screen">
+        <img class="hidden lg:block max-w-fit object-cover object-center" src={LoginSideImage} alt="Left Side" />
+        <section class="login-form flex flex-col flex-1 items-center justify-center gap-9 p-36 lg:px-24">
             <span class="text-3xl font-bold text-primary gap-2 inline-flex">
                 <i class="ri-restaurant-fill"></i>
                 <p>E-Canteen</p>
@@ -44,7 +45,6 @@
                 />
                 <a class="text-primary" href="/forgot">Forgot your password?</a>
                 <button class="btn btn-block btn-primary mt-5" type="submit">Log in</button>
-                <!-- login with google -->
                 <a href="/auth/google" use:inertia class="btn btn-block btn-secondary gap-2">
                     <i class="ri-google-fill"></i>
                     <span>Log in with Google</span>

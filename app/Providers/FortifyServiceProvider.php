@@ -46,11 +46,11 @@ class FortifyServiceProvider extends ServiceProvider {
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())) . '|' . $request->ip());
 
-            return Limit::perMinute(5)->by($throttleKey);
+            return Limit::perHour(5)->by($throttleKey);
         });
 
         RateLimiter::for('two-factor', function (Request $request) {
-            return Limit::perMinute(5)->by($request->session()->get('login.id'));
+            return Limit::perHour(5)->by($request->session()->get('login.id'));
         });
 
         $this->app->singleton(LoginResponseContract::class, AuthResponse::class);

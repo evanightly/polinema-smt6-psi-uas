@@ -44,11 +44,19 @@ class User extends Authenticatable {
         'password' => 'hashed',
     ];
 
+    public function transactions() {
+        return $this->hasMany(Transaction::class);
+    }
+
     public function getImageAttribute() {
         // check if image starts with http
         if (strpos($this->image_path, 'http') === 0) {
             return $this->image_path;
         }
         return $this->image_path ? asset('storage/' . $this->image_path) : null;
+    }
+
+    public function canBeDeleted(): bool {
+        return $this->transactions()->doesntExist();
     }
 }

@@ -23,9 +23,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::name('api.')->group(function () {
-    Route::apiResource('users', ApiUserController::class);
-    Route::apiResource('suppliers', ApiSupplierController::class);
-    Route::apiResource('products', ApiProductController::class);
-    Route::apiResource('transactions', ApiTransactionController::class);
+Route::middleware('auth:api')->name('api.')->group(function () {
+    Route::apiResource('roles', ApiRoleController::class)->middleware('role:SuperAdmin|Manager');
+    Route::apiResource('users', ApiUserController::class)->middleware('role:SuperAdmin|Manager');
+    Route::apiResource('suppliers', ApiSupplierController::class)->middleware('role:SuperAdmin|Staff|Manager');
+    Route::apiResource('products', ApiProductController::class)->middleware('role:SuperAdmin|Staff');
+    Route::apiResource('transactions', ApiTransactionController::class)->middleware('role:SuperAdmin|Staff');
 });

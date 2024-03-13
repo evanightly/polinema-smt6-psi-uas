@@ -20,7 +20,7 @@
 
                 <div class="flex gap-3">
                     <Link href={`/products/${product.id}/edit`} class="btn btn-edit">Edit</Link>
-                    {#if product.isRemovable}
+                    {#if product.canBeDeleted}
                         <button class="btn btn-delete" on:click={() => deleteProduct(product.id)}>Delete</button>
                     {/if}
                 </div>

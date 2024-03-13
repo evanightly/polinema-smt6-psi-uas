@@ -2,19 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
-class UserController extends Controller {
+class RoleController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request) {
-        $isAllowed = $request->user()->hasAnyRole(['SuperAdmin', 'Manager']);
-
-        return inertia('Users/Index', [
-            'isAllowed' => $isAllowed,
-        ]);
+    public function index() {
+        return inertia('Roles/Index');
     }
 
     /**
@@ -34,28 +30,28 @@ class UserController extends Controller {
     /**
      * Display the specified resource.
      */
-    public function show(User $user) {
+    public function show(Role $role) {
         //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user) {
+    public function edit(Role $role) {
         //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user) {
+    public function update(Request $request, Role $role) {
         //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user) {
+    public function destroy(Role $role) {
         //
     }
 }

@@ -24,7 +24,7 @@ class ProductResource extends JsonResource {
             'max_stock' => $this->max_stock,
             'supplier' => new SupplierResource($this->whenLoaded('supplier')),
             'transactions' => TransactionResource::collection($this->whenLoaded('transactions')),
-            'isRemovable' => $this->canBeDeleted(),
+            'canBeDeleted' => $this->canBeDeleted(),
         ];
     }
 }

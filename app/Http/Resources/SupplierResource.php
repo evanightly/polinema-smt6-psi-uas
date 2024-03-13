@@ -19,8 +19,9 @@ class SupplierResource extends JsonResource {
             'email' => $this->email,
             'phone' => $this->phone,
             'note' => $this->note,
-            'product_total' => $this->products->count(),
             'products' => ProductResource::collection($this->whenLoaded('products')),
+            'products_total' => $this->products->count(),
+            'canBeDeleted' => $this->canBeDeleted(),
         ];
     }
 }

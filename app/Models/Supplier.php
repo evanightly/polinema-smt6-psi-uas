@@ -19,4 +19,8 @@ class Supplier extends Model {
     public function products() {
         return $this->hasMany(Product::class);
     }
+
+    public function canBeDeleted(): bool {
+        return $this->products()->doesntExist();
+    }
 }

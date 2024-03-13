@@ -47,6 +47,7 @@
     async function fetchRoles(options) {
         const url = '/api/roles';
         const { data: response } = await axios.get(url, options);
+        console.log(response);
         return response;
     }
 

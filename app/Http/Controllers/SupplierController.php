@@ -17,7 +17,7 @@ class SupplierController extends Controller {
      * Show the form for creating a new resource.
      */
     public function create() {
-        //
+        return inertia('Suppliers/Create');
     }
 
     /**
@@ -38,7 +38,7 @@ class SupplierController extends Controller {
      * Show the form for editing the specified resource.
      */
     public function edit(Supplier $supplier) {
-        //
+        return inertia('Suppliers/Edit', ['supplier' => $supplier->load(['products'])]);
     }
 
     /**

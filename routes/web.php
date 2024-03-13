@@ -26,7 +26,12 @@ Route::middleware('auth')->group(function () {
     Route::resource('suppliers', SupplierController::class)->middleware('role:SuperAdmin|Staff|Manager');
     Route::resource('products', ProductController::class)->middleware('role:SuperAdmin|Staff');
     Route::resource('transactions', TransactionController::class)->middleware('role:SuperAdmin|Staff');
-    Route::post('/logout', fn () => auth()->logout())->name('logout');
+
+    Route::post('/logout', function () {
+        auth()->logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+    })->name('logout');
 });
 
 Route::get('/hello', function () {

@@ -2,12 +2,7 @@
     import { Link } from '@inertiajs/svelte';
     import DashboardDarkModeToggler from './DashboardDarkModeToggler.svelte';
     import DashboardNotification from './DashboardNotification.svelte';
-
-    const handleLogout = () => {
-        axios.post('/logout').then(() => {
-            window.location.href = '/login';
-        });
-    };
+    import logout from '../../Helpers/logout';
 
     export let navbarTitle = '';
     export let showDataTitle = true;
@@ -41,7 +36,7 @@
                 <div class="dropdown-menu dropdown-menu-bottom-left">
                     <Link href="/account_settings" class="dropdown-item text-sm">Account settings</Link>
                     <Link href="/post_settings" class="dropdown-item text-sm">Settings</Link>
-                    <button class="dropdown-item text-sm" on:click={handleLogout}>Logout</button>
+                    <button class="dropdown-item text-sm" on:click={logout}>Logout</button>
                 </div>
             </div>
         </div>

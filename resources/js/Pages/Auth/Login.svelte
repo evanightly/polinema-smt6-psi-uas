@@ -4,6 +4,7 @@
     import MainLayout from '../../Layouts/MainLayout.svelte';
     import { inertia, router } from '@inertiajs/svelte';
     import loading from '../../Stores/loadingOverlayStore';
+    import { setAxiosAuthorizationHeader } from '../../bootstrap';
 
     let email = '';
     let password = '';
@@ -11,11 +12,13 @@
     async function handleSubmit() {
         loading.start('Logging in...');
         try {
-            const response = await axios.post('/login', { email, password });
-            sessionStorage.setItem('api_token', response.data.api_token);
-            // inertia.get('page').props.flashMessage = response.data.message;
-            router.visit('/');
-            loading.stop();
+            axios.post('/login', { email, password }).then(response => {
+                sessionStorage.setItem('api_token', response.data.api_token);
+                setAxiosAuthorizationHeader(response.data.api_token);
+                // inertia.get('page').props.flashMessage = response.data.message;
+                loading.stop();
+                router.visit('/');
+            });
         } catch (error) {
             console.log(error.response.data);
         }

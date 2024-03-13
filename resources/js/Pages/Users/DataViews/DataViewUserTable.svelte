@@ -1,5 +1,5 @@
 <script>
-    import { inertia } from '@inertiajs/svelte';
+    import { inertia, page } from '@inertiajs/svelte';
 
     export let usersData = {};
     export let handleDeleteItem = () => {};
@@ -23,23 +23,27 @@
                     <td>
                         <div class="flex flex-col relative">
                             <span>{user.name}</span>
-                            <div class="flex absolute top-8 left-0 w-full h-full -translate-y-1/2 gap-2">
-                                <a
-                                    use:inertia
-                                    href={`/users/${user.id}/edit`}
-                                    class="text-edit group-hover:opacity-100 opacity-0 transition-opacity duration-200"
-                                >
-                                    <span>Edit</span>
-                                </a>
-                                {#if user.isRemovable}
-                                    <button
-                                        on:click={() => handleDeleteItem(user.id)}
-                                        class="text-delete group-hover:opacity-100 opacity-0 transition-opacity duration-200"
+
+                            <!-- Current logged user cant edit himself -->
+                            {#if $page.props.user.id !== user.id}
+                                <div class="flex absolute top-8 left-0 w-full h-full -translate-y-1/2 gap-2">
+                                    <a
+                                        use:inertia
+                                        href={`/users/${user.id}/edit`}
+                                        class="text-edit group-hover:opacity-100 opacity-0 transition-opacity duration-200"
                                     >
-                                        Delete
-                                    </button>
-                                {/if}
-                            </div>
+                                        <span>Edit</span>
+                                    </a>
+                                    {#if user.canBeDeleted}
+                                        <button
+                                            on:click={() => handleDeleteItem(user.id)}
+                                            class="text-delete group-hover:opacity-100 opacity-0 transition-opacity duration-200"
+                                        >
+                                            Delete
+                                        </button>
+                                    {/if}
+                                </div>
+                            {/if}
                         </div>
                     </td>
                     <td><img src={user.image} alt={user.name} class="h-24" /></td>

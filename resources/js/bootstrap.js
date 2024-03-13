@@ -71,10 +71,14 @@ const handleAxiosError = error => {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
+export function setAxiosAuthorizationHeader(token) {
+    window.axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+}
+
 let apiToken = sessionStorage.getItem('api_token');
 
 if (apiToken) {
-    window.axios.defaults.headers.common['Authorization'] = `Bearer ${apiToken}`;
+    setAxiosAuthorizationHeader(apiToken);
 }
 
 window.axios.interceptors.response.use(response => response, handleAxiosError);

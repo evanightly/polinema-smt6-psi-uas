@@ -69,15 +69,12 @@ This project is licensed under the [MIT License](LICENSE).
 
 #### Frontend
 
--   Refactor handle logout function in navbar and sidebar component
-
 #### Backend
 
 -   Fix 429 errors that happened after 1 wrong credential supplied
 -   Implement register and authentication with google
 -   Implement verify email, forgot password
--   Implement authorization
--   Move logout function to use macro
+-   Move logout function somewhere else
 
 ### Data Management
 

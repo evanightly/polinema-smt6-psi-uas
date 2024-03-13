@@ -1,15 +1,8 @@
 <script>
-    import { Link } from '@inertiajs/svelte';
     import { isSidebarMobileFixed } from '../../Stores/sidebarStore.js';
     import { page } from '@inertiajs/svelte';
     import DashboardSidebarMenuItem from './Components/DashboardSidebarMenuItem.svelte';
-
-    const handleLogout = () => {
-        axios.post('/logout').then(() => {
-            window.location.href = '/login';
-        });
-    };
-
+    import logout from '../../Helpers/logout.js';
     let isStaff = $page.props.isStaff;
     let isManager = $page.props.isManager;
     let isSuperAdmin = $page.props.isSuperAdmin;
@@ -74,7 +67,7 @@
                         <i class="ri-settings-3-line"></i>
                         <span>Settings</span>
                     </li>
-                    <button class="menu-item" on:click={handleLogout}>
+                    <button class="menu-item" on:click={logout}>
                         <i class="ri-door-line"></i>
                         <span>Logout</span>
                     </button>

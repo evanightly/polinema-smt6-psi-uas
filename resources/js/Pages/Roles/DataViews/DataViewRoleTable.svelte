@@ -29,7 +29,7 @@
                                 >
                                     <span>Edit</span>
                                 </a>
-                                {#if role.isRemovable}
+                                {#if role.canBeDeleted}
                                     <button
                                         on:click={() => handleDeleteItem(role.id)}
                                         class="text-delete group-hover:opacity-100 opacity-0 transition-opacity duration-200"

@@ -17,7 +17,7 @@ class RoleController extends Controller {
      * Show the form for creating a new resource.
      */
     public function create() {
-        //
+        return inertia('Roles/Create');
     }
 
     /**
@@ -38,7 +38,7 @@ class RoleController extends Controller {
      * Show the form for editing the specified resource.
      */
     public function edit(Role $role) {
-        //
+        return inertia('Roles/Edit', ['role' => $role]);
     }
 
     /**

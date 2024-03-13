@@ -218,7 +218,7 @@
                 </div>
             </div>
 
-            <button class="btn btn-secondary w-fit">Update Product</button>
+            <button class="btn btn-secondary w-fit">Edit Product</button>
         </form>
     </div>
 </DashboardLayout>

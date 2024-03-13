@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\StoreRoleRequest;
-use App\Http\Requests\UpdateRoleRequest;
+use App\Http\Requests\Role\StoreRoleRequest;
+use App\Http\Requests\Role\UpdateRoleRequest;
 use App\Http\Resources\RoleResource;
 use App\Repositories\RoleRepository;
 use App\Services\RoleService;
-use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
 class ApiRoleController extends ApiController {
@@ -31,7 +30,7 @@ class ApiRoleController extends ApiController {
      * Store a newly created resource in storage.
      */
     public function store(StoreRoleRequest $request) {
-        $role = $this->roleService->createRole($request->validated(), $request->file('image'));
+        $role = $this->roleRepository->create($request->validated());
         return new RoleResource($role);
     }
 
@@ -46,7 +45,7 @@ class ApiRoleController extends ApiController {
      * Update the specified resource in storage.
      */
     public function update(UpdateRoleRequest $request, Role $role) {
-        $role = $this->roleService->updateRole($role, $request->validated(), $request->file('image'));
+        $role = $this->roleRepository->update($role, $request->validated());
         return new RoleResource($role);
     }
 
@@ -54,7 +53,7 @@ class ApiRoleController extends ApiController {
      * Remove the specified resource from storage.
      */
     public function destroy(Role $role) {
-        $this->roleService->deleteRole($role);
+        $this->roleRepository->delete($role);
         return response()->noContent();
     }
 }

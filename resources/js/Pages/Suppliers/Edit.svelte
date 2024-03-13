@@ -75,7 +75,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary w-fit">Add Supplier</button>
+            <button type="submit" class="btn btn-primary w-fit">Edit Supplier</button>
         </form>
     </div>
 </DashboardLayout>

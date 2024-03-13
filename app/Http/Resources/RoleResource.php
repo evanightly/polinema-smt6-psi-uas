@@ -17,6 +17,7 @@ class RoleResource extends JsonResource {
             'name' => $this->name,
             'users' => UserResource::collection($this->whenLoaded('users')),
             'users_total' => $this->users->count(),
+            'canBeDeleted' => $this->users->count() === 0,
             // 'guard_name' => $this->guard_name,
             // 'permissions' => PermissionResource::collection($this->whenLoaded('permissions')),
         ];

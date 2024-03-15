@@ -5,7 +5,18 @@
     export let icon = '';
     export let label = '';
 
-    $: menuClass = $page.url === href ? 'menu-item menu-active' : 'menu-item';
+    let menuClass;
+
+    const isDashboard = () => href === '/' && $page.url === href;
+    const isOtherPage = () => href !== '/' && $page.url.startsWith(href);
+
+    if (isDashboard()) {
+        menuClass = 'menu-item menu-active';
+    } else if (isOtherPage()) {
+        menuClass = 'menu-item menu-active';
+    } else {
+        menuClass = 'menu-item';
+    }
 </script>
 
 <Link {href} class={menuClass}>

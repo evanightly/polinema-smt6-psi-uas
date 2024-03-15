@@ -14,6 +14,7 @@
                 <th>Buyer</th>
                 <th>Total</th>
                 <th>Transaction Date</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -45,6 +46,9 @@
                     <td>{transaction.buyer_name}</td>
                     <td>{transaction.price_total}</td>
                     <td>{transaction.formatted_transaction_date}</td>
+                    <td>
+                        <a use:inertia href={`/transactions/${transaction.id}`} class="text-primary"> View </a>
+                    </td>
                 </tr>
             {:else}
                 <tr>

@@ -37,7 +37,8 @@ class SupplierRepository extends Repository {
         return $supplier->refresh();
     }
 
-    public function delete(Supplier $supplier): void {
+    public function delete(Supplier $supplier): Supplier {
         $supplier->delete();
+        return $supplier;
     }
 }

@@ -1,5 +1,5 @@
 <script>
-    import { isSidebarMobileFixed } from '../../Stores/sidebarStore.js';
+    import { isSidebarMobileFixed } from '../../Stores/Utility/sidebarStore.js';
     import { page } from '@inertiajs/svelte';
     import DashboardSidebarMenuItem from './Components/DashboardSidebarMenuItem.svelte';
     import logout from '../../Helpers/logout.js';

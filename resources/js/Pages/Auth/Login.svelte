@@ -3,7 +3,7 @@
     import LoginSideImage from '../../Assets/Images/login-side-image.png';
     import MainLayout from '../../Layouts/MainLayout.svelte';
     import { inertia, router } from '@inertiajs/svelte';
-    import loading from '../../Stores/loadingOverlayStore';
+    import loading from '../../Stores/Utility/loadingOverlayStore';
     import { setAxiosAuthorizationHeader } from '../../bootstrap';
 
     let email = '';

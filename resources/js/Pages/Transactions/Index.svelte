@@ -1,70 +1,35 @@
 <script>
-    import { debounce } from 'lodash';
     import GenericDataView from '../../Layouts/GenericDataView.svelte';
-    import DataViewTransactionTable from './DataViews/DataViewTransactionTable.svelte';
+    import { transactionStore } from '../../Stores/Data/transactionStore';
 
-    const DEBOUNCE_TIME = 300;
-    const DEFAULT_FILTERS = {
-        options: {
-            filters: {
-                search: '',
-            },
+    let title = 'transaction';
+    const modelUrl = 'transactions';
+    const columns = [
+        {
+            key: 'buyer_name',
+            label: 'Buyer Name',
         },
-        page: 1,
-    };
-    const SORT_OPTIONS = {
-        sortBy: 'updated_at',
-        sortDirection: 'desc',
-    };
+        {
+            key: 'user.name',
+            label: 'Staff',
+        },
+        {
+            key: 'price_total',
+            label: 'Price Total',
+        },
+    ];
 
-    let filters = { ...DEFAULT_FILTERS };
-    let page = 1;
-    let previousSearch = '';
-    let search = '';
-
-    const debouncedFetchUsers = debounce(fetchUsers, DEBOUNCE_TIME);
-
-    $: {
-        if (search && search !== previousSearch) {
-            page = 1;
-            previousSearch = search;
-        }
-
-        filters = {
-            ...filters,
-            options: {
-                filters: {
-                    search,
-                },
-                ...SORT_OPTIONS,
-            },
-            page,
-        };
-
-        debouncedFetchUsers();
-    }
-
-    async function fetchUsers(options) {
-        const url = '/api/transactions';
-        const { data: response } = await axios.get(url, options);
-        return response;
-    }
-
-    async function deleteUser(id) {
-        await axios.delete(`/api/transactions/${id}`);
-    }
+    const store = transactionStore();
 </script>
 
 <GenericDataView
-    fetchItems={fetchUsers}
-    deleteItem={deleteUser}
-    title="Transaction"
-    createUrl="transactions/create"
-    showCards={false}
+    {store}
+    {title}
+    {modelUrl}
+    {columns}
+    showAddButton={false}
+    showEditButton={false}
+    showDeleteButton={false}
 >
-    <div slot="tableView" let:itemsData={transactionsData} let:handleDeleteItem>
-        <DataViewTransactionTable {transactionsData} {handleDeleteItem} />
-    </div>
-
-    <div slot="cardsView" let:itemsData={transactionsData} let:handleDeleteItem></div>
+    <div slot="cardsView" let:handleDeleteItem>Not Implemented Yet</div>
 </GenericDataView>

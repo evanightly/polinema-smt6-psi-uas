@@ -31,7 +31,8 @@ class TransactionController extends Controller {
      * Display the specified resource.
      */
     public function show(Transaction $transaction) {
-        //
+        $transaction->load('user', 'products');
+        return inertia('Transactions/Show', ['transaction' => $transaction]);
     }
 
     /**

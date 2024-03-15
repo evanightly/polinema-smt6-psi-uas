@@ -40,8 +40,10 @@ class UserService {
         return $user;
     }
 
-    public function deleteUser(User $user): void {
+    public function deleteUser(User $user): User {
+        $temp_user = $user;
         $this->handleImageDeletion($user->image_path);
         $this->userRepository->delete($user);
+        return $temp_user;
     }
 }

@@ -1,73 +1,38 @@
 <script>
-    import { debounce } from 'lodash';
     import GenericDataView from '../../Layouts/GenericDataView.svelte';
-    import DataViewProductTable from './DataViews/DataViewProductTable.svelte';
+    import { productStore } from '../../Stores/Data/productStore';
     import DataViewProductCards from './DataViews/DataViewProductCards.svelte';
 
-    const DEBOUNCE_TIME = 300;
-    const DEFAULT_FILTERS = {
-        options: {
-            filters: {
-                search: '',
-            },
+    let title = 'product';
+    const modelUrl = 'products';
+    const columns = [
+        {
+            key: 'name',
+            label: 'Name',
         },
-        page: 1,
+        {
+            key: 'image',
+            label: 'Image',
+            isImage: true,
+        },
+        {
+            key: 'price',
+            label: 'Price',
+        },
+    ];
+
+    const additionalFilters = {
+        options: {
+            sortBy: 'updated_at',
+            sortDirection: 'desc',
+        },
     };
-    const SORT_OPTIONS = {
-        sortBy: 'updated_at',
-        sortDirection: 'desc',
-    };
 
-    let filters = { ...DEFAULT_FILTERS };
-    let page = 1;
-    let previousSearch = '';
-    let search = '';
-
-    const debouncedFetchProducts = debounce(fetchProducts, DEBOUNCE_TIME);
-
-    $: {
-        if (search && search !== previousSearch) {
-            page = 1;
-            previousSearch = search;
-        }
-
-        filters = {
-            ...filters,
-            options: {
-                filters: {
-                    search,
-                },
-                ...SORT_OPTIONS,
-            },
-            page,
-        };
-
-        debouncedFetchProducts();
-    }
-
-    async function fetchProducts(options) {
-        const url = '/api/products';
-        const { data: response } = await axios.get(url, options);
-        return response;
-    }
-
-    async function deleteProduct(id) {
-        await axios.delete(`/api/products/${id}`);
-    }
+    const store = productStore();
 </script>
 
-<GenericDataView
-    fetchItems={fetchProducts}
-    deleteItem={deleteProduct}
-    title="Product"
-    createUrl="products/create"
-    showCards={true}
->
-    <div slot="tableView" let:itemsData={productData} let:handleDeleteItem>
-        <DataViewProductTable itemsData={productData} {handleDeleteItem} />
-    </div>
-
-    <div slot="cardsView" let:itemsData={productData} let:handleDeleteItem>
-        <DataViewProductCards itemsData={productData} {handleDeleteItem} />
+<GenericDataView {store} {title} {modelUrl} {columns} {additionalFilters}>
+    <div slot="cardsView" let:handleDeleteItem>
+        <DataViewProductCards store={$store} {handleDeleteItem} />
     </div>
 </GenericDataView>

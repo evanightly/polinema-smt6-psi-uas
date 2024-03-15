@@ -3,7 +3,7 @@
     import { debounce } from 'lodash';
     import axios from 'axios';
     import DashboardLayout from '../../Layouts/DashboardLayout.svelte';
-    import loading from '../../Stores/loadingOverlayStore';
+    import loading from '../../Stores/Utility/loadingOverlayStore';
     import { router } from '@inertiajs/svelte';
     import { showConfirmDialog, showSuccessDialog } from '../../Helpers/showDialog';
 
@@ -18,7 +18,15 @@
     }
 
     async function fetchSuppliers() {
-        const { data: response } = await axios.get(`/api/suppliers?search=${searchSupplier}`);
+        const { data: response } = await axios.get(`/api/suppliers`, {
+            params: {
+                options: {
+                    filters: {
+                        search: searchSupplier,
+                    },
+                },
+            },
+        });
         supplierData = response;
     }
 
@@ -27,8 +35,6 @@
     $: showedSupplierTotal = supplierData.data?.length ?? 0;
 
     $: searchSupplier, debouncedFetchSuppliers();
-
-    onMount(fetchSuppliers);
 
     const defaultNewProductData = {
         name: '',

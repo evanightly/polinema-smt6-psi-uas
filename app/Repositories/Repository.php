@@ -21,8 +21,28 @@ class Repository {
                 $query->where(function ($query) use ($value, $searchFields) {
                     // Loop through each search field
                     foreach ($searchFields as $searchField) {
+
+                        // -------------------------SOLUTION 1-------------------------
                         // Add a LIKE condition for the current search field
-                        $query->orWhere($searchField, 'like', '%' . $value . '%');
+                        // $query->orWhere($searchField, 'like', '%' . $value . '%');
+                        // -----------------------------------------------------------▐
+
+                        // Split the search field into parts
+                        $parts = explode('.', $searchField);
+
+                        if (count($parts) > 1) {
+                            // If there are multiple parts, it's a nested search
+                            $relation = $parts[0];
+                            $relatedField = $parts[1];
+
+                            // Join the related table and add a LIKE condition for the related field
+                            $query->orWhereHas($relation, function ($query) use ($relatedField, $value) {
+                                $query->where($relatedField, 'like', '%' . $value . '%');
+                            });
+                        } else {
+                            // If there's only one part, it's a regular search
+                            $query->orWhere($searchField, 'like', '%' . $value . '%');
+                        }
                     }
                 });
             }

@@ -57,7 +57,7 @@ class ApiSupplierController extends ApiController {
      * Remove the specified resource from storage.
      */
     public function destroy(Supplier $supplier) {
-        $this->supplierRepository->delete($supplier);
-        return response()->noContent();
+        $supplier = $this->supplierRepository->delete($supplier);
+        return new SupplierResource($supplier);
     }
 }

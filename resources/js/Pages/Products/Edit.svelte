@@ -5,7 +5,7 @@
     import DashboardLayout from '../../Layouts/DashboardLayout.svelte';
     import formDataLogger from '../../Helpers/formDataLogger';
     import { router } from '@inertiajs/svelte';
-    import loading from '../../Stores/loadingOverlayStore';
+    import loading from '../../Stores/Utility/loadingOverlayStore';
     import { showConfirmDialog, showSuccessDialog } from '../../Helpers/showDialog';
 
     export let product;

@@ -1,70 +1,23 @@
 <script>
-    import { debounce } from 'lodash';
     import GenericDataView from '../../Layouts/GenericDataView.svelte';
-    import DataViewUserTable from './DataViews/DataViewUserTable.svelte';
+    import { userStore } from '../../Stores/Data/userStore';
 
-    const DEBOUNCE_TIME = 300;
-    const DEFAULT_FILTERS = {
-        options: {
-            filters: {
-                search: '',
-            },
+    let title = 'user';
+    const modelUrl = 'users';
+    const columns = [
+        {
+            key: 'name',
+            label: 'Name',
         },
-        page: 1,
-    };
-    const SORT_OPTIONS = {
-        sortBy: 'updated_at',
-        sortDirection: 'desc',
-    };
+        {
+            key: 'email',
+            label: 'Email',
+        },
+    ];
 
-    let filters = { ...DEFAULT_FILTERS };
-    let page = 1;
-    let previousSearch = '';
-    let search = '';
-
-    const debouncedFetchUsers = debounce(fetchUsers, DEBOUNCE_TIME);
-
-    $: {
-        if (search && search !== previousSearch) {
-            page = 1;
-            previousSearch = search;
-        }
-
-        filters = {
-            ...filters,
-            options: {
-                filters: {
-                    search,
-                },
-                ...SORT_OPTIONS,
-            },
-            page,
-        };
-
-        debouncedFetchUsers();
-    }
-
-    async function fetchUsers(options) {
-        const url = '/api/users';
-        const { data: response } = await axios.get(url, options);
-        return response;
-    }
-
-    async function deleteUser(id) {
-        await axios.delete(`/api/users/${id}`);
-    }
+    const store = userStore();
 </script>
 
-<GenericDataView
-    fetchItems={fetchUsers}
-    deleteItem={deleteUser}
-    title="User"
-    createUrl="users/create"
-    showCards={false}
->
-    <div slot="tableView" let:itemsData={usersData} let:handleDeleteItem>
-        <DataViewUserTable {usersData} {handleDeleteItem} />
-    </div>
-
-    <div slot="cardsView" let:itemsData={usersData} let:handleDeleteItem></div>
+<GenericDataView {store} {title} {modelUrl} {columns}>
+    <div slot="cardsView" let:handleDeleteItem>Not Implemented Yet</div>
 </GenericDataView>

@@ -1,19 +1,21 @@
 <script>
-    import { Link } from '@inertiajs/svelte';
+    import { Link, page } from '@inertiajs/svelte';
     import DashboardDarkModeToggler from './DashboardDarkModeToggler.svelte';
     import DashboardNotification from './DashboardNotification.svelte';
     import logout from '../../Helpers/logout';
 
     export let navbarTitle = '';
-    export let showDataTitle = true;
+    export let navbarSubTitle = '';
+
+    let userImage = $page.props.user.image;
 </script>
 
 <div class="navbar px-12 py-6">
     <div class="navbar-start">
         <div class="flex flex-col gap-5">
             <p class="text-base">Dashboard/{navbarTitle}</p>
-            {#if showDataTitle}
-                <p class="text-xl font-bold">Data {navbarTitle}</p>
+            {#if navbarSubTitle}
+                <p class="text-xl font-bold">{navbarSubTitle}</p>
             {/if}
         </div>
     </div>
@@ -26,11 +28,7 @@
         <div class="dropdown-container">
             <div class="dropdown">
                 <button class="btn btn-ghost flex cursor-pointer px-0 gap-3" tabindex="0">
-                    <img
-                        src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
-                        alt="avatar"
-                        class="avatar avatar-ring avatar-squared avatar-md"
-                    />
+                    <img src={userImage} alt="avatar" class="avatar avatar-ring avatar-squared avatar-md" />
                     <i class="ri-arrow-down-s-line"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-bottom-left">

@@ -2,7 +2,7 @@ import { writable } from 'svelte/store';
 import axios from 'axios';
 import { debounce } from 'lodash';
 
-const createSupplierStore = () => {
+const searchableSupplierStore = () => {
     const { subscribe, set, update } = writable({ data: [], meta: {} });
 
     return {
@@ -14,4 +14,4 @@ const createSupplierStore = () => {
     };
 };
 
-export const supplierStore = createSupplierStore();
+export const supplierStore = searchableSupplierStore();

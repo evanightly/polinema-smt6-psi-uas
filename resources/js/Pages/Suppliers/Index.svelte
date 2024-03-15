@@ -1,70 +1,27 @@
 <script>
-    import { debounce } from 'lodash';
     import GenericDataView from '../../Layouts/GenericDataView.svelte';
-    import DataViewSupplierTable from './DataViews/DataViewSupplierTable.svelte';
+    import { supplierStore } from '../../Stores/Data/supplierStore';
 
-    const DEBOUNCE_TIME = 300;
-    const DEFAULT_FILTERS = {
-        options: {
-            filters: {
-                search: '',
-            },
+    let title = 'Supplier';
+    const modelUrl = 'suppliers';
+    const columns = [
+        {
+            key: 'name',
+            label: 'Name',
         },
-        page: 1,
-    };
-    const SORT_OPTIONS = {
-        sortBy: 'updated_at',
-        sortDirection: 'desc',
-    };
+        {
+            key: 'phone',
+            label: 'Phone',
+        },
+        {
+            key: 'products_total',
+            label: 'Product Total',
+        },
+    ];
 
-    let filters = { ...DEFAULT_FILTERS };
-    let page = 1;
-    let previousSearch = '';
-    let search = '';
-
-    const debouncedFetchUsers = debounce(fetchUsers, DEBOUNCE_TIME);
-
-    $: {
-        if (search && search !== previousSearch) {
-            page = 1;
-            previousSearch = search;
-        }
-
-        filters = {
-            ...filters,
-            options: {
-                filters: {
-                    search,
-                },
-                ...SORT_OPTIONS,
-            },
-            page,
-        };
-
-        debouncedFetchUsers();
-    }
-
-    async function fetchUsers(options) {
-        const url = '/api/suppliers';
-        const { data: response } = await axios.get(url, options);
-        return response;
-    }
-
-    async function deleteUser(id) {
-        await axios.delete(`/api/suppliers/${id}`);
-    }
+    const store = supplierStore();
 </script>
 
-<GenericDataView
-    fetchItems={fetchUsers}
-    deleteItem={deleteUser}
-    title="Supplier"
-    createUrl="suppliers/create"
-    showCards={false}
->
-    <div slot="tableView" let:itemsData={suppliersData} let:handleDeleteItem>
-        <DataViewSupplierTable {suppliersData} {handleDeleteItem} />
-    </div>
-
-    <div slot="cardsView" let:itemsData={suppliersData} let:handleDeleteItem></div>
+<GenericDataView {store} {title} {modelUrl} {columns}>
+    <div slot="cardsView" let:handleDeleteItem>Not Implemented Yet</div>
 </GenericDataView>

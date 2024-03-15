@@ -3,7 +3,7 @@
     import { showConfirmDialog, showDeclinedDialog, showSuccessDialog } from '../../Helpers/showDialog';
     import DashboardLayout from '../../Layouts/DashboardLayout.svelte';
     import axios from 'axios';
-    import loading from '../../Stores/loadingOverlayStore';
+    import loading from '../../Stores/Utility/loadingOverlayStore';
     import { router } from '@inertiajs/svelte';
 
     let roles = [];

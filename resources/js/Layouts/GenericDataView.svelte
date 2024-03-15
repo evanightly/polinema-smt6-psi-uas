@@ -4,74 +4,52 @@
     import DashboardLayout from './DashboardLayout.svelte';
     import { inertia } from '@inertiajs/svelte';
     import Pagination from '../Components/Pagination.svelte';
-    import { dataViewMode, toggleViewMode } from '../Stores/dataViewModeStore';
-    import loading from '../Stores/loadingOverlayStore';
+    import { dataViewMode, toggleViewMode } from '../Stores/Data/dataViewModeStore';
+    import loading from '../Stores/Utility/loadingOverlayStore';
 
-    export let fetchItems;
-    export let deleteItem;
-    export let title;
-    export let createUrl;
-    export let showCards = true;
+    export let store;
+    export let title = '';
+    export let modelUrl = '';
+    export let columns = [];
+    export let additionalFilters = {};
+    export let additionalButtons = [];
+    export let showAddButton = true;
+    export let showEditButton = true;
+    export let showDeleteButton = true;
 
+    const DEBOUNCE_TIME = 300;
     let previousSearch = '';
     let search = '';
     let page = 1;
-    let itemsData;
-
-    const DEBOUNCE_TIME = 300;
-    const DEFAULT_FILTERS = {
-        options: {
-            filters: {
-                search: '',
-            },
-        },
-        page: 1,
-    };
-    const SORT_OPTIONS = {
-        sortBy: 'updated_at',
-        sortDirection: 'desc',
-    };
-
-    let filters = { ...DEFAULT_FILTERS };
-
-    const refreshItems = async () => {
-        loading.start('Fetching items');
-        const options = { params: filters };
-        try {
-            itemsData = await fetchItems(options);
-        } catch (error) {
-            // Errors are already handled in interceptors
-        } finally {
-            loading.stop();
-        }
-    };
 
     const debouncedFetchItems = debounce(async () => {
-        await refreshItems();
+        loading.start('Loading');
+        const options = {
+            params: {
+                options: { filters: { search } },
+                page,
+                ...additionalFilters,
+            },
+        };
+
+        await store.fetch(options);
+        console.log($store);
+        loading.stop();
     }, DEBOUNCE_TIME);
 
     $: {
         if (search && search !== previousSearch) {
             page = 1;
             previousSearch = search;
-            console.log('search', search);
         }
-
-        filters = {
-            ...filters,
-            options: {
-                filters: {
-                    search,
-                },
-                ...SORT_OPTIONS,
-            },
-            page,
-        };
-
-        debouncedFetchItems();
+        page, debouncedFetchItems();
     }
 
     function handleChangeUrl(newUrl) {
+        if (+newUrl === page) {
+            return;
+        }
+        loading.start('Loading'); // This needs to be stopped, eventually it will stopped in debouncedFetchItems
         page = newUrl;
     }
 
@@ -81,25 +59,35 @@
         if (!result.isConfirmed) {
             return showDeclinedDialog();
         } else {
+            loading.start('Deleting');
             try {
                 await deleteItem(id);
-                await refreshItems();
                 showSuccessDialog({ title: 'Success!', text: `${title} has been deleted` });
             } catch (error) {
                 console.log(error);
                 showErrorDialog();
+            } finally {
+                loading.stop();
             }
         }
+    }
+
+    function getNestedProperty(obj, key) {
+        return key.split('.').reduce((o, k) => (o || {})[k], obj);
     }
 </script>
 
 <DashboardLayout {title}>
     <div class="flex flex-col gap-5 mt-5">
         <div class="flex justify-between">
-            <a use:inertia href={createUrl} class="btn btn-primary gap-2">
-                <i class="ri-add-large-line"></i>
-                <span>Add {title}</span>
-            </a>
+            {#if modelUrl && showAddButton}
+                <a use:inertia href={`${modelUrl}/create`} class="btn btn-primary gap-2">
+                    <i class="ri-add-large-line"></i>
+                    <span>Add {title}</span>
+                </a>
+            {:else}
+                <div class="btn invisible">Invisible Text</div>
+            {/if}
 
             <div class="flex gap-3 items-center">
                 <div class="relative">
@@ -109,15 +97,9 @@
                     </div>
                 </div>
 
-                <button class="btn btn-outline gap-2">
-                    <i class="ri-sort-desc"></i>
-                    <span>Sort</span>
-                </button>
-
-                <button class="btn btn-outline gap-2">
-                    <i class="ri-equalizer-2-line"></i>
-                    <span>Filter</span>
-                </button>
+                {#each additionalButtons ?? [] as button (button.label)}
+                    <button on:click={button.onClick}>{button.label}</button>
+                {/each}
 
                 <button class="btn btn-outline gap-2" on:click={toggleViewMode}>
                     {#if $dataViewMode === 'table'}
@@ -129,12 +111,68 @@
             </div>
         </div>
 
-        {#if $dataViewMode === 'table' || !showCards}
-            <slot name="tableView" {itemsData} {handleDeleteItem} />
+        {#if $dataViewMode === 'table' && columns.length > 0 && $store?.data?.length > 0}
+            <div class="flex w-full overflow-x-auto">
+                <table class="table-hover table">
+                    <thead>
+                        <tr>
+                            {#each columns as column}
+                                <th>{column.label}</th>
+                            {/each}
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {#each $store.data as item (item.id)}
+                            <tr>
+                                {#each columns as column}
+                                    <td>
+                                        {#if column.isImage}
+                                            <img
+                                                src={getNestedProperty(item, column.key)}
+                                                alt={getNestedProperty(item, column.key)}
+                                                class="h-24"
+                                            />
+                                        {:else}
+                                            {getNestedProperty(item, column.key)}
+                                        {/if}
+                                    </td>
+                                {/each}
+                                <td>
+                                    <div class="flex gap-2">
+                                        <button class="btn btn-sm btn-secondary" disabled>
+                                            <i class="ri-eye-line"></i>
+                                        </button>
+
+                                        {#if showEditButton}
+                                            <a
+                                                use:inertia
+                                                href={`/${modelUrl}/${item.id}/edit`}
+                                                class="btn btn-sm btn-edit"
+                                            >
+                                                <i class="ri-pencil-line"></i>
+                                            </a>
+                                        {/if}
+
+                                        {#if showDeleteButton}
+                                            <button
+                                                on:click={() => handleDeleteItem(item.id)}
+                                                class="btn btn-sm btn-delete"
+                                            >
+                                                <i class="ri-delete-bin-6-line"></i>
+                                            </button>
+                                        {/if}
+                                    </div>
+                                </td>
+                            </tr>
+                        {/each}
+                    </tbody>
+                </table>
+            </div>
         {:else}
-            <slot name="cardsView" {itemsData} {handleDeleteItem} />
+            <slot name="cardsView" store={$store} {handleDeleteItem} />
         {/if}
 
-        <Pagination links={itemsData?.meta?.links} {handleChangeUrl} />
+        <Pagination links={$store?.meta?.links} {handleChangeUrl} />
     </div>
 </DashboardLayout>

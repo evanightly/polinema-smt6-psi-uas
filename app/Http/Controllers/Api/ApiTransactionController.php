@@ -24,7 +24,7 @@ class ApiTransactionController extends ApiController {
      */
     public function index() {
         $options = request()->query('options', []);
-        $searchFields = ['buyer_name'];
+        $searchFields = ['buyer_name', 'price_total', 'user.name'];
         $relations = ['products', 'user'];
         $transactions = $this->transactionRepository->get($options, $searchFields, $relations);
         return $this->apiPaginateResponse($transactions, TransactionResource::class);

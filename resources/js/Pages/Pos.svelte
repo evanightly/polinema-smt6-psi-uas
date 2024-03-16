@@ -6,6 +6,7 @@
     import loading from '../Stores/Utility/loadingOverlayStore';
     import Pagination from '../Components/Pagination.svelte';
     import { showConfirmDialog, showDeclinedDialog } from '../Helpers/showDialog';
+    import { cartStore, addItem, removeItem, increaseQuantity, decreaseQuantity } from '@/Stores/Data/cartStore.js';
 
     const DEBOUNCE_TIME = 300;
     const title = 'Point of Sale';
@@ -14,6 +15,7 @@
     let previousSearch = '';
     let search = '';
     let page = 1;
+    let buyerName = '';
 
     const debouncedFetchItems = debounce(async () => {
         loading.start('Loading');
@@ -28,8 +30,6 @@
         console.log($products);
         loading.stop();
     }, DEBOUNCE_TIME);
-
-    $: console.log($products);
 
     $: {
         if (search && search !== previousSearch) {
@@ -56,6 +56,14 @@
             // Checkout logic
         }
     }
+
+    function handleAddToCart(item) {
+        addItem(item);
+    }
+
+    function handleRemoveFromCart(itemId) {
+        removeItem(itemId);
+    }
 </script>
 
 <DashboardLayout {title} {navbarSubTitle}>
@@ -73,15 +81,23 @@
                 <div class="flex flex-wrap gap-5">
                     {#each $products?.data ?? [] as product}
                         <div class="card card-image-cover h-fit rounded-sm max-w-64">
-                            <div class="relative">
-                                <img src={product.image} alt="Image of {product.name}" class="rounded-sm" />
+                            <div class="relative p-2">
+                                <img src={product.image} alt="Image of {product.name}" class="!rounded-sm" />
                                 <button
+                                    on:click={() =>
+                                        handleAddToCart({
+                                            id: product.id,
+                                            name: product.name,
+                                            price: +product.price,
+                                            image: product.image,
+                                            maxQuantity: product.stock,
+                                        })}
                                     class="absolute top-5 right-5 p-2 px-3 bg-white rounded-lg text-orange-500 opacity-80"
                                 >
                                     <i class="ri-shopping-cart-line text-xl"></i>
                                 </button>
                             </div>
-                            <div class="card-body p-5">
+                            <div class="card-body p-2">
                                 <h2 class="card-header">{product.name}</h2>
                                 <p class="text-content2">{product.description}</p>
                                 <div class="card-footer">
@@ -113,35 +129,51 @@
         <div class="flex flex-1 flex-col shadow-2xl p-5 space-y-5">
             <h3 class="text-lg font-bold">Current Order</h3>
             <div class="flex flex-1 flex-col">
-                <div class="flex gap-2 rounded shadow p-3">
-                    <img />
-                    <div class="flex flex-1 flex-col gap-5">
-                        <p class="text-lg font-semibold">Double Chicken</p>
-                        <div class="flex justify-between items-center">
-                            <p class="text-orange-500">Rp. <span>99999</span></p>
-                            <div class="grid grid-cols-3 items-center">
-                                <button class="btn btn-sm bg-orange-500 text-white">-</button>
-                                <p class="text-center text-base">1</p>
-                                <button class="btn btn-sm bg-orange-500 text-white">+</button>
+                {#each $cartStore.items as item (item.id)}
+                    <div class="flex gap-2 rounded shadow p-3 relative">
+                        <button
+                            on:click={() => handleRemoveFromCart(item.id)}
+                            class="btn btn-sm absolute top-0 right-0 btn-ghost btn-circle"
+                        >
+                            <!-- trash -->
+                            <i class="ri-delete-bin-line"></i>
+                        </button>
+                        <img src={item.image} alt={item.name} class="rounded h-20" />
+                        <div class="flex flex-1 flex-col gap-5">
+                            <p class="text-lg font-semibold">{item.name}</p>
+                            <div class="flex justify-between items-center">
+                                <p class="text-orange-500">Rp. <span>{item.price}</span></p>
+                                <div class="grid grid-cols-3 items-center">
+                                    <button
+                                        class="btn btn-sm bg-orange-500 text-white"
+                                        on:click={() => decreaseQuantity(item.id)}>-</button
+                                    >
+                                    <p class="text-center text-base">{item.quantity}</p>
+                                    <button
+                                        class="btn btn-sm bg-orange-500 text-white"
+                                        on:click={() => increaseQuantity(item.id)}>+</button
+                                    >
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                {/each}
 
                 <form class="flex flex-col mt-5 space-y-3" on:submit|preventDefault={handleSubmit}>
                     <div class="space-y-3 p-3 rounded">
                         <div class="form-group">
-                            <label for="buyer_name" class="form-label text-base">Buyer Name</label>
+                            <label for="buyer_name" class="form-label text-base">Buyer Name: {buyerName}</label>
                             <input
                                 id="buyer_name"
                                 name="buyer_name"
                                 type="text"
                                 class="input form-control input-block"
+                                bind:value={buyerName}
                             />
                         </div>
                         <div class="flex flex-col space-y-2">
                             <p class="text-base">Total</p>
-                            <p class="text-lg tracking-wide">Rp. <span>299.970</span></p>
+                            <p class="text-lg tracking-wide">Rp. <span>{$cartStore.total}</span></p>
                         </div>
                     </div>
 

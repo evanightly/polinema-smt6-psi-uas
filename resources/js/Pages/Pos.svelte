@@ -169,9 +169,9 @@
                 <Pagination links={$products?.meta?.links} {handleChangeUrl} />
             </div>
         </div>
-        <div class="flex flex-1 flex-col shadow-2xl p-5 space-y-5">
-            <h3 class="text-lg font-bold">Current Order</h3>
-            <div class="flex flex-1 flex-col">
+        <div class="flex flex-1 flex-col shadow-2xl p-5">
+            <h3 class="text-xl font-bold my-5">Current Order</h3>
+            <div class="flex flex-col m-0">
                 {#each $cartStore.items as item (item.id)}
                     <div class="flex gap-2 rounded shadow p-3 relative">
                         <button

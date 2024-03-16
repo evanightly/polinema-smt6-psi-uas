@@ -1,4 +1,5 @@
 import { persisted } from 'svelte-persisted-store';
+import { showAlert } from '../../Helpers/showAlert';
 // Initial state
 const initialState = {
     items: [],
@@ -22,6 +23,8 @@ function addItem(item) {
             state.items.push({ ...item, quantity: 1 });
             state.total += item.price;
             state.total = Math.round(state.total * 100) / 100; // Round to two decimal places
+        } else {
+            showAlert("Can't Do", 'The maximum quantity for this item has been reached');
         }
 
         return state;
@@ -55,6 +58,8 @@ function increaseQuantity(itemId) {
             item.quantity++;
             state.total += item.price;
             state.total = Math.round(state.total * 100) / 100; // Round to two decimal places
+        } else {
+            showAlert("Can't Do", 'The maximum quantity for this item has been reached');
         }
 
         return state;

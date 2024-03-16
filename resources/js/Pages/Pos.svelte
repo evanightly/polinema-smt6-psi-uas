@@ -80,9 +80,9 @@
                 </div>
                 <div class="flex flex-wrap gap-5">
                     {#each $products?.data ?? [] as product}
-                        <div class="card card-image-cover h-fit rounded-sm max-w-64">
+                        <div class="card card-image-cover h-fit rounded max-w-64">
                             <div class="relative p-2">
-                                <img src={product.image} alt="Image of {product.name}" class="!rounded-sm" />
+                                <img src={product.image} alt="Image of {product.name}" class="!rounded" />
                                 <button
                                     on:click={() =>
                                         handleAddToCart({
@@ -104,7 +104,7 @@
                                     <div class="flex flex-1 justify-between font-bold">
                                         <div class="flex">
                                             <p>Rp. {product.price}</p>
-                                            <span class="text-gray-500">&nbsp; / Item</span>
+                                            <span class="text-gray-500 font-medium">&nbsp; / Item</span>
                                         </div>
 
                                         <div class="flex gap-1 text-gray-500">

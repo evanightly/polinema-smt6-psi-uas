@@ -52,14 +52,14 @@
         //         "group": "groupB"
         //     }
         // },
-        // {
-        //     "label": "run websocket",
-        //     "type": "shell",
-        //     "command": "php artisan websockets:serve",
-        //     "presentation": {
-        //         "group": "groupB"
-        //     }
-        // },
+        {
+            "label": "run websocket",
+            "type": "shell",
+            "command": "php artisan websockets:serve",
+            "presentation": {
+                "group": "groupA"
+            }
+        },
         // {
         //     "label": "install latest chrome driver",
         //     "type": "shell",
@@ -81,8 +81,8 @@
             // ]
             "dependsOn": [
                 "serve",
-                "npm run dev"
-                // "run websocket",
+                "npm run dev",
+                "run websocket"
                 // "install latest chrome driver"
             ]
         },

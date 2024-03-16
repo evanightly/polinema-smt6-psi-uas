@@ -14,7 +14,7 @@
         decreaseQuantity,
         clearCart,
     } from '@/Stores/Data/cartStore.js';
-    import { page as currentPage } from '@inertiajs/svelte';
+    import { page as currentPage, router } from '@inertiajs/svelte';
 
     const DEBOUNCE_TIME = 300;
     const title = 'Point of Sale';
@@ -80,10 +80,10 @@
                     products,
                 };
 
-                console.log(data);
-                const response = await axios.post('/api/transactions', data);
+                await axios.post('/api/transactions', data);
                 showSuccessDialog({ title: 'Success!', text: 'Your order has been submitted' });
                 clearCart();
+                router.visit('/transactions');
             } catch (error) {
                 console.log(error);
                 showErrorDialog();

@@ -19,19 +19,16 @@
             key: 'price',
             label: 'Price',
         },
-    ];
-
-    const additionalFilters = {
-        options: {
-            sortBy: 'updated_at',
-            sortDirection: 'desc',
+        {
+            key: 'stock',
+            label: 'Available Stock',
         },
-    };
+    ];
 
     const store = productStore();
 </script>
 
-<GenericDataView {store} {title} {modelUrl} {columns} {additionalFilters}>
+<GenericDataView {store} {title} {modelUrl} {columns}>
     <div slot="cardsView" let:handleDeleteItem>
         <DataViewProductCards store={$store} {handleDeleteItem} />
     </div>

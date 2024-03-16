@@ -11,7 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TransactionCreated {
+class TransactionCreated implements ShouldBroadcast {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $transaction;
 
@@ -29,7 +29,7 @@ class TransactionCreated {
      */
     public function broadcastOn(): array {
         return [
-            // new PrivateChannel('channel-name'),
+            new Channel('transaction-created'),
         ];
     }
 }

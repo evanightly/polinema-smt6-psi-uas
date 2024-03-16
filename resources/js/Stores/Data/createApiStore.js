@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store';
 import axios from 'axios';
 
-export function createApiStore(url) {
+export function createApiStore(url, wsConfigs = [], onMessage = function (e) {}) {
     // const DEFAULT_DEBOUNCE_TIME = 300;
 
     const { subscribe, set, update: updateStore } = writable({});
@@ -11,12 +11,23 @@ export function createApiStore(url) {
     //     set(data);
     // }, DEFAULT_DEBOUNCE_TIME);
 
+    async function fetch(options = {}) {
+        const response = await axios.get(url, options);
+        console.log(options, response);
+        set(response.data);
+    }
+
+    wsConfigs.forEach(({ wsUrl, listenEvent }, i) => {
+        window.Echo.channel(wsUrl).listen(listenEvent, async e => {
+            console.log('Event', e);
+            onMessage(e);
+            await fetch();
+        });
+    });
+
     return {
         subscribe,
-        fetch: async (options = {}) => {
-            const { data } = await axios.get(url, options);
-            set(data);
-        },
+        fetch,
         delete: async id => {
             await axios.delete(`${url}/${id}`);
             updateStore(response => {

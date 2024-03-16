@@ -6,7 +6,7 @@
     import Pagination from '../Components/Pagination.svelte';
     import { dataViewMode, toggleViewMode } from '../Stores/Data/dataViewModeStore';
     import loading from '../Stores/Utility/loadingOverlayStore';
-
+    import _ from 'lodash';
     export let store;
     export let title = '';
     export let modelUrl = '';
@@ -25,16 +25,19 @@
 
     const debouncedFetchItems = debounce(async () => {
         loading.start('Loading');
-        const options = {
-            params: {
-                options: { filters: { search } },
-                page,
-                ...additionalFilters,
+
+        const options = _.merge(
+            {
+                params: {
+                    options: { filters: { search }, sortBy: 'updated_at', sortDirection: 'desc' },
+                    page,
+                },
             },
-        };
+
+            additionalFilters,
+        );
 
         await store.fetch(options);
-        console.log($store);
         loading.stop();
     }, DEBOUNCE_TIME);
 
@@ -62,7 +65,7 @@
         } else {
             loading.start('Deleting');
             try {
-                await deleteItem(id);
+                await store.delete(id);
                 showSuccessDialog({ title: 'Success!', text: `${title} has been deleted` });
             } catch (error) {
                 console.log(error);
@@ -74,7 +77,9 @@
     }
 
     function getNestedProperty(obj, key) {
-        return key.split('.').reduce((o, k) => (o || {})[k], obj);
+        // Return the value of a nested property in an object.
+        // If the property does not exist, return an empty string.
+        return _.get(obj, key) ?? '';
     }
 </script>
 
@@ -161,7 +166,7 @@
                                             </a>
                                         {/if}
 
-                                        {#if showDeleteButton}
+                                        {#if showDeleteButton && item?.canBeDeleted}
                                             <button
                                                 on:click={() => handleDeleteItem(item.id)}
                                                 class="btn btn-sm btn-delete"

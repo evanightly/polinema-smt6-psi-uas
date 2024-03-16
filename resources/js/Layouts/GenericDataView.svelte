@@ -16,6 +16,7 @@
     export let showAddButton = true;
     export let showEditButton = true;
     export let showDeleteButton = true;
+    export let showViewButton = true;
 
     const DEBOUNCE_TIME = 300;
     let previousSearch = '';
@@ -140,9 +141,15 @@
                                 {/each}
                                 <td>
                                     <div class="flex gap-2">
-                                        <button class="btn btn-sm btn-secondary" disabled>
-                                            <i class="ri-eye-line"></i>
-                                        </button>
+                                        {#if showViewButton}
+                                            <a
+                                                use:inertia
+                                                href={`/${modelUrl}/${item.id}`}
+                                                class="btn btn-sm btn-secondary"
+                                            >
+                                                <i class="ri-eye-line"></i>
+                                            </a>
+                                        {/if}
 
                                         {#if showEditButton}
                                             <a

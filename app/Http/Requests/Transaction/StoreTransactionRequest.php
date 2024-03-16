@@ -19,7 +19,9 @@ class StoreTransactionRequest extends FormRequest {
      */
     public function rules(): array {
         return [
-            //
+            'user_id' => ['required', 'integer'],
+            'buyer_name' => ['nullable', 'string', 'max:255'],
+            'price_total' => ['required', 'numeric'],
         ];
     }
 }

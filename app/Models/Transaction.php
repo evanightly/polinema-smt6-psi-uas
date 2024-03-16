@@ -16,13 +16,15 @@ class Transaction extends Model {
         'transaction_date',
     ];
 
+    protected $appends = ['formatted_transaction_date'];
+
     // This is staff that is responsible for the transaction
     public function user() {
         return $this->belongsTo(User::class);
     }
 
     public function products() {
-        return $this->belongsToMany(Product::class)->withPivot('quantity');
+        return $this->belongsToMany(Product::class)->withPivot('quantity', 'price_per_unit', 'price_subtotal');
     }
 
     public function getFormattedTransactionDateAttribute() {

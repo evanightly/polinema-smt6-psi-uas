@@ -6,7 +6,14 @@
     import loading from '../Stores/Utility/loadingOverlayStore';
     import Pagination from '../Components/Pagination.svelte';
     import { showConfirmDialog, showDeclinedDialog } from '../Helpers/showDialog';
-    import { cartStore, addItem, removeItem, increaseQuantity, decreaseQuantity } from '@/Stores/Data/cartStore.js';
+    import {
+        cartStore,
+        addItem,
+        removeItem,
+        increaseQuantity,
+        decreaseQuantity,
+        clearCart,
+    } from '@/Stores/Data/cartStore.js';
 
     const DEBOUNCE_TIME = 300;
     const title = 'Point of Sale';
@@ -27,7 +34,6 @@
         };
 
         await products.fetch(options);
-        console.log($products);
         loading.stop();
     }, DEBOUNCE_TIME);
 
@@ -54,6 +60,8 @@
             return showDeclinedDialog();
         } else {
             // Checkout logic
+
+            clearCart();
         }
     }
 

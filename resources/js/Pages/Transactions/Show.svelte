@@ -21,7 +21,10 @@
 
     <ul>
         {#each transaction.products as product, index (product.id)}
-            <li>{index + 1}. {product.name} - {product.quantity} x {product.price}</li>
+            <li>
+                {index + 1}. {product.name} - {product.pivot.quantity} x {product.pivot.price_per_unit} = {product.pivot
+                    .price_subtotal}
+            </li>
         {/each}
     </ul>
 

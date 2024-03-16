@@ -28,6 +28,8 @@ class ApiController extends BaseController {
         $items = $model->paginate($paginate);
 
         return $resourceClass::collection($items)->additional([
+
+            // For table numbering purposes
             'firstItem' => $items->firstItem(),
         ]);
     }

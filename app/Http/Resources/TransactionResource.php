@@ -20,7 +20,7 @@ class TransactionResource extends JsonResource {
             'products' => ProductResource::collection($this->whenLoaded('products')),
             'price_total' => $this->price_total,
             'transaction_date' => $this->transaction_date,
-            'formatted_transaction_date' => $this->formatted_transaction_date,
+            'formatted_transaction_date' => $this->formattedTransactionDate,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

@@ -21,7 +21,7 @@ class Product extends Model {
     ];
 
     public function transactions() {
-        return $this->belongsToMany(Transaction::class)->withPivot('quantity');
+        return $this->belongsToMany(Transaction::class)->withPivot('quantity', 'price_per_unit', 'price_subtotal');
     }
 
     public function supplier() {

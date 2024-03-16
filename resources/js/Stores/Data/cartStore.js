@@ -87,4 +87,13 @@ function decreaseQuantity(itemId) {
     });
 }
 
-export { cartStore, addItem, removeItem, increaseQuantity, decreaseQuantity };
+function clearCart() {
+    cartStore.update(state => {
+        state.items = [];
+        state.total = 0;
+
+        return state;
+    });
+}
+
+export { cartStore, addItem, removeItem, increaseQuantity, decreaseQuantity, clearCart };

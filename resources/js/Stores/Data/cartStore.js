@@ -9,6 +9,10 @@ const initialState = {
 const cartStore = persisted('cart', initialState);
 
 function addItem(item) {
+    if (item.maxQuantity < 1) {
+        showAlert("Can't Do", 'The minimum quantity for this item is 1');
+        return;
+    }
     cartStore.update(state => {
         // Check if the item is already in the cart
         const existingItem = state.items.find(i => i.id === item.id);

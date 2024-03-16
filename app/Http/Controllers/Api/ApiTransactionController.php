@@ -41,7 +41,8 @@ class ApiTransactionController extends ApiController {
      * Store a newly created resource in storage.
      */
     public function store(StoreTransactionRequest $request) {
-        //
+        $transaction = $this->transactionService->create($request->validated());
+        return $this->apiPaginateResponse($transaction, TransactionResource::class);
     }
 
     /**

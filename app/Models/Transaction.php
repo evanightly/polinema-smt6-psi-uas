@@ -13,8 +13,10 @@ class Transaction extends Model {
         'user_id',
         'buyer_name',
         'price_total',
-        'transaction_date',
     ];
+
+
+    protected $guarded = ['transaction_date'];
 
     protected $appends = ['formatted_transaction_date'];
 

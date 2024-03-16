@@ -5,7 +5,7 @@
     import { debounce } from 'lodash';
     import loading from '../Stores/Utility/loadingOverlayStore';
     import Pagination from '../Components/Pagination.svelte';
-    import { showConfirmDialog, showDeclinedDialog } from '../Helpers/showDialog';
+    import { showConfirmDialog, showDeclinedDialog, showErrorDialog, showSuccessDialog } from '../Helpers/showDialog';
     import {
         cartStore,
         addItem,
@@ -14,6 +14,7 @@
         decreaseQuantity,
         clearCart,
     } from '@/Stores/Data/cartStore.js';
+    import { page as currentPage } from '@inertiajs/svelte';
 
     const DEBOUNCE_TIME = 300;
     const title = 'Point of Sale';
@@ -59,9 +60,37 @@
         if (!result.isConfirmed) {
             return showDeclinedDialog();
         } else {
-            // Checkout logic
+            loading.start('Loading');
+            try {
+                const userId = $currentPage.props.user.id;
+                const products = $cartStore.items.map(item => ({
+                    id: item.id,
+                    image: item.image,
+                    maxQuantity: item.maxQuantity,
+                    name: item.name,
+                    price_per_unit: item.price, // change 'price' to 'price_per_unit'
+                    quantity: item.quantity,
+                    price_subtotal: item.price * item.quantity, // add 'price_subtotal'
+                }));
 
-            clearCart();
+                const data = {
+                    user_id: userId,
+                    buyer_name: buyerName,
+                    price_total: $cartStore.total,
+                    products,
+                };
+
+                console.log(data);
+                const response = await axios.post('/api/transactions', data);
+                showSuccessDialog({ title: 'Success!', text: 'Your order has been submitted' });
+                clearCart();
+            } catch (error) {
+                console.log(error);
+                showErrorDialog();
+            } finally {
+                loading.stop();
+                clearCart();
+            }
         }
     }
 
@@ -115,10 +144,16 @@
                                             <span class="text-gray-500 font-medium">&nbsp; / Item</span>
                                         </div>
 
-                                        <div class="flex gap-1 text-gray-500">
-                                            <i class="ri-archive-line"></i>
-                                            <span>{product.stock}</span>
-                                        </div>
+                                        {#if product.stock > 0}
+                                            <div class="flex gap-1 text-gray-500">
+                                                <i class="ri-archive-line"></i>
+                                                <span>{product.stock}</span>
+                                            </div>
+                                        {:else}
+                                            <div class="flex gap-1 text-red-500">
+                                                <span class="text-red-500">Out of Stock</span>
+                                            </div>
+                                        {/if}
                                     </div>
                                 </div>
                             </div>

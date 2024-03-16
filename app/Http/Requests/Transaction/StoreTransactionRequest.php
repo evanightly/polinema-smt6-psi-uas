@@ -19,9 +19,10 @@ class StoreTransactionRequest extends FormRequest {
      */
     public function rules(): array {
         return [
-            'user_id' => ['required', 'integer'],
+            'user_id' => ['required', 'integer', 'exists:users,id'],
             'buyer_name' => ['nullable', 'string', 'max:255'],
             'price_total' => ['required', 'numeric'],
+            'products' => ['required', 'array'], // This is the array of products that will be added to the transaction
         ];
     }
 }

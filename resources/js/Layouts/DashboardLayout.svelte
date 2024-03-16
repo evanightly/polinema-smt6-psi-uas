@@ -13,9 +13,7 @@
         <div class="flex flex-1 flex-col overflow-x-scroll">
             <DashboardNavbar navbarTitle={title} {navbarSubTitle} />
             <div class="overflow-y-auto">
-                <div class="px-12 py-6">
-                    <slot />
-                </div>
+                <slot />
             </div>
         </div>
     </div>

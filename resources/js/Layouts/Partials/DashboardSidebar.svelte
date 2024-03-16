@@ -1,13 +1,8 @@
 <script>
-    import { isSidebarMobileFixed } from '../../Stores/Utility/sidebarStore.js';
-    import { page } from '@inertiajs/svelte';
+    import { isSidebarMobileFixed } from '@/Stores/Utility/sidebarStore.js';
     import DashboardSidebarMenuItem from './Components/DashboardSidebarMenuItem.svelte';
-    import logout from '../../Helpers/logout.js';
-    let isStaff = $page.props.isStaff;
-    let isManager = $page.props.isManager;
-    let isSuperAdmin = $page.props.isSuperAdmin;
-
-    const hasAnyRole = (...roles) => roles.some(role => $page.props[role]);
+    import logout from '@/Helpers/logout.js';
+    import { hasAnyRole } from '@/Helpers/hasAnyRole.js';
 </script>
 
 <input type="checkbox" id="sidebar-mobile-fixed" class="dashboard sidebar-state" bind:checked={$isSidebarMobileFixed} />
@@ -52,6 +47,7 @@
                             icon="ri-shake-hands-line"
                             label="Transactions"
                         />
+                        <DashboardSidebarMenuItem href="/pos" icon="ri-shopping-cart-line" label="Point of Sale" />
                     {/if}
                 </ul>
             </section>

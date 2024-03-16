@@ -78,7 +78,7 @@
 </script>
 
 <DashboardLayout {title}>
-    <div class="flex flex-col gap-5 mt-5">
+    <div class="flex flex-col gap-5 mt-5 px-12 py-6">
         <div class="flex justify-between">
             {#if modelUrl && showAddButton}
                 <a use:inertia href={`${modelUrl}/create`} class="btn btn-primary gap-2">

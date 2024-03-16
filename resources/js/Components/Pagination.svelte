@@ -8,7 +8,7 @@
     };
 </script>
 
-<div class="pagination pagination-rounded w-full max-w-xs overflow-auto">
+<div class="pagination pagination-rounded w-full max-w-xs overflow-auto py-4">
     {#each links as link}
         {#if link.url && validateNumber(link.label)}
             <button class={buttonClass(link)} on:click={() => handleChangeUrl(link.label)}>

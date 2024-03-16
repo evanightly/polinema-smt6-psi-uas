@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 Route::middleware('auth')->group(function () {
     Route::inertia('/', 'Index');
     Route::resource('roles', RoleController::class)->middleware('role:SuperAdmin|Manager');
@@ -26,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('suppliers', SupplierController::class)->middleware('role:SuperAdmin|Staff|Manager');
     Route::resource('products', ProductController::class)->middleware('role:SuperAdmin|Staff');
     Route::resource('transactions', TransactionController::class)->middleware('role:SuperAdmin|Staff');
+    Route::inertia('pos', 'Pos')->middleware('role:SuperAdmin|Staff');
 
     Route::post('/logout', function () {
         auth()->logout();

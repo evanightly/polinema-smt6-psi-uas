@@ -28,7 +28,7 @@
 <MainLayout title="Login">
     <div class="flex max-h-screen">
         <img class="hidden lg:flex flex-1 object-cover object-center" src={LoginSideImage} alt="Left Side" />
-        <section class="login-form flex flex-1 flex-col items-center justify-center gap-9 p-36 lg:px-24">
+        <section class="login-form flex flex-1 flex-col items-center justify-center gap-9 p-12 md:p-36 lg:px-24">
             <span class="text-3xl font-bold text-primary gap-2 inline-flex">
                 <i class="ri-restaurant-fill"></i>
                 <p>E-Canteen</p>

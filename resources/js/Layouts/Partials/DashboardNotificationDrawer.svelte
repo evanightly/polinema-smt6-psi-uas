@@ -1,13 +1,17 @@
 <script>
     import loggedUserStore from '@/Stores/Data/loggedUserStore';
-    import { inertia } from '@inertiajs/svelte';
     import { onMount } from 'svelte';
+    import { selectedNotificationStore } from '@/Stores/Data/selectedNotificationStore';
+    import { router } from '@inertiajs/svelte';
 
     onMount(() => {
         loggedUserStore.fetch();
     });
 
-    $: console.log($loggedUserStore.unread_notifications);
+    function handleChangeNotification(id) {
+        $selectedNotificationStore = id;
+        router.visit(`/products/restock`);
+    }
 </script>
 
 <input type="checkbox" id="drawer-right" class="drawer-toggle" />
@@ -43,12 +47,12 @@
                             <p>Status: <span class="text-orange-500">{notification.data.message}</span></p>
                         </div>
 
-                        <a
-                            href={notification.data.url}
-                            use:inertia
+                        <button
+                            on:click={() => handleChangeNotification(notification.id)}
                             class="btn btn-info absolute top-0 left-0 w-full h-0 group-hover:h-full transition-all transition-duration-300 ease-in-out opacity-0 group-hover:opacity-100 bg-gradient-to-br from-emerald-600 to-emerald-200 text-lg"
-                            >Find Out</a
                         >
+                            Find Out
+                        </button>
                     </div>
                 {/each}
             </div>

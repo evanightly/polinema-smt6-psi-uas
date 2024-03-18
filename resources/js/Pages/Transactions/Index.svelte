@@ -8,6 +8,7 @@
         {
             key: 'buyer_name',
             label: 'Buyer Name',
+            fallbackValue: 'N/A',
         },
         {
             key: 'user.name',

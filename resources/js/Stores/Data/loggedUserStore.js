@@ -4,7 +4,6 @@ const loggedUserStore = writable([]);
 
 const fetch = async () => {
     const response = await axios.get('/api/user');
-    console.log(response);
     loggedUserStore.set(response.data);
 };
 

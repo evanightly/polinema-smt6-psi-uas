@@ -71,6 +71,7 @@
                             class="input input-bordered input-block"
                             id="phone"
                             bind:value={newSupplierData.phone}
+                            placeholder="e.g. 6281234567890"
                             required
                         />
                     </div>

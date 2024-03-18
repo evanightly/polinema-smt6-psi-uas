@@ -76,10 +76,14 @@
         }
     }
 
-    function getNestedProperty(obj, key) {
+    function getNestedProperty(obj, column) {
         // Return the value of a nested property in an object.
         // If the property does not exist, return an empty string.
-        return _.get(obj, key) ?? '';
+        let value = _.get(obj, column.key) ?? '';
+        if (value === '') {
+            value = column.fallbackValue ?? '';
+        }
+        return value;
     }
 </script>
 
@@ -135,12 +139,12 @@
                                     <td>
                                         {#if column.isImage}
                                             <img
-                                                src={getNestedProperty(item, column.key)}
-                                                alt={getNestedProperty(item, column.key)}
+                                                src={getNestedProperty(item, column)}
+                                                alt={getNestedProperty(item, column)}
                                                 class="h-24"
                                             />
                                         {:else}
-                                            {getNestedProperty(item, column.key)}
+                                            {getNestedProperty(item, column)}
                                         {/if}
                                     </td>
                                 {/each}

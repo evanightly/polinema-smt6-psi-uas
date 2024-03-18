@@ -78,12 +78,8 @@ This project is licensed under the [MIT License](LICENSE).
 
 ### Data Management
 
--   Refactor data fetching to use svelte stores
-
 ### Business Process
 
--   Create POS Page
--   Install websocket and the requirements
 -   Listen when product stock changes
     -   Calculate stock with the restock threshold
     -   Example: `restock && stock <= min_stock`

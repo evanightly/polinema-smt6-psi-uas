@@ -40,7 +40,7 @@
                         <DashboardSidebarMenuItem href="/users" icon="ri-user-2-line" label="Staff" />
                     {/if}
 
-                    {#if hasAnyRole('isSuperAdmin', 'isStaff')}
+                    {#if hasAnyRole('isStaff')}
                         <DashboardSidebarMenuItem href="/products" icon="ri-archive-2-line" label="Products" />
                         <DashboardSidebarMenuItem
                             href="/transactions"

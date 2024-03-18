@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller {
@@ -32,6 +34,13 @@ class ProductController extends Controller {
      */
     public function show(Product $product) {
         //
+    }
+
+    /**
+     * Show the restock info for the specified resource.
+     */
+    public function showRestockInfo() {
+        return inertia('Products/RestockInfo', ['appUrl' => env('APP_URL')]);;
     }
 
     /**

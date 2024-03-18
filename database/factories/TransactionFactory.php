@@ -18,7 +18,6 @@ class TransactionFactory extends Factory {
             'user_id' => 1, // Rendra(Staff)
             'buyer_name' => $this->faker->name(),
             'price_total' => $this->faker->randomFloat(2, 10, 1000),
-            'transaction_date' => $this->faker->dateTimeThisYear(),
         ];
     }
 }

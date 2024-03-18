@@ -20,12 +20,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
     Route::inertia('/', 'Index');
+    Route::inertia('pos', 'Pos')->middleware('role:SuperAdmin|Staff');
+    Route::get('/products/{product}/restock', [ProductController::class, 'showRestockInfo'])->name('product.restock-info')->middleware('role:Staff');
+
     Route::resource('roles', RoleController::class)->middleware('role:SuperAdmin|Manager');
     Route::resource('users', UserController::class)->middleware('role:SuperAdmin|Manager');
     Route::resource('suppliers', SupplierController::class)->middleware('role:SuperAdmin|Staff|Manager');
     Route::resource('products', ProductController::class)->middleware('role:SuperAdmin|Staff');
     Route::resource('transactions', TransactionController::class)->middleware('role:SuperAdmin|Staff');
-    Route::inertia('pos', 'Pos')->middleware('role:SuperAdmin|Staff');
+
 
     Route::post('/logout', function () {
         auth()->logout();

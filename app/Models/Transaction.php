@@ -15,9 +15,6 @@ class Transaction extends Model {
         'price_total',
     ];
 
-
-    protected $guarded = ['transaction_date'];
-
     protected $appends = ['formatted_transaction_date'];
 
     // This is staff that is responsible for the transaction
@@ -30,6 +27,6 @@ class Transaction extends Model {
     }
 
     public function getFormattedTransactionDateAttribute() {
-        return Carbon::parse($this->transaction_date)->format('l, F j, Y');
+        return Carbon::parse($this->created_at)->format('l, F j, Y');
     }
 }

@@ -1,8 +1,8 @@
 <script>
     import { Link, page } from '@inertiajs/svelte';
     import DashboardDarkModeToggler from './DashboardDarkModeToggler.svelte';
-    import DashboardNotification from './DashboardNotification.svelte';
     import logout from '../../Helpers/logout';
+    import DashboardNotificationDrawer from './DashboardNotificationDrawer.svelte';
 
     export let navbarTitle = '';
     export let navbarSubTitle = '';
@@ -22,7 +22,7 @@
     <div class="navbar-end h-fit">
         <div class="flex gap-3">
             <DashboardDarkModeToggler />
-            <DashboardNotification />
+            <DashboardNotificationDrawer />
         </div>
         <div class="divider divider-vertical h-10"></div>
         <div class="dropdown-container">

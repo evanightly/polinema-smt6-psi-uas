@@ -40,7 +40,6 @@ class TransactionService {
                 ]);
             }
 
-            event(new TransactionCreated($transaction));
             broadcast(new TransactionCreated($transaction));
 
             // Commit the transaction

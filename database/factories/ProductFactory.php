@@ -19,7 +19,7 @@ class ProductFactory extends Factory {
             'description' => $this->faker->text(),
             'image_path' => $this->faker->imageUrl(),
             'price' => $this->faker->randomFloat(2, 1, 100),
-            'stock' => $this->faker->randomNumber(2),
+            'stock' => $this->faker->numberBetween(1, 20),
             'restock_threshold' => $this->faker->randomNumber(2),
             'min_stock' => $this->faker->randomNumber(2),
             'max_stock' => $this->faker->randomNumber(2),

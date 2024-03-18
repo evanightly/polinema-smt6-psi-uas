@@ -4,9 +4,11 @@
     export let transaction = {};
 
     console.log(transaction);
+
+    const title = 'Transaction/Detail Transaction';
 </script>
 
-<DashboardLayout>
+<DashboardLayout {title}>
     <p>Transaction ID: {transaction.id}</p>
 
     <p>Transaction Date: {transaction.formatted_transaction_date}</p>

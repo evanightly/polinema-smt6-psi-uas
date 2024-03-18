@@ -14,7 +14,6 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained();
             $table->string('buyer_name')->nullable();
             $table->string('price_total');
-            $table->dateTime('transaction_date')->default(now());
             $table->timestamps();
         });
     }

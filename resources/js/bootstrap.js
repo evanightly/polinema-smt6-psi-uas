@@ -47,7 +47,7 @@ const handleAxiosError = error => {
             timer: 3000,
             timerProgressBar: true,
             icon: 'error',
-            title: 'Hol up...',
+            title: 'Waduh...',
             text: error.response.data.message,
             didOpen: toast => {
                 toast.onmouseenter = Swal.stopTimer;

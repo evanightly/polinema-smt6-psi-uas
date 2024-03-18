@@ -63,19 +63,23 @@
                 formData.append('image', imageFile);
             }
 
-            const response = await axios.post(`/api/products/${product.id}`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-                // onUploadProgress: progressEvent => {
-                //     console.log(progressEvent);
-                // },
-            });
+            try {
+                const response = await axios.post(`/api/products/${product.id}`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                    // onUploadProgress: progressEvent => {
+                    //     console.log(progressEvent);
+                    // },
+                });
 
-            if (response.status === 200) {
-                await showSuccessDialog({ title: 'Product updated' });
+                if (response.status === 200) {
+                    await showSuccessDialog({ title: 'Product updated' });
+                    router.visit('/products');
+                }
+            } catch (error) {
+            } finally {
                 loading.stop();
-                router.visit('/products');
             }
         }
     }
@@ -137,6 +141,8 @@
                             id="stock"
                             bind:value={newProductData.stock}
                             required
+                            min="0"
+                            max={newProductData.max_stock}
                         />
                     </div>
                     <div class="form-field">
@@ -169,6 +175,8 @@
                             id="min_stock"
                             bind:value={newProductData.min_stock}
                             required
+                            min="0"
+                            max={newProductData.max_stock}
                         />
                     </div>
                     <div class="form-field">

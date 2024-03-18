@@ -101,9 +101,11 @@
     function handleRemoveFromCart(itemId) {
         removeItem(itemId);
     }
+
+    const noPadding = true;
 </script>
 
-<DashboardLayout {title} {navbarSubTitle}>
+<DashboardLayout {title} {navbarSubTitle} {noPadding}>
     <div class="flex">
         <div class="flex flex-[2] flex-col overflow-x-scroll">
             <div class="px-12 py-6 overflow-y-auto space-y-6">

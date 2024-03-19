@@ -36,6 +36,15 @@ class Product extends Model {
         return $this->image_path ? asset('storage/' . $this->image_path) : null;
     }
 
+    public function needsRestock() {
+        if ($this->min_stock > 0 && $this->stock <= $this->min_stock) {
+            return true;
+        }
+
+        $restockThreshold = $this->max_stock * $this->restock_threshold / 100;
+        return $this->stock <= $restockThreshold;
+    }
+
     public function canBeDeleted() {
         return $this->transactions()->doesntExist();
     }

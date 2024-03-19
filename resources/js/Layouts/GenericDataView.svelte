@@ -170,7 +170,7 @@
                                             </a>
                                         {/if}
 
-                                        {#if showDeleteButton && item?.canBeDeleted}
+                                        {#if showDeleteButton && item?.can_be_deleted}
                                             <button
                                                 on:click={() => handleDeleteItem(item.id)}
                                                 class="btn btn-sm btn-delete"

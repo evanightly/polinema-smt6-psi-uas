@@ -23,6 +23,10 @@
             key: 'stock',
             label: 'Available Stock',
         },
+        {
+            key: 'needs_restock',
+            label: 'Needs Restock',
+        },
     ];
 
     const store = productStore();

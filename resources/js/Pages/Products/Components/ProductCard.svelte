@@ -14,13 +14,17 @@
                 <div class="flex justify-between">
                     <span class="text-primary font-bold">Rp {product.price}</span>
                     <span class="text-primary font-bold">
-                        <i class="ri-archive-line"></i>{product.stock}
+                        <i class="ri-archive-line"></i>
+                        <span>{product.stock}</span>
+                        {#if product.needs_restock}
+                            <span class="text-error">(Needs restock)</span>
+                        {/if}
                     </span>
                 </div>
 
                 <div class="flex gap-3">
                     <Link href={`/products/${product.id}/edit`} class="btn btn-edit">Edit</Link>
-                    {#if product.canBeDeleted}
+                    {#if product.can_be_deleted}
                         <button class="btn btn-delete" on:click={() => deleteProduct(product.id)}>Delete</button>
                     {/if}
                 </div>

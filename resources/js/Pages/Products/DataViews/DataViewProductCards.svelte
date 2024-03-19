@@ -1,13 +1,25 @@
 <script>
     import ProductCard from '../Components/ProductCard.svelte';
+    import Masonry from 'svelte-bricks';
+
     export let store = {};
     export let handleDeleteItem = () => {};
+
+    let [minColWidth, maxColWidth, gap] = [250, 800, 20];
+    $: isProductExists = store?.data?.length > 0;
 </script>
 
-<div class="flex w-full overflow-x-auto flex-wrap gap-5">
-    {#each store?.data ?? [] as product, index (product.id)}
+{#if isProductExists}
+    <Masonry
+        items={store?.data ?? []}
+        {minColWidth}
+        {maxColWidth}
+        {gap}
+        let:item={product}
+        style="justify-content: start;"
+    >
         <ProductCard {product} deleteProduct={handleDeleteItem} />
-    {:else}
-        <p>No Data Available</p>
-    {/each}
-</div>
+    </Masonry>
+{:else}
+    <p>No Data Available</p>
+{/if}

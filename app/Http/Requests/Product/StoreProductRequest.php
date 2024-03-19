@@ -30,4 +30,20 @@ class StoreProductRequest extends FormRequest {
             'supplier_id' => ['required', 'numeric'],
         ];
     }
+
+    public function withValidator($validator) {
+        $validator->after(function ($validator) {
+            if ($this->stock > $this->max_stock) {
+                $validator->errors()->add('stock', 'The stock quantity cannot exceed the max stock.');
+            }
+
+            // if ($this->min_stock > $this->stock) {
+            //     $validator->errors()->add('min_stock', 'The min stock quantity cannot exceed the stock.');
+            // }
+
+            if ($this->min_stock > $this->max_stock) {
+                $validator->errors()->add('min_stock', 'The min stock quantity cannot exceed the max stock.');
+            }
+        });
+    }
 }

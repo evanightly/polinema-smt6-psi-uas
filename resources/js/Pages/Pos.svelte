@@ -15,6 +15,7 @@
         clearCart,
     } from '@/Stores/Data/cartStore.js';
     import { page as currentPage, router } from '@inertiajs/svelte';
+    import { Masonry } from 'svelte-bricks';
 
     const DEBOUNCE_TIME = 300;
     const title = 'Point of Sale';
@@ -103,6 +104,9 @@
     }
 
     const noPadding = true;
+    let [minColWidth, maxColWidth, gap] = [250, 800, 20];
+
+    $: isProductExists = $products?.data?.length > 0;
 </script>
 
 <DashboardLayout {title} {navbarSubTitle} {noPadding}>
@@ -118,55 +122,64 @@
                     </div>
                 </div>
                 <div class="flex flex-wrap gap-5">
-                    {#each $products?.data ?? [] as product}
-                        <div class="card card-image-cover h-fit rounded max-w-64">
-                            <div class="relative p-2">
-                                <img src={product.image} alt="Image of {product.name}" class="!rounded" />
-                                <button
-                                    on:click={() =>
-                                        handleAddToCart({
-                                            id: product.id,
-                                            name: product.name,
-                                            price: +product.price,
-                                            image: product.image,
-                                            maxQuantity: product.stock,
-                                        })}
-                                    class="absolute top-5 right-5 p-2 px-3 bg-white rounded-lg text-orange-500 opacity-80"
-                                >
-                                    <i class="ri-shopping-cart-line text-xl"></i>
-                                </button>
-                            </div>
-                            <div class="card-body p-2">
-                                <h2 class="card-header">{product.name}</h2>
-                                <p class="text-content2">{product.description}</p>
-                                <div class="card-footer">
-                                    <div class="flex flex-1 justify-between font-bold">
-                                        <div class="flex">
-                                            <p>Rp. {product.price}</p>
-                                            <span class="text-gray-500 font-medium">&nbsp; / Item</span>
-                                        </div>
+                    {#if isProductExists}
+                        <Masonry
+                            items={$products?.data ?? []}
+                            {minColWidth}
+                            {maxColWidth}
+                            {gap}
+                            let:item={product}
+                            style="justify-content: start;"
+                        >
+                            <div class="card card-image-cover h-fit rounded max-w-full">
+                                <div class="relative p-2">
+                                    <img src={product.image} alt="Image of {product.name}" class="!rounded" />
+                                    <button
+                                        on:click={() =>
+                                            handleAddToCart({
+                                                id: product.id,
+                                                name: product.name,
+                                                price: +product.price,
+                                                image: product.image,
+                                                maxQuantity: product.stock,
+                                            })}
+                                        class="absolute top-5 right-5 p-2 px-3 bg-white rounded-lg text-orange-500 opacity-80"
+                                    >
+                                        <i class="ri-shopping-cart-line text-xl"></i>
+                                    </button>
+                                </div>
+                                <div class="card-body p-2">
+                                    <h2 class="card-header">{product.name}</h2>
+                                    <p class="text-content2">{product.description}</p>
+                                    <div class="card-footer">
+                                        <div class="flex flex-1 justify-between font-bold">
+                                            <div class="flex">
+                                                <p>Rp. {product.price}</p>
+                                                <span class="text-gray-500 font-medium">&nbsp; / Item</span>
+                                            </div>
 
-                                        {#if product.stock > 0}
-                                            <div class="flex gap-1 text-gray-500">
-                                                <i class="ri-archive-line"></i>
-                                                <span>{product.stock}</span>
-                                            </div>
-                                        {:else}
-                                            <div class="flex gap-1 text-red-500">
-                                                <span class="text-red-500">Out of Stock</span>
-                                            </div>
-                                        {/if}
+                                            {#if product.stock > 0}
+                                                <div class="flex gap-1 text-gray-500">
+                                                    <i class="ri-archive-line"></i>
+                                                    <span>{product.stock}</span>
+                                                </div>
+                                            {:else}
+                                                <div class="flex gap-1 text-red-500">
+                                                    <span class="text-red-500">Out of Stock</span>
+                                                </div>
+                                            {/if}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </Masonry>
                     {:else}
                         <div class="flex flex-1 flex-col items-center justify-center gap-5">
                             <i class="ri-search-line text-4xl text-gray-500"></i>
                             <p class="text-2xl text-gray-500">No Products Found</p>
                             <p class="text-content2">Try changing your search criteria</p>
                         </div>
-                    {/each}
+                    {/if}
                 </div>
                 <Pagination links={$products?.meta?.links} {handleChangeUrl} />
             </div>

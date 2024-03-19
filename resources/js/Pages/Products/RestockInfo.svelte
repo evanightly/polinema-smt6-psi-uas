@@ -56,6 +56,13 @@
                     .then(response => {
                         showAlert('Success', response.data.message, 'success', false);
 
+                        showConfirmDialog({
+                            title: 'Attention',
+                            text: 'You have to update the stock manually after marking as finish',
+                            confirmButtonText: 'Update stock',
+                            showCancelButton: false,
+                        });
+
                         // User needs to update stock after marking as finish
                         router.visit(`/products/${notification.data.product_id}/edit`);
                     })

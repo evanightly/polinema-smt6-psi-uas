@@ -76,13 +76,16 @@
                 // },
             };
 
-            await axios.post(url, formData, options);
+            try {
+                await axios.post(url, formData, options);
 
-            loading.stop();
+                await showSuccessDialog('Product has been added');
 
-            await showSuccessDialog('Product has been added');
-
-            router.visit('/products');
+                router.visit('/products');
+            } catch (error) {
+            } finally {
+                loading.stop();
+            }
         }
     }
 </script>

@@ -61,9 +61,13 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Dev Note
 
-### User Interface
+### Upcoming Feature
 
--   Implement Masonry library for card layouting
+-   Generate report
+-   Filter transaction each day
+-   Soft delete product
+
+### User Interface
 
 ### Security
 

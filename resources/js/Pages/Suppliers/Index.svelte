@@ -23,5 +23,5 @@
 </script>
 
 <GenericDataView {store} {title} {modelUrl} {columns}>
-    <div slot="cardsView" let:handleDeleteItem>Not Implemented Yet</div>
+    <div slot="cardsView" let:handleDeleteItem>Card View Not Implemented Yet</div>
 </GenericDataView>

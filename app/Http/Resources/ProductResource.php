@@ -26,6 +26,7 @@ class ProductResource extends JsonResource {
             'transactions' => TransactionResource::collection($this->whenLoaded('transactions')),
             'can_be_deleted' => $this->canBeDeleted(),
             'needs_restock' => $this->needsRestock(),
+            'implement_soft_delete' => $this->implementSoftDelete(),
         ];
     }
 }

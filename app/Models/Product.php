@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -47,5 +48,9 @@ class Product extends Model {
 
     public function canBeDeleted() {
         return $this->transactions()->doesntExist();
+    }
+
+    public function implementSoftDelete() {
+        return true;
     }
 }

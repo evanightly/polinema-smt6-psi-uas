@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->integer('max_stock');
             $table->foreignIdFor(Supplier::class)->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

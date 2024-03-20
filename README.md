@@ -64,8 +64,7 @@ This project is licensed under the [MIT License](LICENSE).
 ### Upcoming Feature
 
 -   Generate report
--   Filter transaction each day
--   Soft delete product
+    -   Filter transaction each day
 
 ### User Interface
 
@@ -82,6 +81,10 @@ This project is licensed under the [MIT License](LICENSE).
 
 ### Data Management
 
+-   Supplier
+    -   Reject Validation check if phone number starts from 0
+    -   Automatically append 62 when entering supplier phone number
+
 ### Business Process
 
 -   Listen when product stock changes
@@ -90,3 +93,7 @@ This project is licensed under the [MIT License](LICENSE).
 -   Notify user
     -   Send a page which contain message to supplier
     -   or better, use whatsapp api to automate processes
+
+### Deployment
+
+-   Fix image pathing bug

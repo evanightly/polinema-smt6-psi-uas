@@ -27,6 +27,10 @@
             key: 'needs_restock',
             label: 'Needs Restock',
         },
+        {
+            key: 'can_be_deleted',
+            label: 'Can Be Deleted',
+        },
     ];
 
     const store = productStore();

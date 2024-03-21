@@ -39,6 +39,7 @@ const handleAxiosError = error => {
         }
 
         Swal.fire(defaultAlertOptions);
+        return Promise.reject(error);
     } else if (error.response.status >= 401) {
         const defaultSwalOptions = {
             toast: true,
@@ -60,7 +61,7 @@ const handleAxiosError = error => {
             defaultSwalOptions.html = formatErrorMessages(error);
         }
 
-        Swal.fire(defaultSwalOptions);
+        return Swal.fire(defaultSwalOptions);
     }
     return Promise.reject(error);
 };

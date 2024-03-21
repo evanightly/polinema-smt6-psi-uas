@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\Models\HasRelatedModels;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasRelatedModels;
 
     protected $fillable = [
         'name',
@@ -29,6 +30,10 @@ class Product extends Model {
         return $this->belongsTo(Supplier::class);
     }
 
+    public function hasRelatedModels() {
+        return $this->hasRelatedModels(['transactions', 'supplier']);
+    }
+
     public function getImageAttribute() {
         // check if image starts with http
         if (strpos($this->image_path, 'http') === 0) {
@@ -48,9 +53,5 @@ class Product extends Model {
 
     public function canBeDeleted() {
         return $this->transactions()->doesntExist();
-    }
-
-    public function implementSoftDelete() {
-        return true;
     }
 }

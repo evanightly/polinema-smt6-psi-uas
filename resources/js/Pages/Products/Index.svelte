@@ -3,7 +3,7 @@
     import { productStore } from '../../Stores/Data/productStore';
     import DataViewProductCards from './DataViews/DataViewProductCards.svelte';
 
-    let title = 'product';
+    let title = 'Product';
     const modelUrl = 'products';
     const columns = [
         {

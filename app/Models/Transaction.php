@@ -5,9 +5,11 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Traits\Models\HasRelatedModels;
 
 class Transaction extends Model {
-    use HasFactory;
+    use HasFactory, SoftDeletes, HasRelatedModels;
 
     protected $fillable = [
         'user_id',
@@ -15,9 +17,16 @@ class Transaction extends Model {
         'price_total',
     ];
 
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+
     protected $appends = ['formatted_transaction_date'];
 
     // This is staff that is responsible for the transaction
+
+    public function hasRelatedModels() {
+        return $this->hasRelatedModels(['user', 'products']);
+    }
+
     public function user() {
         return $this->belongsTo(User::class);
     }

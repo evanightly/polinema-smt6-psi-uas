@@ -68,8 +68,6 @@
                 await store.delete(id);
                 showSuccessDialog({ title: 'Success!', text: `${title} has been deleted` });
             } catch (error) {
-                console.log(error);
-                showErrorDialog();
             } finally {
                 loading.stop();
             }
@@ -170,14 +168,14 @@
                                             </a>
                                         {/if}
 
-                                        {#if item?.implement_soft_delete || (showDeleteButton && item?.can_be_deleted)}
-                                            <button
-                                                on:click={() => handleDeleteItem(item.id)}
-                                                class="btn btn-sm btn-delete"
-                                            >
-                                                <i class="ri-delete-bin-6-line"></i>
-                                            </button>
-                                        {/if}
+                                        <!-- {#if item?.implement_soft_delete || (showDeleteButton && item?.can_be_deleted)} -->
+                                        <button
+                                            on:click={() => handleDeleteItem(item.id)}
+                                            class="btn btn-sm btn-delete"
+                                        >
+                                            <i class="ri-delete-bin-6-line"></i>
+                                        </button>
+                                        <!-- {/if} -->
                                     </div>
                                 </td>
                             </tr>

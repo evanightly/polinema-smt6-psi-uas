@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\Product;
 use App\Repositories\ProductRepository;
-use App\Traits\HandlesImages;
+use App\Traits\Services\HandlesImages;
 use Illuminate\Http\UploadedFile;
 
 class ProductService {
@@ -32,6 +32,11 @@ class ProductService {
 
     public function deleteProduct(Product $product): void {
         $this->handleImageDeletion($product->image_path);
-        $this->productRepository->delete($product);
+
+        if ($product->hasRelatedModels()) {
+            $this->productRepository->softDelete($product);
+        } else {
+            $this->productRepository->forceDelete($product);
+        }
     }
 }

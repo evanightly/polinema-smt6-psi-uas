@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Repositories\UserRepository;
-use App\Traits\HandlesImages;
+use App\Traits\Services\HandlesImages;
 use Illuminate\Http\UploadedFile;
 
 class UserService {

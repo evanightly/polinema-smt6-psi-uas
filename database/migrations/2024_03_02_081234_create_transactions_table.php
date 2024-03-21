@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('buyer_name')->nullable();
             $table->string('price_total');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

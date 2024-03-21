@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\RoleRepository;
-use App\Traits\HandlesImages;
+use App\Traits\Services\HandlesImages;
 use Illuminate\Http\UploadedFile;
 use Spatie\Permission\Models\Role;
 

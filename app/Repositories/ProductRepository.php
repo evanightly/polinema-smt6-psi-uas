@@ -37,7 +37,11 @@ class ProductRepository extends Repository {
         return $product->refresh();
     }
 
-    public function delete(Product $product): void {
+    public function softDelete(Product $product): void {
         $product->delete();
+    }
+
+    public function forceDelete(Product $product): void {
+        $product->forceDelete();
     }
 }

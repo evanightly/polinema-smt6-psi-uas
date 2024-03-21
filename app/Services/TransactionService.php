@@ -3,9 +3,11 @@
 namespace App\Services;
 
 use App\Events\TransactionCreated;
+use App\Models\Transaction;
 use App\Repositories\TransactionRepository;
 use App\Rules\ProductStockCheck;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class TransactionService {
@@ -52,6 +54,18 @@ class TransactionService {
 
             // And throw the error again
             throw $e;
+        }
+    }
+
+    public function delete(Transaction $transaction) {
+        if (!$transaction->created_at->isToday()) {
+            throw new \Exception('You can only delete transactions that were created today.');
+        }
+
+        if ($transaction->hasRelatedModels()) {
+            $this->transactionRepository->softDelete($transaction);
+        } else {
+            $this->transactionRepository->forceDelete($transaction);
         }
     }
 }

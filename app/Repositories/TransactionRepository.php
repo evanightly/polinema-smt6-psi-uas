@@ -37,7 +37,11 @@ class TransactionRepository extends Repository {
         return $transaction->refresh();
     }
 
-    public function delete(Transaction $transaction): void {
-        $transaction->delete();
+    public function softDelete(Transaction $transaction): void {
+        $transaction->softDelete();
+    }
+
+    public function forceDelete(Transaction $transaction): void {
+        $transaction->forceDelete();
     }
 }

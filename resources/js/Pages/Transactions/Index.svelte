@@ -18,19 +18,15 @@
             key: 'price_total',
             label: 'Price Total',
         },
+        {
+            key: 'formatted_transaction_date',
+            label: 'Transaction Date',
+        },
     ];
 
     const store = transactionStore();
 </script>
 
-<GenericDataView
-    {store}
-    {title}
-    {modelUrl}
-    {columns}
-    showAddButton={false}
-    showEditButton={false}
-    showDeleteButton={false}
->
+<GenericDataView {store} {title} {modelUrl} {columns} showAddButton={false} showEditButton={false}>
     <div slot="cardsView" let:handleDeleteItem>Card View Not Implemented Yet</div>
 </GenericDataView>

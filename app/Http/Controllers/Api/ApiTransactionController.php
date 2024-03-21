@@ -70,6 +70,7 @@ class ApiTransactionController extends ApiController {
      * Remove the specified resource from storage.
      */
     public function destroy(Transaction $transaction) {
-        //
+        $this->transactionService->delete($transaction);
+        return response()->noContent();
     }
 }

@@ -12,7 +12,7 @@
     async function handleSubmit() {
         loading.start('Logging in...');
         try {
-            axios.post('/login', { email, password }).then(response => {
+            await axios.post('/login', { email, password }).then(response => {
                 sessionStorage.setItem('api_token', response.data.api_token);
                 setAxiosAuthorizationHeader(response.data.api_token);
                 // inertia.get('page').props.flashMessage = response.data.message;

@@ -19,6 +19,10 @@
             label: 'Price Total',
         },
         {
+            key: 'has_related_models',
+            label: 'Has Related Models',
+        },
+        {
             key: 'formatted_transaction_date',
             label: 'Transaction Date',
         },

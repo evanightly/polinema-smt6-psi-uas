@@ -33,7 +33,7 @@ class ProductService {
     public function deleteProduct(Product $product): void {
         $this->handleImageDeletion($product->image_path);
 
-        if ($product->hasRelatedModels()) {
+        if ($product->hasConstraints()) {
             $this->productRepository->softDelete($product);
         } else {
             $this->productRepository->forceDelete($product);

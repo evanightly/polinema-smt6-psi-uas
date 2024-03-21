@@ -38,7 +38,7 @@ class TransactionRepository extends Repository {
     }
 
     public function softDelete(Transaction $transaction): void {
-        $transaction->softDelete();
+        $transaction->delete();
     }
 
     public function forceDelete(Transaction $transaction): void {

@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use App\Traits\Models\HasRelatedModels;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model {
-    use HasFactory, SoftDeletes, HasRelatedModels;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -30,8 +29,8 @@ class Product extends Model {
         return $this->belongsTo(Supplier::class);
     }
 
-    public function hasRelatedModels() {
-        return $this->hasRelatedModels(['transactions', 'supplier']);
+    public function hasConstraints() {
+        return $this->transactions()->withTrashed()->exists();
     }
 
     public function getImageAttribute() {

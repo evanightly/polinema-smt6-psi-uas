@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Events\TransactionCreated;
 use App\Models\Transaction;
+use App\Notifications\ProductNeedsRestock;
 use App\Repositories\TransactionRepository;
 use App\Rules\ProductStockCheck;
 use Illuminate\Support\Facades\DB;
@@ -15,6 +16,10 @@ class TransactionService {
 
     public function __construct(TransactionRepository $transactionRepository) {
         $this->transactionRepository = $transactionRepository;
+    }
+
+    public function isTransactionToday(Transaction $transaction): bool {
+        return $transaction->created_at->isToday();
     }
 
     public function create(array $data) {
@@ -53,18 +58,43 @@ class TransactionService {
             DB::rollback();
 
             // And throw the error again
-            throw $e;
+            return response()->json(['error' => $e->getMessage()], 401);
         }
     }
 
     public function delete(Transaction $transaction) {
-        if (!$transaction->created_at->isToday()) {
-            throw new \Exception('You can only delete transactions that were created today.');
-        }
+        if ($transaction->hasConstraints()) {
+            try {
+                DB::beginTransaction();
 
-        if ($transaction->hasRelatedModels()) {
-            $this->transactionRepository->softDelete($transaction);
+                // Check if the transaction has any related products
+                if ($transaction->products->isNotEmpty()) {
+                    // Loop through the products and update their stock
+                    foreach ($transaction->products as $product) {
+                        $product->stock += $product->pivot->quantity;
+                        $product->save();
+
+                        if (!$product->needsRestock()) {
+                            DB::table('notifications')
+                                ->where('type', ProductNeedsRestock::class)
+                                ->where('data->product_id', $product->id)
+                                ->where('data->supplier_id', $product->supplier->id)
+                                ->where('data->isCompleted', false)
+                                ->delete();
+                        }
+                    }
+                }
+
+                $this->transactionRepository->softDelete($transaction);
+
+                DB::commit();
+            } catch (\Throwable $th) {
+                DB::rollback();
+                Log::error($th);
+            }
         } else {
+
+            // Rare Occurance
             $this->transactionRepository->forceDelete($transaction);
         }
     }

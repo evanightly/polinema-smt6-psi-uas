@@ -6,10 +6,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\Models\HasRelatedModels;
 
 class Transaction extends Model {
-    use HasFactory, SoftDeletes, HasRelatedModels;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'user_id',
@@ -23,8 +22,8 @@ class Transaction extends Model {
 
     // This is staff that is responsible for the transaction
 
-    public function hasRelatedModels() {
-        return $this->hasRelatedModels(['user', 'products']);
+    public function hasConstraints() {
+        return $this->user()->withTrashed()->exists() && $this->products()->withTrashed()->exists();
     }
 
     public function user() {

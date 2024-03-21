@@ -16,6 +16,7 @@ class ProductStockCheck implements ValidationRule {
         $this->productId = $productId;
         $this->quantity = $quantity;
     }
+
     /**
      * Run the validation rule.
      *

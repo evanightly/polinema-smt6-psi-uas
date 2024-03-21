@@ -8,6 +8,7 @@ use App\Notifications\ProductNeedsRestock;
 use App\Repositories\ProductRepository;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 
@@ -39,12 +40,24 @@ class UpdateProductQuantity {
 
     private function checkAndNotifyForRestock($product): void {
         $users = User::role('Staff', 'web')->distinct()->get();
+
         // Log::info('User found total', [$users->count()]);
         // Log::info('Sending notifications to users: ', $users->pluck('id')->toArray());
 
 
         if ($this->needsRestock($product)) {
-            Notification::send($users, new ProductNeedsRestock($product));
+
+            // Check if a similar notification already exists
+            $existingNotification = DB::table('notifications')
+                ->where('type', ProductNeedsRestock::class)
+                ->where('data->product_id', $product->id)
+                ->where('data->supplier_id', $product->supplier->id)
+                ->where('data->isCompleted', false)
+                ->first();
+
+            if (!$existingNotification) {
+                Notification::send($users, new ProductNeedsRestock($product));
+            }
         }
     }
 

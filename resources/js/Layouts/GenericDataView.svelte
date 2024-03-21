@@ -25,7 +25,6 @@
 
     const debouncedFetchItems = debounce(async () => {
         loading.start('Loading');
-
         const options = _.merge(
             {
                 params: {
@@ -36,7 +35,6 @@
 
             additionalFilters,
         );
-
         await store.fetch(options);
         loading.stop();
     }, DEBOUNCE_TIME);
@@ -68,6 +66,7 @@
                 await store.delete(id);
                 showSuccessDialog({ title: 'Success!', text: `${title} has been deleted` });
             } catch (error) {
+                console.log(error);
             } finally {
                 loading.stop();
             }

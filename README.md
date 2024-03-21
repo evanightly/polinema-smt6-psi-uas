@@ -74,6 +74,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 #### Backend
 
+-   Implement user notification websocket
 -   Fix 429 errors that happened after 1 wrong credential supplied
 -   Implement register and authentication with google
 -   Implement verify email, forgot password
@@ -87,12 +88,26 @@ This project is licensed under the [MIT License](LICENSE).
 
 ### Business Process
 
--   Listen when product stock changes
+#### Logic
+
+-   Listen when product stock changes (websocket not implemented yet)
     -   Calculate stock with the restock threshold
     -   Example: `restock && stock <= min_stock`
 -   Notify user
     -   Send a page which contain message to supplier
     -   or better, use whatsapp api to automate processes
+
+#### Main Process
+
+-   Add to cart
+    -   handled if cart stock is available
+    -   handled if cart stock is empty
+-   Finish/Checkout transaction
+    -   handled if posted order is valid, e.g. stock availability, etc.
+    -   checked if ordered products needs restock, if yes, send notification to supplier
+-   Delete transaction only today
+    -   If transaction gets deleted, it will softDeleted, then product stock will be updated/restocked with its pivot data/ordered products
+    -   After product stock refreshed, it will check if it dont need restock, if yes remove the notification(if available)
 
 ### Deployment
 

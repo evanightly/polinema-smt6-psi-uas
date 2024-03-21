@@ -70,6 +70,11 @@ class ApiTransactionController extends ApiController {
      * Remove the specified resource from storage.
      */
     public function destroy(Transaction $transaction) {
+        if (!$this->transactionService->isTransactionToday($transaction)) {
+            $message = ['message' => 'You can only delete transactions that were created today.'];
+            return response()->json($message, 422);
+        }
+
         $this->transactionService->delete($transaction);
         return response()->noContent();
     }

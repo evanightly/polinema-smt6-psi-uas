@@ -16,6 +16,7 @@
     "dependencies": {
         "@inertiajs/svelte": "^1.0.15",
         "@sveltejs/vite-plugin-svelte": "^3.0.2",
+        "chart.js": "^4.4.2",
         "laravel-echo": "^1.16.0",
         "lodash": "^4.17.21",
         "pusher-js": "^8.4.0-rc2",

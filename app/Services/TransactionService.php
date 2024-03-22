@@ -63,7 +63,7 @@ class TransactionService {
     }
 
     public function delete(Transaction $transaction) {
-        if ($transaction->hasConstraints()) {
+        if ($transaction->products()->exists()) {
             try {
                 DB::beginTransaction();
 

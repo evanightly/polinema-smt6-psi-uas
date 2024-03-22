@@ -14,6 +14,13 @@
     let supplierData = {};
     let searchSupplier = '';
 
+    $: imageUrl = imageFile ? URL.createObjectURL(imageFile) : product.image;
+
+    onMount(() => {
+        newProductData.supplier_id = product.supplier.id;
+        searchSupplier = product.supplier.name;
+    });
+
     const debouncedFetchSuppliers = debounce(fetchSuppliers, 300);
 
     function handleFileChange(event) {
@@ -21,7 +28,15 @@
     }
 
     async function fetchSuppliers() {
-        const { data: response } = await axios.get(`/api/suppliers?search=${searchSupplier}`);
+        const { data: response } = await axios.get(`/api/suppliers`, {
+            params: {
+                options: {
+                    filters: {
+                        search: searchSupplier,
+                    },
+                },
+            },
+        });
         supplierData = response;
     }
 
@@ -30,8 +45,6 @@
     $: showedSupplierTotal = supplierData.data?.length ?? 0;
 
     $: searchSupplier, debouncedFetchSuppliers();
-
-    onMount(fetchSuppliers);
 
     const defaultNewProductData = {
         name: product.name ?? '',
@@ -124,6 +137,9 @@
                         <div class="form-field flex flex-1">
                             <label class="label" for="image">Product Image</label>
                             <input type="file" class="input-file max-w-full" id="image" on:change={handleFileChange} />
+                            <div class="w-[100px]">
+                                <img src={imageUrl} class="block w-full object-cover" alt={product.name} />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -217,7 +233,7 @@
                             bind:value={newProductData.supplier_id}
                         >
                             {#each supplierData?.data ?? [] as supplier (supplier.id)}
-                                <option value={supplier.id}>
+                                <option value={supplier.id} selected={product.supplier.id === supplier.id}>
                                     {supplier.name}
                                 </option>
                             {/each}

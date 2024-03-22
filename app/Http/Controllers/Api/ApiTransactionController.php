@@ -78,4 +78,16 @@ class ApiTransactionController extends ApiController {
         $this->transactionService->delete($transaction);
         return response()->noContent();
     }
+
+    /**
+     * Chart API
+     */
+
+    public function getTransactionYears() {
+        return $this->transactionRepository->getTransactionYears();
+    }
+
+    public function getTransactionsByYear($year) {
+        return $this->transactionRepository->getTransactionsByYear($year);
+    }
 }

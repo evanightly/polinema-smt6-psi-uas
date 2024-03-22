@@ -111,6 +111,7 @@
                         <label class="label" for="price">Price (Rp)</label>
                         <input
                             type="number"
+                            step="0.01"
                             class="input input-bordered input-block"
                             id="price"
                             bind:value={newProductData.price}

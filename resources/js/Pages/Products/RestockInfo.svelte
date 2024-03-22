@@ -137,16 +137,17 @@
                                                 bind:value={message}
                                             ></textarea>
                                             <a
-                                                href="https://wa.me/6282141413537?text={encodeURIComponent(message)}"
+                                                href="https://wa.me/{notification.supplier
+                                                    .phone}?text={encodeURIComponent(message)}"
                                                 target="_blank"
                                                 class="btn btn-success btn-block gap-2"
                                             >
                                                 <i class="ri-whatsapp-fill text-3xl"></i>
-                                                <span>Send Message</span>
+                                                <span>Go to Chat</span>
                                             </a>
-                                            <button class="btn btn-primary" on:click={handleMarkAsFinish}
-                                                >Mark As Finish</button
-                                            >
+                                            <button class="btn btn-primary" on:click={handleMarkAsFinish}>
+                                                Mark As Finish
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

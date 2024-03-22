@@ -24,8 +24,10 @@ class ProductService {
     }
 
     public function updateProduct(Product $product, array $data, ?UploadedFile $image): Product {
-        $this->handleImageDeletion($product->image_path);
-        $data['image_path'] = $this->handleImageUpload($image, 'images/products');
+        if ($image) {
+            $this->handleImageDeletion($product->image_path);
+            $data['image_path'] = $this->handleImageUpload($image, 'images/products');
+        }
 
         return $this->productRepository->update($product, $data);
     }

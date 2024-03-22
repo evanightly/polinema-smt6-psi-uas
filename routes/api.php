@@ -21,16 +21,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:api')->name('api.')->group(function () {
+    Route::get('/transaction-years', [ApiTransactionController::class, 'getTransactionYears']);
+    Route::get('/transactions-by-year/{year}', [ApiTransactionController::class, 'getTransactionsByYear']);
     Route::get('/user', fn (Request $request) => $request->user()->load('unreadNotifications'));
     Route::get('/notifications/{id}', [ApiNotificationController::class, 'index'])->middleware('role:Staff');
     Route::post('/notifications/mark-as-finish', [ApiNotificationController::class, 'markAsFinish'])->middleware('role:Staff');
 
     Route::apiResource('roles', ApiRoleController::class)->middleware('role:SuperAdmin|Manager');
-    // Route::apiResource('users', ApiUserController::class)->middleware('role:SuperAdmin|Manager');
+    Route::apiResource('users', ApiUserController::class)->middleware('role:SuperAdmin|Manager');
     Route::apiResource('suppliers', ApiSupplierController::class)->middleware('role:SuperAdmin|Staff|Manager');
     Route::apiResource('products', ApiProductController::class)->middleware('role:Staff');
-    // Route::apiResource('transactions', ApiTransactionController::class)->middleware('role:Staff');
+    Route::apiResource('transactions', ApiTransactionController::class)->middleware('role:Staff');
 });
-Route::apiResource('users', ApiUserController::class);
-
-Route::apiResource('transactions', ApiTransactionController::class);

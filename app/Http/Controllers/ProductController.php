@@ -47,7 +47,7 @@ class ProductController extends Controller {
      * Show the form for editing the specified resource.
      */
     public function edit(Product $product) {
-        return inertia('Products/Edit', ['product' => $product->load(['supplier', 'transactions'])]);
+        return inertia('Products/Edit', ['product' => new ProductResource($product->load(['supplier', 'transactions']))]);
     }
 
     /**

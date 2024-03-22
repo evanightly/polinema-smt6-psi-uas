@@ -1,7 +1,6 @@
 <script>
     import { onMount } from 'svelte';
     import Chart from 'chart.js/auto';
-    import { darkMode } from '../Stores/Utility/darkModeStore';
 
     let transactionDataStore;
     let transactionYears;
@@ -21,7 +20,7 @@
     $: if (transactionDataStore) {
         const ctx = document.getElementById('transaction-chart').getContext('2d');
 
-        const color = $darkMode ? '#fff' : '#000';
+        const color = '#fff';
 
         const lineOptions = {
             responsive: true,
@@ -104,10 +103,10 @@
     });
 </script>
 
-<div class="shadow-lg rounded-xl bg-gradient-to-tr from-blue-500 to-purple-500 p-5">
+<div class="mt-8 shadow-lg rounded-xl bg-gradient-to-tr from-blue-500 to-purple-500 p-5">
     <div class="flex gap-2 items-center justify-between">
-        <h1 class="text-xl font-bold">Transaction Chart</h1>
-        <select bind:value={transactionYear} class="select select-bordered w-fit pr-8">
+        <h1 class="text-xl font-bold text-white">Transaction Chart</h1>
+        <select bind:value={transactionYear} class="select bg-white border-0 text-black w-fit pr-8">
             {#each transactionYears ?? [] as year}
                 <option value={year}>{year}</option>
             {/each}

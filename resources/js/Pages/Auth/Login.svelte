@@ -52,7 +52,7 @@
                     <span>Log in with Google</span>
                 </a>
                 <p class="text-center">
-                    Don't have an account? <a class="text-primary" href="/register">Register</a>
+                    Don't have an account? <a class="text-primary" href="/register" use:inertia>Register</a>
                 </p>
             </form>
         </section>

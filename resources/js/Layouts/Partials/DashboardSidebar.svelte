@@ -3,6 +3,7 @@
     import DashboardSidebarMenuItem from './Components/DashboardSidebarMenuItem.svelte';
     import logout from '@/Helpers/logout.js';
     import { hasAnyRole } from '@/Helpers/hasAnyRole.js';
+    import { inertia } from '@inertiajs/svelte';
 </script>
 
 <input type="checkbox" id="sidebar-mobile-fixed" class="dashboard sidebar-state" bind:checked={$isSidebarMobileFixed} />
@@ -59,10 +60,10 @@
                         <i class="ri-user-line"></i>
                         <span>Profile</span>
                     </li>
-                    <li class="menu-item">
+                    <a href="/settings" use:inertia class="menu-item">
                         <i class="ri-settings-3-line"></i>
                         <span>Settings</span>
-                    </li>
+                    </a>
                     <button class="menu-item" on:click={logout}>
                         <i class="ri-door-line"></i>
                         <span>Logout</span>

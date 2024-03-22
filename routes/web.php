@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
     Route::inertia('/', 'Index');
+    Route::inertia('/settings', 'Settings');
     Route::inertia('pos', 'Pos')->middleware('role:SuperAdmin|Staff');
     Route::get('/products/restock', [ProductController::class, 'showRestockInfo'])->name('product.restock-info')->middleware('role:Staff');
 

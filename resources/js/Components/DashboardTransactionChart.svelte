@@ -9,7 +9,6 @@
 
     async function fetchTransactionData() {
         const { data } = await axios.get(`/api/transactions-by-year/${transactionYear}`);
-        console.log(data);
         transactionDataStore = data;
     }
 

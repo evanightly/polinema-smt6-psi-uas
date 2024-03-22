@@ -7,7 +7,14 @@ const fetch = async () => {
     loggedUserStore.set(response.data);
 };
 
+const listenForProductRestockUpdates = () => {
+    Echo.channel('product-needs-restock').listen('ProductNeedsRestockEvent', async e => {
+        fetch();
+    });
+};
+
 export default {
     subscribe: loggedUserStore.subscribe,
     fetch,
+    listenForProductRestockUpdates,
 };

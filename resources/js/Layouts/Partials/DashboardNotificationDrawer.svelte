@@ -6,6 +6,7 @@
 
     onMount(() => {
         loggedUserStore.fetch();
+        loggedUserStore.listenForProductRestockUpdates();
     });
 
     function handleChangeNotification(id) {

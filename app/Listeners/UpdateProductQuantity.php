@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Events\ProductNeedsRestockEvent;
 use App\Events\TransactionCreated;
 use App\Models\User;
 use App\Notifications\ProductNeedsRestock;
@@ -58,6 +59,7 @@ class UpdateProductQuantity {
             if (!$existingNotification) {
                 Notification::send($users, new ProductNeedsRestock($product));
             }
+            broadcast(new ProductNeedsRestockEvent($product));
         }
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\ProductNeedsRestockEvent;
 use App\Events\TransactionCreated;
 use App\Models\Transaction;
 use App\Notifications\ProductNeedsRestock;
@@ -81,11 +82,14 @@ class TransactionService {
                                 ->where('data->supplier_id', $product->supplier->id)
                                 ->where('data->isCompleted', false)
                                 ->delete();
+
+                            broadcast(new ProductNeedsRestockEvent($product));
                         }
                     }
                 }
 
                 $this->transactionRepository->softDelete($transaction);
+
 
                 DB::commit();
             } catch (\Throwable $th) {

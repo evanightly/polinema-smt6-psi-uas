@@ -4,25 +4,17 @@
     import MainLayout from '../../Layouts/MainLayout.svelte';
     import { inertia, router, page } from '@inertiajs/svelte';
     import loading from '../../Stores/Utility/loadingOverlayStore';
-    import { setAxiosAuthorizationHeader } from '../../bootstrap';
+    import persistTokenAndRedirect from '@/Helpers/persistTokenAndRedirect';
     import { onMount } from 'svelte';
-    let api_token = $page.props.api_token;
+    let apiToken = $page.props.api_token;
     let email = '';
     let password = '';
 
     onMount(async () => {
-        if (api_token) {
-            persistTokenAndRedirect(api_token);
+        if (apiToken) {
+            persistTokenAndRedirect(apiToken);
         }
     });
-
-    function persistTokenAndRedirect(token) {
-        if (token) {
-            sessionStorage.setItem('api_token', token);
-            setAxiosAuthorizationHeader(token);
-            router.visit('/');
-        }
-    }
 
     async function handleSubmit() {
         loading.start('Logging in...');

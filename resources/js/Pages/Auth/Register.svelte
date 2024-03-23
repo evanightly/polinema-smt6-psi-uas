@@ -2,9 +2,9 @@
     import axios from 'axios';
     import RegisterSideImage from '../../Assets/Images/register-side-image.png';
     import MainLayout from '../../Layouts/MainLayout.svelte';
-    import { inertia, router } from '@inertiajs/svelte';
+    import { inertia } from '@inertiajs/svelte';
     import loading from '../../Stores/Utility/loadingOverlayStore';
-    import { setAxiosAuthorizationHeader } from '../../bootstrap';
+    import persistTokenAndRedirect from '@/Helpers/persistTokenAndRedirect';
 
     let name = '';
     let email = '';
@@ -13,18 +13,16 @@
     let title = 'Register';
 
     async function handleSubmit() {
-        loading.start('Logging in...');
+        loading.start('Registering...');
         try {
             await axios
-                .post('/register', { name, email, password, confirm_password: confirmPassword })
-                .then(response => {
-                    sessionStorage.setItem('api_token', response.data.api_token);
-                    setAxiosAuthorizationHeader(response.data.api_token);
+                .post('/register', { name, email, password, password_confirmation: confirmPassword })
+                .then(({ data: apiToken }) => {
                     loading.stop();
-                    router.visit('/');
+                    persistTokenAndRedirect(apiToken);
                 });
         } catch (error) {
-            console.log(error.response.data);
+            console.log(error);
         } finally {
             loading.stop();
         }

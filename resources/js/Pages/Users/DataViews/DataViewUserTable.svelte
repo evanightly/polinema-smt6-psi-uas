@@ -50,7 +50,7 @@
                     <td>{user.email}</td>
 
                     <td>
-                        {#if user.isVerified}
+                        {#if user.is_verified}
                             <span class="badge badge-success">Verified</span>
                         {:else}
                             <span class="badge badge-error">Unverified</span>

@@ -29,8 +29,11 @@ class UserService {
     }
 
     public function updateUser(User $user, array $data, ?UploadedFile $image): User {
-        $this->handleImageDeletion($user->image_path);
-        $data['image_path'] = $this->handleImageUpload($image, 'images/users');
+        if ($image) {
+            $this->handleImageDeletion($user->image_path);
+            $data['image_path'] = $this->handleImageUpload($image, 'images/users');
+        }
+
         $user = $this->userRepository->update($user, $data);
 
         if (isset($data['roles'])) {

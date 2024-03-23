@@ -17,7 +17,8 @@ class UserResource extends JsonResource {
             'name' => $this->name,
             'image' => $this->image,
             'email' => $this->email,
-            'isVerified' => $this->email_verified_at !== null,
+            'is_google_user' => $this->is_google_user,
+            'is_verified' => $this->email_verified_at !== null,
             'canBeDeleted' => $this->canBeDeleted(),
         ];
     }

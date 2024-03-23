@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SupplierController;
@@ -18,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');
+
 Route::middleware('auth')->group(function () {
     Route::inertia('/', 'Index');
     Route::inertia('/settings', 'Settings');
@@ -29,7 +33,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('suppliers', SupplierController::class)->middleware('role:SuperAdmin|Staff|Manager');
     Route::resource('products', ProductController::class)->middleware('role:Staff');
     Route::resource('transactions', TransactionController::class)->middleware('role:Staff');
-
 
     Route::post('/logout', function () {
         auth()->logout();

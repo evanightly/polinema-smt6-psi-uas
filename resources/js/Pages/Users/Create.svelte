@@ -51,6 +51,8 @@
             }
         } catch (error) {
             console.log(error);
+        } finally {
+            loading.stop();
         }
     }
 </script>

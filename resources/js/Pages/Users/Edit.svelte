@@ -46,6 +46,8 @@
             }
         } catch (error) {
             console.log(error);
+        } finally {
+            loading.stop();
         }
     }
 </script>
@@ -80,28 +82,32 @@
                             />
                         </div>
                     </div>
-                    <div class="flex flex-1 gap-5">
-                        <div class="form-field flex-1">
-                            <label class="label" for="password">Password</label>
-                            <input
-                                type="password"
-                                class="input input-bordered input-block"
-                                id="password"
-                                bind:value={user.password}
-                                required
-                            />
+
+                    {#if !user.is_google_user}
+                        <div class="flex flex-1 gap-5">
+                            <div class="form-field flex-1">
+                                <label class="label" for="password">Password</label>
+                                <input
+                                    type="password"
+                                    class="input input-bordered input-block"
+                                    id="password"
+                                    bind:value={user.password}
+                                    required
+                                />
+                            </div>
+                            <div class="form-field flex-1">
+                                <label class="label" for="password_confirmation">Confirm Password</label>
+                                <input
+                                    type="password"
+                                    class="input input-bordered input-block"
+                                    id="password_confirmation"
+                                    bind:value={user.password_confirmation}
+                                    required
+                                />
+                            </div>
                         </div>
-                        <div class="form-field flex-1">
-                            <label class="label" for="password_confirmation">Confirm Password</label>
-                            <input
-                                type="password"
-                                class="input input-bordered input-block"
-                                id="password_confirmation"
-                                bind:value={user.password_confirmation}
-                                required
-                            />
-                        </div>
-                    </div>
+                    {/if}
+
                     <div class="form-field">
                         <label for="image" class="label">Image</label>
                         <input type="file" class="input-file max-w-full" id="image" on:change={handleFileChange} />
@@ -137,7 +143,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary w-fit">Add User</button>
+            <button type="submit" class="btn btn-primary w-fit">Edit User</button>
         </form>
     </div>
 </DashboardLayout>

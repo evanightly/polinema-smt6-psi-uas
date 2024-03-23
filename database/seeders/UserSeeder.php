@@ -20,20 +20,15 @@ class UserSeeder extends Seeder {
                 'password' => Hash::make('superadmin'),
             ],
             [
-                'name' => 'Rendra',
-                'email' => 'rendra@gmail.com',
-                'password' => Hash::make('rendra'),
+                'name' => 'Staff',
+                'email' => 'staff@gmail.com',
+                'password' => Hash::make('staff'),
             ],
             [
-                'name' => 'Chandra',
-                'email' => 'chandra@gmail.com',
-                'password' => Hash::make('chandra'),
+                'name' => 'Manager',
+                'email' => 'manager@gmail.com',
+                'password' => Hash::make('manager'),
             ],
-            [
-                'name' => 'Rosa Andre',
-                'email' => 'rosa@gmail.com',
-                'password' => Hash::make('rosa'),
-            ]
         ];
 
         foreach ($data as $item) {
@@ -43,6 +38,5 @@ class UserSeeder extends Seeder {
         User::find(1)->assignRole('SuperAdmin');
         User::find(2)->assignRole('Staff');
         User::find(3)->assignRole('Manager');
-        User::find(4)->assignRole('Manager');
     }
 }

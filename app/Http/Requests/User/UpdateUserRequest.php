@@ -18,11 +18,13 @@ class UpdateUserRequest extends FormRequest {
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array {
+        $user = $this->route('user');
+
         return [
             'name' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg',
             'email' => 'required|string|email|max:255|unique:users,email,' . $this->user->id,
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => $user->is_google_user ? ['nullable', 'string', 'min:8', 'confirmed'] : ['required', 'string', 'min:8', 'confirmed'],
 
             // ensures that the 'role' field is present and is an array
             'roles' => 'required|array',

@@ -2,7 +2,7 @@
     import GenericDataView from '../../Layouts/GenericDataView.svelte';
     import { userStore } from '../../Stores/Data/userStore';
 
-    let title = 'user';
+    let title = 'User';
     const modelUrl = 'users';
     const columns = [
         {

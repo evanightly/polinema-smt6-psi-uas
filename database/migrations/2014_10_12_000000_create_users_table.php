@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('image_path');
             $table->string('email')->unique();
+            $table->boolean('is_google_user')->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

@@ -2,22 +2,35 @@
     import axios from 'axios';
     import LoginSideImage from '../../Assets/Images/login-side-image.png';
     import MainLayout from '../../Layouts/MainLayout.svelte';
-    import { inertia, router } from '@inertiajs/svelte';
+    import { inertia, router, page } from '@inertiajs/svelte';
     import loading from '../../Stores/Utility/loadingOverlayStore';
     import { setAxiosAuthorizationHeader } from '../../bootstrap';
-
+    import { onMount } from 'svelte';
+    let api_token = $page.props.api_token;
     let email = '';
     let password = '';
+
+    onMount(async () => {
+        if (api_token) {
+            persistTokenAndRedirect(api_token);
+        }
+    });
+
+    function persistTokenAndRedirect(token) {
+        if (token) {
+            sessionStorage.setItem('api_token', token);
+            setAxiosAuthorizationHeader(token);
+            router.visit('/');
+        }
+    }
 
     async function handleSubmit() {
         loading.start('Logging in...');
         try {
             await axios.post('/login', { email, password }).then(response => {
-                sessionStorage.setItem('api_token', response.data.api_token);
-                setAxiosAuthorizationHeader(response.data.api_token);
-                // inertia.get('page').props.flashMessage = response.data.message;
                 loading.stop();
-                router.visit('/');
+                persistTokenAndRedirect(response.data.api_token);
+                // inertia.get('page').props.flashMessage = response.data.message;
             });
         } catch (error) {
             console.log(error.response.data);
@@ -47,7 +60,7 @@
                 />
                 <a class="text-primary" href="/forgot">Forgot your password?</a>
                 <button class="btn btn-block btn-primary mt-5" type="submit">Log in</button>
-                <a href="/auth/google" use:inertia class="btn btn-block btn-secondary gap-2">
+                <a href="/auth/google" class="btn btn-block btn-secondary gap-2">
                     <i class="ri-google-fill"></i>
                     <span>Log in with Google</span>
                 </a>

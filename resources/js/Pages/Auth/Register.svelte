@@ -57,7 +57,7 @@
                     bind:value={confirmPassword}
                 />
                 <button class="btn btn-block btn-primary mt-5" type="submit">Register</button>
-                <a href="/auth/google" use:inertia class="btn btn-block btn-secondary gap-2">
+                <a href="/auth/google" class="btn btn-block btn-secondary gap-2">
                     <i class="ri-google-fill"></i>
                     <span>Log in with Google</span>
                 </a>

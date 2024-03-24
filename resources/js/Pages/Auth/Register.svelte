@@ -38,14 +38,29 @@
             </span>
             <p class="text-xl font-bold">Please fill in your credentials</p>
             <form class="flex flex-col w-full items-end gap-4" on:submit|preventDefault={handleSubmit}>
-                <input class="input input-block" type="text" name="name" placeholder="Name" bind:value={name} />
-                <input class="input input-block" type="email" name="email" placeholder="Email" bind:value={email} />
+                <input
+                    class="input input-block"
+                    type="text"
+                    name="name"
+                    placeholder="Name"
+                    bind:value={name}
+                    required
+                />
+                <input
+                    class="input input-block"
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    bind:value={email}
+                    required
+                />
                 <input
                     class="input input-block"
                     type="password"
                     name="password"
                     placeholder="Password"
                     bind:value={password}
+                    required
                 />
                 <input
                     class="input input-block"
@@ -53,6 +68,7 @@
                     name="confirmPassword"
                     placeholder="Confirm Password"
                     bind:value={confirmPassword}
+                    required
                 />
                 <button class="btn btn-block btn-primary mt-5" type="submit">Register</button>
                 <a href="/auth/google" class="btn btn-block btn-secondary gap-2">

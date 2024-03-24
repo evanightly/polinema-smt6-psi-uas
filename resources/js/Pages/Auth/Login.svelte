@@ -42,15 +42,23 @@
             </span>
             <p class="text-xl font-bold">Log in to your account</p>
             <form class="flex flex-col w-full items-end gap-4" on:submit|preventDefault={handleSubmit}>
-                <input class="input input-block" type="email" name="email" placeholder="Email" bind:value={email} />
+                <input
+                    class="input input-block"
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    bind:value={email}
+                    required
+                />
                 <input
                     class="input input-block"
                     type="password"
                     name="password"
                     placeholder="Password"
                     bind:value={password}
+                    required
                 />
-                <a class="text-primary" href="/forgot">Forgot your password?</a>
+                <a class="text-primary" href="/forgot-password" use:inertia>Forgot your password?</a>
                 <button class="btn btn-block btn-primary mt-5" type="submit">Log in</button>
                 <a href="/auth/google" class="btn btn-block btn-secondary gap-2">
                     <i class="ri-google-fill"></i>

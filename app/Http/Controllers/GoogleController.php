@@ -40,6 +40,7 @@ class GoogleController extends Controller {
                         'image_path' => $avatarPath,
                         'is_google_user' => true,
                         'password' => Hash::make(Str::random(16)),
+                        'email_verified_at' => now(),
                     ]
                 );
             } else {

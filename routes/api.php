@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->name('api.')->group(function () {
+Route::middleware(['auth:api', 'verified'])->name('api.')->group(function () {
     Route::get('/transaction-years', [ApiTransactionController::class, 'getTransactionYears']);
     Route::get('/transactions-by-year/{year}', [ApiTransactionController::class, 'getTransactionsByYear']);
     Route::get('/user', fn (Request $request) => $request->user()->load('unreadNotifications'));

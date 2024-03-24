@@ -39,7 +39,7 @@ const handleAxiosError = error => {
         }
 
         Swal.fire(defaultAlertOptions);
-    } else if (error.response.status >= 401) {
+    } else if (error.response.status >= 402) {
         const defaultSwalOptions = {
             toast: true,
             position: 'top-end',

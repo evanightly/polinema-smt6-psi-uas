@@ -24,7 +24,7 @@ Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('google.callback');
 Route::post('/register', [RegisteredUserController::class, 'store']);
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('/', 'Index');
     Route::inertia('/settings', 'Settings');
     Route::inertia('pos', 'Pos')->middleware('role:SuperAdmin|Staff');

@@ -27,6 +27,7 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('/', 'Index');
+    Route::inertia('/user-profile', 'UserProfile');
     Route::inertia('/settings', 'Settings');
     Route::inertia('pos', 'Pos')->middleware('role:SuperAdmin|Staff');
     Route::get('/products/restock', [ProductController::class, 'showRestockInfo'])->name('product.restock-info')->middleware('role:Staff');

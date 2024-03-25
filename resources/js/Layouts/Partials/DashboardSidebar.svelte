@@ -56,10 +56,10 @@
             <section class="menu-section px-4">
                 <span class="menu-title">Settings</span>
                 <ul class="menu-items">
-                    <li class="menu-item">
+                    <a href="/user-profile" use:inertia class="menu-item">
                         <i class="ri-user-line"></i>
                         <span>Profile</span>
-                    </li>
+                    </a>
                     <a href="/settings" use:inertia class="menu-item">
                         <i class="ri-settings-3-line"></i>
                         <span>Settings</span>

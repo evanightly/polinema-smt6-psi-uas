@@ -59,7 +59,6 @@
                 <div class="text-xl">User Information</div>
 
                 <div class="form-group">
-                    <!-- Name, Image, Email, Password -->
                     <div class="flex flex-1 gap-5">
                         <div class="form-field flex-1">
                             <label class="label" for="name">Name</label>

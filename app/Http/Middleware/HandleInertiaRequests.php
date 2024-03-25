@@ -34,7 +34,7 @@ class HandleInertiaRequests extends Middleware {
      */
     public function share(Request $request): array {
         return array_merge(parent::share($request), [
-            'user' => fn () => $request->user()?->only('id', 'name', 'email', 'image', 'email_verified_at'),
+            'user' => fn () => $request->user()?->only('id', 'name', 'email', 'image', 'email_verified_at', 'is_google_user'),
             'isStaff' => fn () => $request->user()?->hasRole('Staff'),
             'isManager' => fn () => $request->user()?->hasRole('Manager'),
             'isSuperAdmin' => fn () => $request->user()?->hasRole('SuperAdmin'),

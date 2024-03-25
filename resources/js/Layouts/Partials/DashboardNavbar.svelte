@@ -1,5 +1,5 @@
 <script>
-    import { Link, page } from '@inertiajs/svelte';
+    import { Link, inertia, page } from '@inertiajs/svelte';
     import DashboardDarkModeToggler from './DashboardDarkModeToggler.svelte';
     import logout from '../../Helpers/logout';
     import DashboardNotificationDrawer from './DashboardNotificationDrawer.svelte';
@@ -28,12 +28,16 @@
         <div class="dropdown-container">
             <div class="dropdown">
                 <button class="btn btn-ghost flex cursor-pointer px-0 gap-3" tabindex="0">
-                    <img src={userImage} alt="avatar" class="avatar avatar-ring avatar-squared avatar-md" />
+                    <img
+                        src={userImage}
+                        alt="avatar"
+                        class="avatar avatar-ring avatar-squared avatar-md object-cover"
+                    />
                     <i class="ri-arrow-down-s-line"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-bottom-left">
-                    <Link href="/account_settings" class="dropdown-item text-sm">Account settings</Link>
-                    <Link href="/post_settings" class="dropdown-item text-sm">Settings</Link>
+                    <a href="/user-profile" use:inertia class="dropdown-item text-sm">Account settings</a>
+                    <a href="/settings" use:inertia class="dropdown-item text-sm">Settings</a>
                     <button class="dropdown-item text-sm" on:click={logout}>Logout</button>
                 </div>
             </div>

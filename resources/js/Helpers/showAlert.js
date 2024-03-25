@@ -1,5 +1,4 @@
 import Swal from 'sweetalert2';
-import { showConfirmDialog } from './showDialog';
 
 export function showAlert(title, message, type = 'info', showConfirmButton = true, timer = 2000) {
     Swal.fire({

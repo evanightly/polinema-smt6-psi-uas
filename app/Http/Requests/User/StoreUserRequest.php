@@ -19,16 +19,15 @@ class StoreUserRequest extends FormRequest {
      */
     public function rules(): array {
         return [
-            'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg',
-            'email' => 'required|string|email|max:255|unique:users',
+            'name' => ['required', 'string', 'max:255'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-
             // ensures that the 'role' field is present and is an array
-            'roles' => 'required|array',
+            'roles' => ['required', 'array'],
 
             // ensures that each value in the 'role' array is an integer and exists in the 'roles' table
-            'roles.*' => 'required|integer|exists:roles,id',
+            'roles.*' => ['required', 'integer', 'exists:roles,id'],
         ];
     }
 }

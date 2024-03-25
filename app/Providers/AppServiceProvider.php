@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
+use App\Actions\Fortify\UpdateUserPassword;
+use App\Actions\Fortify\UpdateUserProfileInformation;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
@@ -13,6 +15,8 @@ use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
 use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
 use Laravel\Fortify\Contracts\ResetsUserPasswords;
+use Laravel\Fortify\Contracts\UpdatesUserPasswords;
+use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 
 class AppServiceProvider extends ServiceProvider {
     /**
@@ -35,6 +39,8 @@ class AppServiceProvider extends ServiceProvider {
         Fortify::resetPasswordView(fn () => inertia('Auth/ResetPassword', ['token' => request()->route('token'), 'email' => request()->email]));
         Fortify::verifyEmailView(fn () => inertia('Auth/VerifyEmail'));
 
+        $this->app->singleton(UpdatesUserProfileInformation::class, UpdateUserProfileInformation::class);
+        $this->app->singleton(UpdatesUserPasswords::class, UpdateUserPassword::class);
         $this->app->bind(ResetsUserPasswords::class, ResetUserPassword::class); // Target [Laravel\Fortify\Contracts\ResetsUserPasswords] is not instantiable.
         $this->app->singleton(LoginResponseContract::class, AuthResponse::class);
         $this->app->singleton(CreatesNewUsers::class, CreateNewUser::class);

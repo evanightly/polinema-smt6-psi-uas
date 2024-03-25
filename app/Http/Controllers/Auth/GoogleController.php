@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use Illuminate\Support\Str;
-
 use App\Models\User;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
@@ -12,7 +11,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Socialite\Facades\Socialite;
 
-class GoogleController extends Controller {
+class GoogleController extends AuthController {
     public function redirectToGoogle() {
         return Socialite::driver('google')->redirect();
     }

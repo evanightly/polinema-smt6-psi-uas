@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
+use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\RoleController;
@@ -36,11 +37,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('products', ProductController::class)->middleware('role:Staff');
     Route::resource('transactions', TransactionController::class)->middleware('role:Staff');
 
-    Route::post('/logout', function () {
-        auth()->logout();
-        request()->session()->invalidate();
-        request()->session()->regenerateToken();
-    })->name('logout');
+    // Route::post('/logout', function () {
+    //     auth()->logout();
+    //     request()->session()->invalidate();
+    //     request()->session()->regenerateToken();
+    // })->name('logout');
+
+
+    Route::post('/logout', [CustomAuthenticatedSessionController::class, 'destroy'])
+        ->name('logout');
 });
 
 Route::get('/hello', function () {

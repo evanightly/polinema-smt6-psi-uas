@@ -55,7 +55,7 @@
         {
             "label": "run websocket",
             "type": "shell",
-            "command": "php artisan websockets:serve",
+            "command": "php artisan reverb:start",
             "presentation": {
                 "group": "groupA"
             }

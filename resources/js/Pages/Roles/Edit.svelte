@@ -6,16 +6,16 @@
     export let role;
 
     async function handleSubmit() {
-        const result = await showConfirmDialog();
-        try {
-            if (result.isConfirmed) {
-                await axios.post(`/api/roles/${role.id}?_method=PUT`, role);
-                await showSuccessDialog('Role added successfully');
-                router.visit('/roles');
-            } else {
-                await showDeclinedDialog('Role addition declined');
-            }
-        } catch (error) {}
+        // const result = await showConfirmDialog();
+        // try {
+        //     if (result.isConfirmed) {
+        //         await axios.post(`/api/roles/${role.id}?_method=PUT`, role);
+        //         await showSuccessDialog('Role added successfully');
+        //         router.visit('/roles');
+        //     } else {
+        //         await showDeclinedDialog('Role addition declined');
+        //     }
+        // } catch (error) {}
     }
 </script>
 
@@ -34,6 +34,7 @@
                             id="name"
                             bind:value={role.name}
                             required
+                            disabled
                         />
                     </div>
                 </div>

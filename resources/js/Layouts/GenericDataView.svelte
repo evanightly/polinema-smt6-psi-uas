@@ -168,12 +168,14 @@
                                         {/if}
 
                                         <!-- {#if item?.implement_soft_delete || (showDeleteButton && item?.can_be_deleted)} -->
-                                        <button
-                                            on:click={() => handleDeleteItem(item.id)}
-                                            class="btn btn-sm btn-delete"
-                                        >
-                                            <i class="ri-delete-bin-6-line"></i>
-                                        </button>
+                                        {#if showDeleteButton}
+                                            <button
+                                                on:click={() => handleDeleteItem(item.id)}
+                                                class="btn btn-sm btn-delete"
+                                            >
+                                                <i class="ri-delete-bin-6-line"></i>
+                                            </button>
+                                        {/if}
                                         <!-- {/if} -->
                                     </div>
                                 </td>

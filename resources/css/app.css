@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .input,
+    .select,
+    .btn,
+    .input-file,
+    .textarea {
+        @apply rounded-lg;
+    }
+
+    .btn-primary {
+        @apply bg-primary text-black;
+    }
+
+    .btn-edit {
+        @apply bg-edit text-white;
+    }
+
+    .btn-delete {
+        @apply bg-delete text-white;
+    }
+
+    /* Might buggy */
+    .btn.btn-circle {
+        @apply rounded-full p-0;
+    }
+
+    .sidebar {
+        @apply transition-all duration-500 ease-in-out;
+    }
+
+    .menu-item {
+        @apply text-base;
+    }
+
+    .dashboard.sidebar-state:checked ~ .sidebar .menu-item span,
+    .dashboard.sidebar-state:checked ~ .sidebar .sidebar-title span {
+        @apply md:hidden text-center;
+    }
+
+    .dashboard.sidebar-state:checked ~ .sidebar .menu-title {
+        @apply md:text-center;
+    }
+
+    .dashboard.sidebar-state:checked ~ .sidebar .menu-item {
+        @apply md:justify-center;
+    }
+
+    .dashboard.sidebar-state:checked ~ .dashboard.sidebar {
+        @apply w-fit;
+    }
+
+    .card {
+        @apply max-w-80;
+    }
+}
+
+html {
+    @apply scroll-smooth;
+}
+
+/* Custom scrollbar */
+
+::-webkit-scrollbar {
+    @apply w-2 h-2;
+}
+
+/* &::-webkit-scrollbar-track {
+    background: #f0f0f0;
+} */
+
+::-webkit-scrollbar-thumb {
+    @apply bg-content1 rounded-full w-2;
+}

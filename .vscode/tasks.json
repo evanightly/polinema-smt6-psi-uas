@@ -1,0 +1,70 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "serve",
+            "type": "shell",
+            "command": "php artisan serve",
+            "presentation": {
+                "group": "groupA"
+            }
+        },
+        {
+            "label": "npm run dev",
+            "type": "shell",
+            "command": "npm run dev",
+            "presentation": {
+                "group": "groupA"
+            }
+        },
+        {
+            "label": "run websocket",
+            "type": "shell",
+            "command": "php artisan reverb:start",
+            "presentation": {
+                "group": "groupA"
+            }
+        },
+        {
+            "label": "Dev",
+            "problemMatcher": [],
+            "dependsOn": ["serve", "npm run dev", "run websocket"]
+        },
+
+        // ----------------------------------------------------------------
+
+        {
+            "label": "install composer dependencies",
+            "type": "shell",
+            "command": "composer install",
+            "presentation": {
+                "group": "groupB"
+            }
+        },
+        {
+            "label": "install npm dependencies",
+            "type": "shell",
+            "command": "npm install",
+            "presentation": {
+                "group": "groupB"
+            }
+        },
+        {
+            "label": "Initialize App",
+            "problemMatcher": [],
+            "dependsOn": [
+                "install composer dependencies",
+                "install npm dependencies"
+            ]
+        },
+
+        // ----------------------------------------------------------------
+
+        {
+            "label": "Laravel IDE Helper",
+            "problemMatcher": [],
+            "type": "shell",
+            "command": "composer ide-helper"
+        }
+    ]
+}
